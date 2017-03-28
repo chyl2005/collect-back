@@ -1,0 +1,10 @@
+*/target/*
+logs/
+projectFilesBackup/
+.idea/
+*.iml
+*/*.iml
+*.class
+*.DS_Store
+
+
