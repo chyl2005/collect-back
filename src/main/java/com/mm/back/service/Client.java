@@ -16,6 +16,7 @@ public class Client {
     // 搭建客户端
     public static void main(String[] args) throws IOException {
         try {
+            
             // 1、创建客户端Socket，指定服务器地址和端口
             //Socket socket = new Socket("118.89.217.214", 10086);
             Socket socket = new Socket("127.0.0.1", 10086);
