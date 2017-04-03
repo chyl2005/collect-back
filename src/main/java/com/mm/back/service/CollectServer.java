@@ -31,7 +31,7 @@ public class CollectServer implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        serverSocket = new ServerSocket(10086);//1024-65535的某个端口
+       // serverSocket = new ServerSocket(10086);//1024-65535的某个端口
         //service();
 
     }
