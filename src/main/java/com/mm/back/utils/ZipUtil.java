@@ -10,7 +10,8 @@ import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 压缩工具类
@@ -18,9 +19,8 @@ import org.apache.log4j.Logger;
  * @since 2012-09-18
  */
 public class ZipUtil {
-	
-	private static final Logger log = Logger.getLogger(ZipUtil.class);
-	
+	private static final Logger LOGGER = LoggerFactory.getLogger(ZipUtil.class);
+
 	//缓冲大小
 	static final int BUFFER = 2048;
 	
@@ -52,8 +52,8 @@ public class ZipUtil {
 				bis.close();  
 			}  
 			zos.close();  
-		}catch(Exception e){  
-			log.error(e.toString());
+		}catch(Exception e){
+			LOGGER.error(e.toString());
 		}  
 	}
 	
