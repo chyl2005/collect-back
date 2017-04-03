@@ -13,7 +13,8 @@ import java.net.Socket;
 public class Server {
 
     public static final int PORT = 12345;//监听的端口号
-
+    //缓冲大小
+    public static  final int BUFFER = 2048;
     public static void main(String[] args) {
         System.out.println("服务器启动...\n");
         Server server = new Server();
@@ -44,17 +45,16 @@ public class Server {
         public void run() {
             try {
                 // 读取客户端数据
+                byte[] array = new byte[BUFFER];
                 DataInputStream input = new DataInputStream(socket.getInputStream());
+                BufferedInputStream bis =     new BufferedInputStream(input,BUFFER);
                 String clientInputStr = input.readUTF();//这里要注意和客户端输出流的写方法对应,否则会抛 EOFException
                 // 处理客户端数据
                 System.out.println("客户端发过来的内容:" + clientInputStr);
 
                 // 向客户端回复信息
                 DataOutputStream out = new DataOutputStream(socket.getOutputStream());
-                System.out.print("请输入:\t");
-                // 发送键盘输入的一行
-                String s = new BufferedReader(new InputStreamReader(System.in)).readLine();
-                out.writeUTF(s);
+                out.writeUTF("ok");
 
                 out.close();
                 input.close();

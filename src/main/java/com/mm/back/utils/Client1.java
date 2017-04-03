@@ -28,10 +28,12 @@ public class Client1 {
                 //向服务器端发送数据
                 DataOutputStream out = new DataOutputStream(socket.getOutputStream());
                 System.out.print("请输入: \t");
-                String str = new BufferedReader(new InputStreamReader(System.in)).readLine();
-                out.writeUTF(str);
+//                String str = new BufferedReader(new InputStreamReader(System.in)).readLine();
+//                out.writeUTF(str);
+                out.writeBytes("1111111111111111111111");
 
-                String ret = input.readUTF();
+               // String ret = input.readUTF();
+                String ret =input.read();
                 System.out.println("服务器端返回过来的是: " + ret);
                 // 如接收到 "OK" 则断开连接
                 if ("OK".equals(ret)) {
