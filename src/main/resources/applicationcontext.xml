@@ -27,6 +27,7 @@
         <property name="locations">
             <list>
                 <value>classpath:database.properties</value>
+				<value>classpath:netty.properties</value>
             </list>
         </property>
     </bean>
