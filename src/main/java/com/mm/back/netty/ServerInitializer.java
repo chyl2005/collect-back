@@ -25,8 +25,8 @@ public class ServerInitializer extends ChannelInitializer<SocketChannel> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ServerInitializer.class);
 
-    public static String decoder = "utf-8";
-    public static String encoder = "utf-8";
+    public static String decoder = "gbk";
+    public static String encoder = "gbk";
     @Autowired
     private ServerHandler serverHandler;
 
