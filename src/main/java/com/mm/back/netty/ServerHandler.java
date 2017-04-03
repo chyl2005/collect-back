@@ -1,6 +1,7 @@
 package com.mm.back.netty;
 
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.group.ChannelGroup;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
  * Desc:描述该类的作用
  */
 @Service
+@ChannelHandler.Sharable
 public class ServerHandler extends SimpleChannelInboundHandler<String> {
     private static final Logger LOGGER = LoggerFactory.getLogger(ServerHandler.class);
 

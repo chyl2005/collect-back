@@ -35,14 +35,18 @@ public class NettyClient {
             // 控制台输入
             BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
             String readline;
-            readline = in.readLine();
-            while (!readline.equals("end")) {
+            while ((readline = in.readLine()) != null) {
+                if (readline.equals("end")) {
+                    break;
+                }
                 /*
                  * 向服务端发送在控制台输入的文本 并用"\r\n"结尾
                  * 之所以用\r\n结尾 是因为我们在handler中添加了 DelimiterBasedFrameDecoder 帧解码。
                  * 这个解码器是一个根据\n符号位分隔符的解码器。所以每条消息的最后必须加上\n否则无法识别和解码
                  * */
                 channel.writeAndFlush(readline + "\r\n");
+                readline = in.readLine();
+                in.read();
             }
         } finally {
             // The connection is closed automatically on shutdown.
