@@ -32,8 +32,8 @@ public class Client1 {
 //                out.writeUTF(str);
                 out.writeBytes("1111111111111111111111");
 
-               // String ret = input.readUTF();
-                String ret =input.read();
+                String ret = input.readUTF();
+                //String ret =input.read();
                 System.out.println("服务器端返回过来的是: " + ret);
                 // 如接收到 "OK" 则断开连接
                 if ("OK".equals(ret)) {
