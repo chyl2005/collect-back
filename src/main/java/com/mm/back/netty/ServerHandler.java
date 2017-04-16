@@ -9,6 +9,10 @@ import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.util.concurrent.GlobalEventExecutor;
 
 import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.util.Enumeration;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -32,6 +36,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
         for (Channel channel : channels) {
             channel.writeAndFlush("[SERVER] - " + incoming.remoteAddress() + " 加入\n");
         }
+        LOGGER.info("客户端ip={} 新增",ctx.channel().remoteAddress().toString());
         channels.add(ctx.channel());
     }
 
@@ -41,14 +46,20 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
         for (Channel channel : channels) {
             channel.writeAndFlush("[SERVER] - " + incoming.remoteAddress() + " 离开\n");
         }
+        LOGGER.info("客户端ip={} 断开",ctx.channel().remoteAddress().toString());
         channels.remove(ctx.channel());
+        ctx.close();
     }
 
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, String message) throws Exception {
+        String msg = new String(message.getBytes("gbk"), "utf-8");
         // 收到消息直接打印输出
         LOGGER.info(channelHandlerContext.channel().remoteAddress() + " Say : " + message);
         // 返回客户端消息 - 我已经接收到了你的消息
+        if (StringUtils.isNotBlank(message)&&message.equals("OK")) {
+            channelHandlerContext.writeAndFlush("查询硬件序列号");
+        }
         channelHandlerContext.writeAndFlush("Received your message :" + message + "!\n");
     }
 
@@ -63,8 +74,39 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
 
         LOGGER.info("RamoteAddress : " + ctx.channel().remoteAddress() + " active !");
 
-        ctx.writeAndFlush("Welcome to " + InetAddress.getLocalHost().getHostName() + " service!\n");
+        ctx.writeAndFlush("Welcome to " + InetAddress.getLocalHost().getHostAddress() + " service!\n");
 
         super.channelActive(ctx);
     }
+
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        super.exceptionCaught(ctx,cause);
+        //LOGGER.error("exceptionCaught ", cause);
+        //ctx.close();
+    }
+
+    /**
+     * Get host IP address
+     *
+     * @return IP Address
+     */
+    private InetAddress getAddress() {
+        try {
+            for (Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces(); interfaces.hasMoreElements(); ) {
+                NetworkInterface networkInterface = interfaces.nextElement();
+                if (networkInterface.isLoopback() || networkInterface.isVirtual() || !networkInterface.isUp()) {
+                    continue;
+                }
+                Enumeration<InetAddress> addresses = networkInterface.getInetAddresses();
+                if (addresses.hasMoreElements()) {
+                    return addresses.nextElement();
+                }
+            }
+        } catch (SocketException e) {
+            LOGGER.info("Error when getting host ip address: <{}>.", e.getMessage());
+        }
+        return null;
+    }
+
 }
