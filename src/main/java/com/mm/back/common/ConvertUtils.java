@@ -10,7 +10,7 @@ import com.mm.back.model.DeviceRecordResponse;
 import com.mm.back.model.UserResponse;
 
 /**
- * Author:chenyanlong@meituan.com
+ * Author:chyl2005
  * Date:17/6/14
  * Time:13:43
  * Desc:描述该类的作用

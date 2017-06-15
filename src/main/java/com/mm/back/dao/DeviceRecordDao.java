@@ -5,7 +5,7 @@ import com.mm.back.common.AoData;
 import com.mm.back.entity.DeviceRecordEntity;
 
 /**
- * Author:chenyanlong@meituan.com
+ * Author:chyl2005
  * Date:17/6/15
  * Time:11:16
  * Desc:描述该类的作用

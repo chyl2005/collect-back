@@ -3,7 +3,7 @@ package com.mm.back.common;
 import java.util.List;
 
 /**
- * Author:chenyanlong@meituan.com
+ * Author:chyl2005
  * Date:17/6/10
  * Time:22:46
  * Desc:描述该类的作用

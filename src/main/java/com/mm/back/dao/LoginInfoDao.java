@@ -3,7 +3,7 @@ package com.mm.back.dao;
 import com.mm.back.entity.LoginInfoEntity;
 
 /**
- * Author:chenyanlong@meituan.com
+ * Author:chyl2005
  * Date:17/6/10
  * Time:21:05
  * Desc:描述该类的作用

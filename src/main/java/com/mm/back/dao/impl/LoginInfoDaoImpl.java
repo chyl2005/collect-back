@@ -7,7 +7,7 @@ import com.mm.back.dao.LoginInfoDao;
 import com.mm.back.entity.LoginInfoEntity;
 
 /**
- * Author:chenyanlong@meituan.com
+ * Author:chyl2005
  * Date:17/6/10
  * Time:21:22
  * Desc:描述该类的作用

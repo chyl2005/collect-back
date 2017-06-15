@@ -1,7 +1,7 @@
 package com.mm.back.common;
 
 /**
- * Author:chenyanlong@meituan.com
+ * Author:chyl2005
  * Date:17/3/26
  * Time:10:13
  * Desc:描述该类的作用

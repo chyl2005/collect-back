@@ -7,7 +7,7 @@ import org.jdom2.Element;
 import org.jdom2.input.SAXBuilder;
 
 /**
- * Author:chenyanlong@meituan.com
+ * Author:chyl2005
  * Date:17/6/12
  * Time:23:23
  * Desc:描述该类的作用

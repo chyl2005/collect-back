@@ -1,7 +1,7 @@
 <div class="row" id="table">
     <div class="col-xs-12">
-        <user-table
-                :columns="columns">
+        <user-table>
+
         </user-table>
     </div><!-- /.span -->
 </div>
@@ -32,7 +32,7 @@
 
 
         <tbody>
-        <tr v-for="item in data">
+        <tr v-for="item in userList">
             <td class="center">
                 <label class="pos-rel">
                     <input type="checkbox" class="ace">
@@ -40,10 +40,10 @@
                 </label>
             </td>
             <td> {{item.userName}}</td>
-            <td>{{item.userName}}</td>
-            <td class="hidden-480">{{item.userName}}</td>
-            <td>{{item.userName}}</td>
-            <td>{{item.userName}}</td>
+            <td>{{item.trueName}}</td>
+            <td class="hidden-480">{{item.roleName}}</td>
+            <td>{{item.gmtCreated}}</td>
+            <td>{{item.status}}</td>
 
             <td>
                 <div class="hidden-sm hidden-xs btn-group">
@@ -74,44 +74,46 @@
 <script type="text/javascript">
     Vue.component('user-table', {
         template: '#table-template',
-        props: {
-            data: Array,
-            columns: Array
-        },
         data: function () {
-            return {userList: []}
-
+            var datas = {
+                userList: [],
+                pageCur: 1,
+                pageSize: 10,
+                url: "/back/user/list"
+            };
+            return datas;
         },
         created: function () {
-            this.getData();
+            this.loadData();
         },
         methods: {
             //加载数据
-            getData: loadData()
+            loadData: function () {
+                var startRow = (this.pageCur - 1) * this.pageSize;
+                this.$http.post(this.url, {'pageSize': this.pageSize, 'startRow': startRow}, {emulateJSON: true}).then(response => {
+                    if ( response.body.data.datas!=null&&response.body.data.datas.length!=null){
+                        response.body.data.datas.forEach((item) => {
+                            var data={};
+                            data.userId=item.userId;
+                            data.userName=item.userName;
+                            data.trueName=item.trueName;
+                            data.gmtCreated=getSmpFormatDateByLong(item.gmtCreated,true);
+                            data.status=item.isDel==0?"未刪除":"已刪除";
+                            this.userList.push(data);
+                        });
+
+                    }
+                    console.log(JSON.stringify(JSON.stringify(this.userList)))
+                }, response => {
+
+                });
+            }
         }
     });
 
-    function loadData() {
-        this.$http.get('/back/user/list').then(function (data) {
-            if (data.status === 0) {
-                return data.data.datas;
-            }
-            // 响应成功回调
-        }, function (data) {
 
-
-            // 响应错误回调
-        });
-    }
-
-
-    var datas = loadData();
-    // bootstrap the demo
-    var table = new Vue({
-        el: '#table',
-        data: {
-            columns: ['name', 'power'],
-            data: datas
-        }
+    // start app
+    new Vue({
+        el: '#table'
     })
 </script>

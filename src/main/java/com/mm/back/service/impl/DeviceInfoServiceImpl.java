@@ -9,7 +9,7 @@ import com.mm.back.model.DeviceInfoResponse;
 import com.mm.back.service.DeviceInfoService;
 
 /**
- * Author:chenyanlong@meituan.com
+ * Author:chyl2005
  * Date:17/6/15
  * Time:13:21
  * Desc:描述该类的作用

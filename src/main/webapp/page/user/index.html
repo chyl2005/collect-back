@@ -40,10 +40,10 @@
                 </label>
             </td>
             <td> {{item.userName}}</td>
-            <td>{{item.userName}}</td>
-            <td class="hidden-480">{{item.userName}}</td>
-            <td>{{item.userName}}</td>
-            <td>{{item.userName}}</td>
+            <td>{{item.trueName}}</td>
+            <td class="hidden-480">{{item.roleName}}</td>
+            <td>{{item.gmtCreated}}</td>
+            <td>{{item.status}}</td>
 
             <td>
                 <div class="hidden-sm hidden-xs btn-group">
@@ -51,11 +51,11 @@
                         <i class="ace-icon fa fa-check bigger-120"></i>
                     </button>
 
-                    <button class="btn btn-xs btn-info">
+                    <button class="btn btn-xs btn-info"  @click="edit(item)">
                         <i class="ace-icon fa fa-pencil bigger-120"></i>
                     </button>
 
-                    <button class="btn btn-xs btn-danger">
+                    <button class="btn btn-xs btn-danger"  @click="del(item)">
                         <i class="ace-icon fa fa-trash-o bigger-120"></i>
                     </button>
 
@@ -91,7 +91,18 @@
             loadData: function () {
                 var startRow = (this.pageCur - 1) * this.pageSize;
                 this.$http.post(this.url, {'pageSize': this.pageSize, 'startRow': startRow}, {emulateJSON: true}).then(response => {
-                    this.userList = response.body.data.datas;
+                    if ( response.body.data.datas!=null){
+                        response.body.data.datas.forEach((item) => {
+                            var data={};
+                            data.userId=item.userId;
+                            data.userName=item.userName;
+                            data.trueName=item.trueName;
+                            data.gmtCreated=getSmpFormatDateByLong(item.gmtCreated,true);
+                            data.status=item.isDel==0?"未刪除":"已刪除";
+                            this.userList.push(data);
+                        });
+
+                    }
                     console.log(JSON.stringify(JSON.stringify(this.userList)))
                 }, response => {
 
@@ -99,8 +110,6 @@
             }
         }
     });
-
-
     // start app
     new Vue({
         el: '#table'

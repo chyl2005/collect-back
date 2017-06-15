@@ -7,7 +7,7 @@ import com.mm.back.common.ThreadContext;
 import com.mm.back.common.User;
 
 /**
- * Author:chenyanlong@meituan.com
+ * Author:chyl2005
  * Date:17/6/10
  * Time:22:39
  * Desc:登录用户信息

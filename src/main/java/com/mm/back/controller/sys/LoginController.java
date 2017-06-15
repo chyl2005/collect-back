@@ -21,7 +21,7 @@ import com.mm.back.utils.MD5Utils;
 import com.mm.back.utils.ValidateCode;
 
 /**
- * @author chenyanlong
+ * @author chyl
  * @Description:
  * @ClassName: LoginController
  * @date 2015年12月21日 上午10:10:09

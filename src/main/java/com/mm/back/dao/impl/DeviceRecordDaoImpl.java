@@ -11,7 +11,7 @@ import com.mm.back.dao.DeviceRecordDao;
 import com.mm.back.entity.DeviceRecordEntity;
 
 /**
- * Author:chenyanlong@meituan.com
+ * Author:chyl2005
  * Date:17/6/15
  * Time:12:27
  * Desc:描述该类的作用

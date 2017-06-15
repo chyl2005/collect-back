@@ -12,7 +12,7 @@ import com.mm.back.utils.JsonUtils;
 import com.mm.back.vo.UserInfoCacheVo;
 
 /**
- * Author:chenyanlong@meituan.com
+ * Author:chyl2005
  * Date:17/6/10
  * Time:22:06
  * Desc:描述该类的作用

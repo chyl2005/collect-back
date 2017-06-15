@@ -7,7 +7,7 @@ import com.mm.back.dao.DeviceInfoDao;
 import com.mm.back.entity.DeviceInfoEntity;
 
 /**
- * Author:chenyanlong@meituan.com
+ * Author:chyl2005
  * Date:17/6/15
  * Time:12:17
  * Desc:描述该类的作用
