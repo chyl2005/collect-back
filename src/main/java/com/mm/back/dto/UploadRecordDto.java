@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * Author:chenyanlong@meituan.com
+ * Author:chyl2005
  * Date:17/4/16
  * Time:09:06
  * 设备上传记录信息
@@ -15,6 +15,11 @@ public class UploadRecordDto {
      * 设备编号
      */
     private Integer deviceNum;
+
+    /**
+     * 序列号
+     */
+    private Integer serialNum;
     /**
      * 设备类型
      */
@@ -44,12 +49,12 @@ public class UploadRecordDto {
      */
     private BigDecimal waterDepth;
     /**
-     * 经度
+     * 气温
      */
     private BigDecimal airTemperature;
 
     /**
-     * 气温
+     * 水温
      */
     private BigDecimal waterTemperature;
 
@@ -175,5 +180,13 @@ public class UploadRecordDto {
 
     public void setLatitude(BigDecimal latitude) {
         this.latitude = latitude;
+    }
+
+    public Integer getSerialNum() {
+        return serialNum;
+    }
+
+    public void setSerialNum(Integer serialNum) {
+        this.serialNum = serialNum;
     }
 }

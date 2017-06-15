@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- * Author:chenyanlong@meituan.com
+ * Author:chyl2005
  * Date:17/3/26
  * Time:10:12
  * Desc:描述该类的作用

@@ -25,7 +25,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
 
 /**
- * Author:chenyanlong@meituan.com
+ * Author:chyl2005
  * Date:17/4/3
  * Time:09:32
  * Desc:描述该类的作用
@@ -89,7 +89,7 @@ public class NettyServer implements ApplicationContextAware {
             try {
                 ChannelFuture channelFuture =  this.serverBootstrap.bind().sync();
                 // 监听服务器关闭监听
-                // channelFuture.channel().closeFuture().sync();
+                //channelFuture.channel().closeFuture().sync();
             } catch (InterruptedException e) {
                 throw new RuntimeException("this.serverBootstrap.bind().sync() InterruptedException", e);
             }
@@ -116,8 +116,7 @@ public class NettyServer implements ApplicationContextAware {
         @Override
         public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
             SocketAddress socketAddress = ctx.channel().remoteAddress();
-            LOGGER.warn("NETTY SERVER PIPELINE: exceptionCaught {}", socketAddress.toString());
-            LOGGER.warn("NETTY SERVER PIPELINE: exceptionCaught exception.", cause);
+            LOGGER.warn("NETTY SERVER PIPELINE: exceptionCaught {}", socketAddress.toString(),cause);
 
             ctx.channel().close();
         }

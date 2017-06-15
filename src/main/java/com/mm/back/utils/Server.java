@@ -5,7 +5,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 /**
- * Author:chenyanlong@meituan.com
+ * Author:chyl2005
  * Date:17/3/27
  * Time:14:06
  * Desc:描述该类的作用

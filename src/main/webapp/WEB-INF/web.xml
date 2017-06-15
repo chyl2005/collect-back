@@ -48,17 +48,7 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
-    <!--分页过滤器-->
-  <filter>
-    <filter-name>pageFilter</filter-name>
-    <filter-class>com.mm.back.filter.PageFilter</filter-class>
-  </filter>
-  <filter-mapping>
-    <filter-name>pageFilter</filter-name>
-    <url-pattern>/*</url-pattern>
-    <dispatcher>REQUEST</dispatcher>
-    <dispatcher>FORWARD</dispatcher>
-  </filter-mapping>
+
 
 
     <listener>
@@ -80,18 +70,18 @@
 
 
     <!--解决hibernate session在view层调用引起懒加载异常-->
-    <!--<filter>-->
-        <!--<filter-name>sessionInViewFilter</filter-name>-->
-        <!--<filter-class>org.springframework.orm.hibernate4.support.OpenSessionInViewFilter </filter-class>-->
-        <!--<init-param>-->
-            <!--<param-name>sessionFactoryBeanName</param-name>-->
-            <!--<param-value>sessionFactory</param-value>-->
-        <!--</init-param>-->
-    <!--</filter>-->
-    <!--<filter-mapping>-->
-        <!--<filter-name>sessionInViewFilter</filter-name>-->
-        <!--<url-pattern>/*</url-pattern>-->
-    <!--</filter-mapping>-->
+    <filter>
+        <filter-name>sessionInViewFilter</filter-name>
+        <filter-class>org.springframework.orm.hibernate4.support.OpenSessionInViewFilter </filter-class>
+        <init-param>
+            <param-name>sessionFactoryBeanName</param-name>
+            <param-value>sessionFactory</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>sessionInViewFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 
 
 

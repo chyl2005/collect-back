@@ -1,7 +1,7 @@
 package com.mm.back.netty;
 
 /**
- * Author:chenyanlong@meituan.com
+ * Author:chyl2005
  * Date:17/4/15
  * Time:17:33
  * Desc:描述该类的作用

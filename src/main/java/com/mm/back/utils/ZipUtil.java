@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * 压缩工具类
- * @author xrx
+ * @author chyl2005
  * @since 2012-09-18
  */
 public class ZipUtil {

@@ -1,0 +1,117 @@
+<div class="row" id="table">
+    <div class="col-xs-12">
+        <user-table
+                :columns="columns">
+        </user-table>
+    </div><!-- /.span -->
+</div>
+
+
+<script type="text/x-template" id="table-template">
+    <table id="simple-table" class="table  table-bordered table-hover">
+        <thead>
+        <tr>
+            <th class="center">
+                <label class="pos-rel">
+                    <input type="checkbox" class="ace">
+                    <span class="lbl"></span>
+                </label>
+            </th>
+            <th>账号</th>
+            <th>姓名</th>
+            <th class="hidden-480">角色</th>
+
+            <th>
+                <i class="ace-icon fa fa-clock-o bigger-110 hidden-480"></i>
+                注册时间
+            </th>
+            <th>状态</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+
+
+        <tbody>
+        <tr v-for="item in data">
+            <td class="center">
+                <label class="pos-rel">
+                    <input type="checkbox" class="ace">
+                    <span class="lbl"></span>
+                </label>
+            </td>
+            <td> {{item.userName}}</td>
+            <td>{{item.userName}}</td>
+            <td class="hidden-480">{{item.userName}}</td>
+            <td>{{item.userName}}</td>
+            <td>{{item.userName}}</td>
+
+            <td>
+                <div class="hidden-sm hidden-xs btn-group">
+                    <button class="btn btn-xs btn-success">
+                        <i class="ace-icon fa fa-check bigger-120"></i>
+                    </button>
+
+                    <button class="btn btn-xs btn-info">
+                        <i class="ace-icon fa fa-pencil bigger-120"></i>
+                    </button>
+
+                    <button class="btn btn-xs btn-danger">
+                        <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                    </button>
+
+                    <button class="btn btn-xs btn-warning">
+                        <i class="ace-icon fa fa-flag bigger-120"></i>
+                    </button>
+                </div>
+
+
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</script>
+
+<script type="text/javascript">
+    Vue.component('user-table', {
+        template: '#table-template',
+        props: {
+            data: Array,
+            columns: Array
+        },
+        data: function () {
+            return {userList: []}
+
+        },
+        created: function () {
+            this.getData();
+        },
+        methods: {
+            //加载数据
+            getData: loadData()
+        }
+    });
+
+    function loadData() {
+        this.$http.get('/back/user/list').then(function (data) {
+            if (data.status === 0) {
+                return data.data.datas;
+            }
+            // 响应成功回调
+        }, function (data) {
+
+
+            // 响应错误回调
+        });
+    }
+
+
+    var datas = loadData();
+    // bootstrap the demo
+    var table = new Vue({
+        el: '#table',
+        data: {
+            columns: ['name', 'power'],
+            data: datas
+        }
+    })
+</script>
