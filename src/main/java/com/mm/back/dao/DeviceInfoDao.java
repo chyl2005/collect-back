@@ -1,5 +1,7 @@
 package com.mm.back.dao;
 
+import java.util.List;
+import com.mm.back.common.AoData;
 import com.mm.back.entity.DeviceInfoEntity;
 
 /**
@@ -10,10 +12,9 @@ import com.mm.back.entity.DeviceInfoEntity;
  */
 public interface DeviceInfoDao {
 
-
-
     void insertOrUpdate(DeviceInfoEntity deviceInfo);
 
-
     DeviceInfoEntity getDeviceInfo(Integer deviceId);
+
+    AoData<List<DeviceInfoEntity>> getDeviceInfos();
 }

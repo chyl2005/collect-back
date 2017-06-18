@@ -24,7 +24,17 @@ public class DeviceRecordServiceImpl implements DeviceRecordService {
     private DeviceRecordDao recordDao;
 
     @Override
-    public AoData<List<DeviceRecordResponse>> getRecords(Integer deviceId, Integer startTime, Integer endTime) {
+    public List<DeviceRecordResponse> getRecords(Integer deviceId, Integer startTime, Integer endTime) {
+        List<DeviceRecordEntity> records = recordDao.getRecords(deviceId, startTime, endTime);
+        List<DeviceRecordResponse> responses = new ArrayList<>();
+        for (DeviceRecordEntity record : records) {
+            responses.add(ConvertUtils.parseToDeviceRecordResponse(record));
+        }
+        return responses;
+    }
+
+    @Override
+    public AoData<List<DeviceRecordResponse>> getPageRecords(Integer deviceId, Integer startTime, Integer endTime) {
         AoData<List<DeviceRecordEntity>> pageRecords = recordDao.getPageRecords(deviceId, startTime, endTime);
         AoData<List<DeviceRecordResponse>> aoData = new AoData<>();
         aoData.setiDisplayLength(pageRecords.getiDisplayLength());

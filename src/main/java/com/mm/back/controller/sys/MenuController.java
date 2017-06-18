@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.mm.back.common.AoData;
 import com.mm.back.common.Menu;
 import com.mm.back.common.WebResponse;
-import com.mm.back.entity.ModuleEntity;
+import com.mm.back.entity.MenuEntity;
 import com.mm.back.service.AuthorityService;
 import com.mm.back.service.ModuleService;
 
@@ -21,13 +21,34 @@ import com.mm.back.service.ModuleService;
  */
 @Controller
 @RequestMapping("/menu")
-public class ModuleController {
+public class MenuController {
 
     @Resource(name = "authorityService")
     private AuthorityService authorityService;
     @Autowired
     private ModuleService moduleService;
 
+    @RequestMapping("/index")
+    public String index() {
+        return "menu/index";
+    }
+
+
+    /**
+     * @param parentId
+     * @return AoData 返回类型
+     * @Description: 模块分页数据
+     * @author chenyanlong
+     * @date 2015年11月27日 下午3:04:19
+     */
+    @RequestMapping("/list")
+    @ResponseBody
+    public WebResponse list(Integer parentId) {
+        WebResponse webResponse = WebResponse.getSuccessWebResponse();
+        AoData aoData = this.moduleService.getPageModules(parentId);
+        webResponse.setData(aoData);
+        return webResponse;
+    }
     /**
      * @param @return
      * @return List<ModuleVo>    返回类型
@@ -53,21 +74,7 @@ public class ModuleController {
         return webResponse;
     }
 
-    /**
-     * @param parentId
-     * @return AoData 返回类型
-     * @Description: 模块分页数据
-     * @author chenyanlong
-     * @date 2015年11月27日 下午3:04:19
-     */
-    @RequestMapping("/getModuleList")
-    @ResponseBody
-    public WebResponse getModuleList(Integer parentId) {
-        WebResponse webResponse = WebResponse.getSuccessWebResponse();
-        AoData aoData = this.moduleService.getPageModules(parentId);
-        webResponse.setData(aoData);
-        return webResponse;
-    }
+
 
     /**
      * @param module
@@ -78,18 +85,9 @@ public class ModuleController {
      */
     @RequestMapping("/saveOrUpdate")
     @ResponseBody
-    public WebResponse saveOrUpdate(ModuleEntity module) {
+    public WebResponse saveOrUpdate(MenuEntity module) {
         WebResponse webResponse = WebResponse.getSuccessWebResponse();
-        if (module.getId() != null) {
-            this.moduleService.updateEntity(module);
-        } else {
-            if (module.getParentId() != 0) {// 二级
-                module.setLevel(2);
-            } else {// 一级
-                module.setLevel(1);
-            }
-            this.moduleService.saveEntity(module);
-        }
+        this.moduleService.saveOrUpdate(module);
         return webResponse;
     }
 

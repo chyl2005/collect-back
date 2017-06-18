@@ -3,7 +3,7 @@ package com.mm.back.service.impl;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.mm.back.common.DeleteEnum;
+import com.mm.back.constants.DeleteStatusEnum;
 import com.mm.back.dao.LoginInfoDao;
 import com.mm.back.entity.LoginInfoEntity;
 import com.mm.back.service.AuthorityService;
@@ -41,12 +41,12 @@ class LoginInfoServiceImpl implements LoginInfoService {
             loginInfo.setLoginInfo(JsonUtils.object2Json(userInfoCache));
             loginInfo.setGmtCreated(new Date());
             loginInfo.setGmtModified(new Date());
-            loginInfo.setIsDel(DeleteEnum.NOT_DEL.getCode());
+            loginInfo.setIsDel(DeleteStatusEnum.NOT_DEL.getCode());
             this.loginInfoDao.saveEntity(loginInfo);
         }else {
             loginInfo.setLoginInfo(JsonUtils.object2Json(userInfoCache));
             loginInfo.setGmtModified(new Date());
-            loginInfo.setIsDel(DeleteEnum.NOT_DEL.getCode());
+            loginInfo.setIsDel(DeleteStatusEnum.NOT_DEL.getCode());
             this.loginInfoDao.updateEntity(loginInfo);
         }
 

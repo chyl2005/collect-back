@@ -24,7 +24,7 @@ public class RoleDaoImpl extends BaseDaoImpl<RoleEntity> implements RoleDao {
      * @author chenyanlong
      * @date 2015年11月24日 下午1:13:44
      */
-    public AoData getAllRoles() {
+    public AoData<List<RoleEntity>> getAllRoles() {
         AoData aoData = this.findPage(null, "from RoleEntity");
         return aoData;
     }

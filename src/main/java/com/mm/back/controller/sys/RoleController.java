@@ -26,7 +26,13 @@ public class RoleController {
     @Autowired
     private RoleService roleService;
 
-    @RequestMapping("/gerRoleList")
+
+    @RequestMapping("/index")
+    public String index() {
+        return "role/index";
+    }
+
+    @RequestMapping("/list")
     @ResponseBody
     public WebResponse gerRoleList() {
         WebResponse webResponse = WebResponse.getSuccessWebResponse();

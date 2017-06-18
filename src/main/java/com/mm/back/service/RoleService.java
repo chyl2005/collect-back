@@ -6,16 +6,14 @@ import java.util.*;
 import javax.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 import com.mm.back.common.AoData;
-import com.mm.back.common.DeleteEnum;
 import com.mm.back.common.Menu;
+import com.mm.back.constants.DeleteStatusEnum;
 import com.mm.back.dao.AuthorityDao;
 import com.mm.back.dao.ModuleDao;
 import com.mm.back.dao.RoleDao;
 import com.mm.back.entity.AuthorityEntity;
-import com.mm.back.entity.ModuleEntity;
+import com.mm.back.entity.MenuEntity;
 import com.mm.back.entity.RoleEntity;
 import com.mm.back.utils.AuthorityUtils;
 
@@ -104,7 +102,7 @@ public class RoleService {
 			}
 		}
 		// 取出所有模块 转成树形结构
-		List<ModuleEntity> modules = this.moduleDao.getAllModules();
+		List<MenuEntity> modules = this.moduleDao.getAllModules();
 		List<Menu> moduleVos = null;
 		if (null != modules && modules.size() > 0) {
 			moduleVos = AuthorityUtils.getModuleVos(modules, moduleIds);
@@ -127,22 +125,22 @@ public class RoleService {
 	}
 
 
-	private Map<Integer, Menu> convertListToMap(List<ModuleEntity> moduleEntities) {
+	private Map<Integer, Menu> convertListToMap(List<MenuEntity> moduleEntities) {
 		// 一级菜单
 		List<Menu> firstList = new ArrayList<Menu>();
 		// 二级菜单
 		List<Menu> secondList = new ArrayList<Menu>();
 		// 三级菜单
 		List<Menu> thirdList = new ArrayList<Menu>();
-		for (ModuleEntity moduleEntity : moduleEntities) {
-			if (moduleEntity.getLevel() == 1) {
-				firstList.add(AuthorityUtils.parseToVo(moduleEntity));
+		for (MenuEntity menuEntity : moduleEntities) {
+			if (menuEntity.getLevel() == 1) {
+				firstList.add(AuthorityUtils.parseToVo(menuEntity));
 			}
-			if (moduleEntity.getLevel() == 2) {
-				secondList.add(AuthorityUtils.parseToVo(moduleEntity));
+			if (menuEntity.getLevel() == 2) {
+				secondList.add(AuthorityUtils.parseToVo(menuEntity));
 			}
-			if (moduleEntity.getLevel() == 3) {
-				thirdList.add(AuthorityUtils.parseToVo(moduleEntity));
+			if (menuEntity.getLevel() == 3) {
+				thirdList.add(AuthorityUtils.parseToVo(menuEntity));
 			}
 		}
 		// 转成map
@@ -194,12 +192,14 @@ public class RoleService {
 	public RoleEntity saveOrUpdate(RoleEntity entity) {
 		if (entity.getId()==null) {//添加
 			entity.setGmtCreated(new Date());
-			entity.setIsDel(DeleteEnum.NOT_DEL.getCode());
+			entity.setIsDel(DeleteStatusEnum.NOT_DEL.getCode());
+			entity.setGmtModified(new Date());
 			this.roleDao.saveEntity(entity);
 			return entity;
 		}else {//修改
 			RoleEntity roleEntity = this.roleDao.getRoleEntity(entity.getId());
 			roleEntity.setRoleName(entity.getRoleName());
+			entity.setGmtModified(new Date());
 			this.roleDao.updateEntity(roleEntity);
 			return roleEntity;
 		}
@@ -208,7 +208,7 @@ public class RoleService {
 	public void del(Integer id) {
 		RoleEntity roleEntity = this.roleDao.getRoleEntity(id);
 		if (null!=roleEntity) {
-			this.roleDao.del(roleEntity.getId(),DeleteEnum.DEL.getCode());
+			this.roleDao.del(roleEntity.getId(), DeleteStatusEnum.DEL.getCode());
 		}
 	}
 

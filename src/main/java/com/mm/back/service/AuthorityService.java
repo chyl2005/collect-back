@@ -19,7 +19,7 @@ import com.mm.back.dao.impl.AuthorityDaoImpl;
 import com.mm.back.dao.impl.ModuleDaoImpl;
 import com.mm.back.dao.impl.UserRoleDaoImpl;
 import com.mm.back.entity.AuthorityEntity;
-import com.mm.back.entity.ModuleEntity;
+import com.mm.back.entity.MenuEntity;
 import com.mm.back.entity.UserEntity;
 import com.mm.back.entity.UserRoleEntity;
 import com.mm.back.utils.AuthorityUtils;
@@ -72,7 +72,7 @@ public class AuthorityService {
 				moduleIds.add(Integer.parseInt(s));
 			}
 			// 用户拥有权限的所有模块
-			List<ModuleEntity> moduleEntities = this.moduleDaoImpl.getModules(moduleIds);
+			List<MenuEntity> moduleEntities = this.moduleDaoImpl.getModules(moduleIds);
 			List<Menu> menus = null;
 			if (null != moduleEntities && moduleEntities.size() > 0) {
 				menus = AuthorityUtils.getModuleVos(moduleEntities);
@@ -119,7 +119,7 @@ public class AuthorityService {
 		// 取出拥有读取权限的所有模块
 		if (moduleIds.size() > 0) {
 			// 用户拥有权限的所有模块
-			List<ModuleEntity> moduleEntities = this.moduleDaoImpl.getModules(moduleIds);
+			List<MenuEntity> moduleEntities = this.moduleDaoImpl.getModules(moduleIds);
 			List<Menu> menus = null;
 			if (null != moduleEntities && moduleEntities.size() > 0) {
 				menus = AuthorityUtils.getModuleVos(moduleEntities);
@@ -140,7 +140,7 @@ public class AuthorityService {
 	 */
 	//以非事务方式执行
 	public List<Menu> getAllModules(Integer state) {
-		List<ModuleEntity> modules = this.moduleDaoImpl.getAllModules(state);
+		List<MenuEntity> modules = this.moduleDaoImpl.getAllModules(state);
 		List<Menu> menus = null;
 		if (null != modules && modules.size() > 0) {
 			menus = AuthorityUtils.getModuleVos(modules);

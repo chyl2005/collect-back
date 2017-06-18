@@ -524,7 +524,7 @@
                 options = (typeof option !== 'object') ? null : option;
 
             if (!data) {
-                data = new BootstrapPaginator(this, options);
+                data = new (this, options);
 
                 $this = $(data.$element);
 

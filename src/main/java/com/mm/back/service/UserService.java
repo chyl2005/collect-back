@@ -5,12 +5,11 @@ import java.util.stream.Collectors;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import com.mm.back.common.AoData;
 import com.mm.back.common.ConvertUtils;
-import com.mm.back.common.DeleteEnum;
 import com.mm.back.common.Role;
+import com.mm.back.constants.DeleteStatusEnum;
 import com.mm.back.dao.impl.RoleDaoImpl;
 import com.mm.back.dao.impl.UserDaoImpl;
 import com.mm.back.dao.impl.UserRoleDaoImpl;
@@ -143,7 +142,7 @@ public class UserService {
      */
     @Transactional
     public void del(Integer id) {
-        this.userDaoImpl.updateState(id, DeleteEnum.DEL.getCode());
+        this.userDaoImpl.updateState(id, DeleteStatusEnum.DEL.getCode());
     }
 
     /**

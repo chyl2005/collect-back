@@ -5,7 +5,7 @@ package com.mm.back.utils;
 
 
 import java.util.*;
-import com.mm.back.entity.ModuleEntity;
+import com.mm.back.entity.MenuEntity;
 import com.mm.back.common.Menu;
 
 /**
@@ -23,22 +23,22 @@ public class AuthorityUtils {
 	 * @author chenyanlong
 	 * @date 2015年11月26日 上午9:48:07
 	 */
-	public static List<Menu> getModuleVos(List<ModuleEntity> moduleEntities) {
+	public static List<Menu> getModuleVos(List<MenuEntity> moduleEntities) {
 		// 一级菜单
 		List<Menu> firstList = new ArrayList<Menu>();
 		// 二级菜单
 		List<Menu> secondList = new ArrayList<Menu>();
 		// 三级菜单
 		List<Menu> thirdList = new ArrayList<Menu>();
-		for (ModuleEntity moduleEntity : moduleEntities) {
-			if (moduleEntity.getLevel() == 1) {
-				firstList.add(parseToVo(moduleEntity));
+		for (MenuEntity menuEntity : moduleEntities) {
+			if (menuEntity.getLevel() == 1) {
+				firstList.add(parseToVo(menuEntity));
 			}
-			if (moduleEntity.getLevel() == 2) {
-				secondList.add(parseToVo(moduleEntity));
+			if (menuEntity.getLevel() == 2) {
+				secondList.add(parseToVo(menuEntity));
 			}
-			if (moduleEntity.getLevel() == 3) {
-				thirdList.add(parseToVo(moduleEntity));
+			if (menuEntity.getLevel() == 3) {
+				thirdList.add(parseToVo(menuEntity));
 			}
 		}
 		// 转成map
@@ -93,27 +93,27 @@ public class AuthorityUtils {
 	 * @author chenyanlong
 	 * @date 2015年11月26日 上午9:48:07
 	 */
-	public static List<Menu> getModuleVos(List<ModuleEntity> moduleEntities, Set<Integer> moduleIds) {
+	public static List<Menu> getModuleVos(List<MenuEntity> moduleEntities, Set<Integer> moduleIds) {
 		// 一级菜单
 		List<Menu> firstList = new ArrayList<Menu>();
 		// 二级菜单
 		List<Menu> secondList = new ArrayList<Menu>();
 		// 三级菜单
 		List<Menu> thirdList = new ArrayList<Menu>();
-		for (ModuleEntity moduleEntity : moduleEntities) {
-			Menu menu = parseToVo(moduleEntity);
+		for (MenuEntity menuEntity : moduleEntities) {
+			Menu menu = parseToVo(menuEntity);
 			if (moduleIds != null && moduleIds.size() > 0 && moduleIds.contains(menu.getId())) {
 				menu.setIsAuthority(1);
 			} else {
 				menu.setIsAuthority(0);
 			}
-			if (moduleEntity.getLevel() == 1) {
+			if (menuEntity.getLevel() == 1) {
 				firstList.add(menu);
 			}
-			if (moduleEntity.getLevel() == 2) {
+			if (menuEntity.getLevel() == 2) {
 				secondList.add(menu);
 			}
-			if (moduleEntity.getLevel() == 3) {
+			if (menuEntity.getLevel() == 3) {
 				thirdList.add(menu);
 			}
 		}
@@ -170,11 +170,10 @@ public class AuthorityUtils {
 	 * @author chenyanlong
 	 * @date 2015年11月25日 下午2:04:23
 	 */
-	public static Menu parseToVo(ModuleEntity entity) {
+	public static Menu parseToVo(MenuEntity entity) {
 		Menu menu = new Menu();
 		menu.setId(entity.getId());
 		menu.setName(entity.getName());
-		menu.setOrderNum(entity.getOrderNum());
 		menu.setParentId(entity.getParentId());
 		menu.setUrl(entity.getUrl());
 		menu.setLevel(entity.getLevel());

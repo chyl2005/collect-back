@@ -20,8 +20,14 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @RequestMapping("/index")
+    public String index() {
+        return "user/index";
+    }
+
     /**
      * 用户列表
+     *
      * @param state
      * @return
      */
@@ -53,8 +59,6 @@ public class UserController {
 
     }
 
-
-
     /**
      * @param user
      * @return SystemUserEntity 返回类型
@@ -85,7 +89,7 @@ public class UserController {
     @ResponseBody
     public WebResponse getUserInfo(Integer id) {
         WebResponse webResponse = WebResponse.getSuccessWebResponse();
-        webResponse.setData( this.userService.getUserInfo(id));
+        webResponse.setData(this.userService.getUserInfo(id));
         return webResponse;
     }
 
@@ -106,7 +110,7 @@ public class UserController {
             String pwd = MD5Utils.getMD5(userName + password);
             user.setPassword(pwd);
             if (user.getId() != null) {
-               this.userService.updateEntity(user);
+                this.userService.updateEntity(user);
             } else {
                 this.userService.saveEntity(user);
             }
@@ -114,9 +118,7 @@ public class UserController {
         return webResponse;
     }
 
-
     /**
-
      * @Description:
      * @author chenyanlong
      * @date 2016年4月1日 上午11:31:42

@@ -18,4 +18,8 @@ public interface DeviceRecordDao {
 
 
     AoData<List<DeviceRecordEntity>> getPageRecords(Integer deviceId, Integer startTime, Integer endTime);
+
+
+
+    List<DeviceRecordEntity> getRecords(Integer deviceId, Integer startTime, Integer endTime);
 }

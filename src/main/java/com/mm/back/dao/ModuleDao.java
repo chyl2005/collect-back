@@ -3,11 +3,11 @@ package com.mm.back.dao;
 import java.util.List;
 import java.util.Set;
 import com.mm.back.common.AoData;
-import com.mm.back.entity.ModuleEntity;
+import com.mm.back.entity.MenuEntity;
 
 public interface ModuleDao {
 
-    ModuleEntity getModuleByActionName(String sn);
+    MenuEntity getModuleByActionName(String sn);
 
     /**
      * @return List<ModuleEntity> 返回类型
@@ -15,7 +15,7 @@ public interface ModuleDao {
      * @author chenyanlong
      * @date 2015年11月23日 下午2:33:08
      */
-    List<ModuleEntity> getAllModules();
+    List<MenuEntity> getAllModules();
 
     /**
      * @return List<ModuleEntity> 返回类型
@@ -24,7 +24,7 @@ public interface ModuleDao {
      * @author chenyanlong
      * @date 2015年11月23日 下午4:27:47
      */
-    List<ModuleEntity> getModules(Set<Integer> values);
+    List<MenuEntity> getModules(Set<Integer> values);
 
     /**
      * @param state
@@ -33,7 +33,7 @@ public interface ModuleDao {
      * @author chenyanlong
      * @date 2015年11月26日 上午9:45:13
      */
-    List<ModuleEntity> getAllModules(Integer state);
+    List<MenuEntity> getAllModules(Integer state);
 
     /**
      * @param parentId
@@ -42,7 +42,7 @@ public interface ModuleDao {
      * @author chenyanlong
      * @date 2015年11月25日 下午5:45:12
      */
-    List<ModuleEntity> getModules(Integer parentId);
+    List<MenuEntity> getModules(Integer parentId);
 
     /**
      * @param parentId
@@ -69,7 +69,7 @@ public interface ModuleDao {
      * @author chenyanlong
      * @date 2015年11月27日 下午3:01:31
      */
-    ModuleEntity updateEntity(ModuleEntity module);
+    MenuEntity updateEntity(MenuEntity module);
 
     /**
      * @param entity
@@ -78,7 +78,7 @@ public interface ModuleDao {
      * @author chenyanlong
      * @date 2015年11月27日 下午3:01:50
      */
-    ModuleEntity saveEntity(ModuleEntity entity);
+    MenuEntity saveEntity(MenuEntity entity);
 
     /**
      * @param moduleId
@@ -97,7 +97,7 @@ public interface ModuleDao {
      * @author chenyanlong
      * @date 2015年11月25日 下午5:45:18
      */
-    List<ModuleEntity> getModulesByLevel(Integer level);
+    List<MenuEntity> getModulesByLevel(Integer level);
 
     /**
      * @param id
@@ -106,17 +106,17 @@ public interface ModuleDao {
      * @author chenyanlong
      * @date 2015年11月27日 下午4:55:39
      */
-    ModuleEntity findById(Integer id);
+    MenuEntity findById(Integer id);
 
     void del(Integer id);
 
     /**
-     * @param action_path
+     * @param url
      * @return ModuleEntity 返回类型
      * @Description:
      * @author chenyanlong
      * @date 2015年12月10日 下午4:26:52
      */
-    ModuleEntity getModuleByPath(String action_path);
+    MenuEntity getModuleByUrl(String url);
 
 }

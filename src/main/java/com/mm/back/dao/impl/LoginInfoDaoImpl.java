@@ -2,7 +2,7 @@ package com.mm.back.dao.impl;
 
 import java.util.Date;
 import org.springframework.stereotype.Repository;
-import com.mm.back.common.DeleteEnum;
+import com.mm.back.constants.DeleteStatusEnum;
 import com.mm.back.dao.LoginInfoDao;
 import com.mm.back.entity.LoginInfoEntity;
 
@@ -50,7 +50,7 @@ public class LoginInfoDaoImpl extends BaseDaoImpl<LoginInfoEntity> implements Lo
         LoginInfoEntity entity = this.findFirst("from LoginInfoEntity where loginKey=?", loginKey);
         if (entity != null) {
             entity.setGmtModified(new Date());
-            entity.setIsDel(DeleteEnum.DEL.getCode());
+            entity.setIsDel(DeleteStatusEnum.DEL.getCode());
             this.update(entity);
         }
     }

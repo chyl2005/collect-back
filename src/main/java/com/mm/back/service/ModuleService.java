@@ -1,13 +1,15 @@
 package com.mm.back.service;
 
+import java.util.Date;
 import java.util.List;
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.mm.back.common.AoData;
-import com.mm.back.common.DeleteEnum;
+import com.mm.back.constants.DeleteStatusEnum;
+import com.mm.back.constants.MenuEnum;
 import com.mm.back.dao.ModuleDao;
-import com.mm.back.entity.ModuleEntity;
+import com.mm.back.entity.MenuEntity;
 
 /**
  * @author chenyanlong
@@ -27,7 +29,7 @@ public class ModuleService {
      * @author chenyanlong
      * @date 2015年11月23日 下午2:33:08
      */
-    public List<ModuleEntity> getAllModules() {
+    public List<MenuEntity> getAllModules() {
         return this.moduleDao.getAllModules();
     }
 
@@ -38,7 +40,7 @@ public class ModuleService {
      * @author chenyanlong
      * @date 2015年11月23日 下午3:01:20
      */
-    public ModuleEntity getModuleByActionName(String sn) {
+    public MenuEntity getModuleByActionName(String sn) {
         return this.moduleDao.getModuleByActionName(sn);
     }
 
@@ -49,7 +51,7 @@ public class ModuleService {
      * @author chenyanlong
      * @date 2015年11月25日 下午5:45:12
      */
-    public List<ModuleEntity> getModules(Integer parentId) {
+    public List<MenuEntity> getModules(Integer parentId) {
         return this.moduleDao.getModules(parentId);
     }
 
@@ -77,28 +79,21 @@ public class ModuleService {
     }
 
     /**
-     * @param module
-     * @return ModuleEntity 返回类型
-     * @Description: 修改
-     * @author chenyanlong
-     * @date 2015年11月27日 下午3:00:28
-     */
-    @Transactional
-    public ModuleEntity updateEntity(ModuleEntity module) {
-
-        return this.moduleDao.updateEntity(module);
-    }
-
-    /**
-     * @param entity
+     * @param menu
      * @return ModuleEntity 返回类型
      * @Description: 保存
      * @author chenyanlong
      * @date 2015年11月27日 下午3:00:40
      */
     @Transactional
-    public ModuleEntity saveEntity(ModuleEntity entity) {
-        return this.moduleDao.saveEntity(entity);
+    public void saveOrUpdate(MenuEntity menu) {
+
+        if (menu.getId() != null) {
+            this.moduleDao.updateEntity(menu);
+        } else {
+            this.moduleDao.saveEntity(menu);
+        }
+
     }
 
     /**
@@ -110,7 +105,7 @@ public class ModuleService {
      */
     @Transactional
     public void del(Integer moduleId) {
-        this.moduleDao.updateStatus(moduleId, DeleteEnum.DEL.getCode());
+        this.moduleDao.updateStatus(moduleId, DeleteStatusEnum.DEL.getCode());
     }
 
     /**
@@ -120,7 +115,7 @@ public class ModuleService {
      * @author chenyanlong
      * @date 2015年11月25日 下午5:45:18
      */
-    public List<ModuleEntity> getModulesByLevel(Integer level) {
+    public List<MenuEntity> getModulesByLevel(Integer level) {
         return this.moduleDao.getModulesByLevel(level);
     }
 
@@ -131,20 +126,19 @@ public class ModuleService {
      * @author chenyanlong
      * @date 2015年11月27日 下午4:55:55
      */
-    public ModuleEntity findById(Integer id) {
+    public MenuEntity findById(Integer id) {
         return this.moduleDao.findById(id);
     }
 
     /**
-     * @param action_path
+     * @param url
      * @return ModuleEntity 返回类型
      * @Description:
      * @author chenyanlong
      * @date 2015年12月10日 下午4:26:52
      */
-    public ModuleEntity getModuleByPath(String action_path) {
-        return this.moduleDao.getModuleByPath(action_path);
+    public MenuEntity getModuleByUrl(String url) {
+        return this.moduleDao.getModuleByUrl(url);
     }
-
 
 }

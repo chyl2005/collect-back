@@ -1,13 +1,18 @@
 <div class="row" id="table">
     <div class="col-xs-12">
-        <user-table>
+        <vtable>
 
-        </user-table>
-    </div><!-- /.span -->
+        </vtable>
+
+        <vpage>
+
+        </vpage>
+    </div>
 </div>
 
 
 <script type="text/x-template" id="table-template">
+
     <table id="simple-table" class="table  table-bordered table-hover">
         <thead>
         <tr>
@@ -29,8 +34,6 @@
             <th>操作</th>
         </tr>
         </thead>
-
-
         <tbody>
         <tr v-for="item in userList">
             <td class="center">
@@ -51,11 +54,11 @@
                         <i class="ace-icon fa fa-check bigger-120"></i>
                     </button>
 
-                    <button class="btn btn-xs btn-info"  @click="edit(item)">
+                    <button class="btn btn-xs btn-info" @click="edit(item)">
                         <i class="ace-icon fa fa-pencil bigger-120"></i>
                     </button>
 
-                    <button class="btn btn-xs btn-danger"  @click="del(item)">
+                    <button class="btn btn-xs btn-danger" @click="del(item)">
                         <i class="ace-icon fa fa-trash-o bigger-120"></i>
                     </button>
 
@@ -69,11 +72,43 @@
         </tr>
         </tbody>
     </table>
+
 </script>
 
+
+<script type="text/x-template" id="vpage">
+    <ul class="pagination pull-right no-margin">
+        <li class="prev disabled">
+            <a href="#">
+                <i class="ace-icon fa fa-angle-double-left"></i>
+            </a>
+        </li>
+
+        <li class="active">
+            <a href="#">1</a>
+        </li>
+
+        <li>
+            <a href="#">2</a>
+        </li>
+
+        <li>
+            <a href="#">3</a>
+        </li>
+
+        <li class="next">
+            <a href="#">
+                <i class="ace-icon fa fa-angle-double-right"></i>
+            </a>
+        </li>
+    </ul>
+</script>
+
+
 <script type="text/javascript">
-    Vue.component('user-table', {
+    Vue.component('vtable', {
         template: '#table-template',
+
         data: function () {
             var datas = {
                 userList: [],
@@ -91,14 +126,14 @@
             loadData: function () {
                 var startRow = (this.pageCur - 1) * this.pageSize;
                 this.$http.post(this.url, {'pageSize': this.pageSize, 'startRow': startRow}, {emulateJSON: true}).then(response => {
-                    if ( response.body.data.datas!=null){
+                    if (response.body.data.datas != null) {
                         response.body.data.datas.forEach((item) => {
-                            var data={};
-                            data.userId=item.userId;
-                            data.userName=item.userName;
-                            data.trueName=item.trueName;
-                            data.gmtCreated=getSmpFormatDateByLong(item.gmtCreated,true);
-                            data.status=item.isDel==0?"未刪除":"已刪除";
+                            var data = {};
+                            data.userId = item.userId;
+                            data.userName = item.userName;
+                            data.trueName = item.trueName;
+                            data.gmtCreated = getSmpFormatDateByLong(item.gmtCreated, true);
+                            data.status = item.isDel == 0 ? "未刪除" : "已刪除";
                             this.userList.push(data);
                         });
 
@@ -114,4 +149,39 @@
     new Vue({
         el: '#table'
     })
+
+
+    // 分页方法 element jquery selector
+    function paginator(element, currentPage, pageSize, totalCount, url) {
+        var pageCount = Math.ceil(totalCount / pageSize);
+        var options = {
+            currentPage: currentPage,
+            totalPages: pageCount,
+            bootstrapMajorVersion: 3,
+            alignment: "right",
+            numberOfPages: 5,
+            size: "normal",
+            itemTexts: function (type, page, current) {
+                switch (type) {
+                    case "first":
+                        return "首页";
+                    case "prev":
+                        return "上一页";
+                    case "next":
+                        return "下一页";
+                    case "last":
+                        return "尾页";
+                    case "page":
+                        return page;
+                }
+            },
+            onPageClicked: function (event, originalEvent, type, page) {
+                // 加载数据
+                loadData(page, pageSize, url);
+                pageCur = page;
+            }
+        }
+        // 渲染分页模块
+        $(element).bootstrapPaginator(options);
+    }
 </script>

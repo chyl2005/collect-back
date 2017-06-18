@@ -12,5 +12,7 @@ import com.mm.back.model.DeviceRecordResponse;
  */
 public interface DeviceRecordService {
 
-    AoData<List<DeviceRecordResponse>> getRecords(Integer deviceId, Integer startTime, Integer endTime);
+    List<DeviceRecordResponse> getRecords(Integer deviceId, Integer startTime, Integer endTime);
+
+    AoData<List<DeviceRecordResponse>> getPageRecords(Integer deviceId, Integer startTime, Integer endTime);
 }

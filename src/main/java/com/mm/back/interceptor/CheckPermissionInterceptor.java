@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
-import com.mm.back.entity.ModuleEntity;
+import com.mm.back.entity.MenuEntity;
 import com.mm.back.service.ModuleService;
 import com.mm.back.utils.UserUtils;
 
@@ -52,13 +52,13 @@ public class CheckPermissionInterceptor extends HandlerInterceptorAdapter {
 			actionPath = actionPath.startsWith("/") ? actionPath.substring(1, actionPath.length()) : actionPath;
 			actionPath=actionPath.endsWith("/")?actionPath.substring(0, actionPath.length()-1) : actionPath;
 		}
-		ModuleEntity moduleEntity = this.moduleService.getModuleByPath(actionPath);
-		if (null!=moduleEntity) {
-			Integer moduleId = moduleEntity.getId();
+		MenuEntity menuEntity = this.moduleService.getModuleByUrl(actionPath);
+		if (null!= menuEntity) {
+			Integer moduleId = menuEntity.getId();
 			// 用户拥有权限的模块
 			Set<Integer> moduleIds = UserUtils.getMenuIds();
 			if (moduleIds.contains(moduleId)) {
-				request.setAttribute("module", moduleEntity);
+				request.setAttribute("module", menuEntity);
 				return true;
 			}
 		}

@@ -48,4 +48,19 @@ public class DeviceRecordDaoImpl extends BaseDaoImpl<DeviceRecordEntity> impleme
 
         return this.findPage(null, hql.toString(), paras);
     }
+
+    @Override
+    public List<DeviceRecordEntity> getRecords(Integer deviceId, Integer startTime, Integer endTime) {
+        Map<String, Object> paras = new HashMap<>();
+        StringBuilder hql = new StringBuilder();
+        hql.append("from DeviceRecordEntity where ");
+
+        paras.put("deviceId", deviceId);
+        hql.append(" deviceId=:deviceId");
+
+        paras.put("startTime", startTime);
+        paras.put("endTime", endTime);
+        hql.append(" and  datekey between  :startTime and :endTime");
+        return this.find( hql.toString(), paras);
+    }
 }
