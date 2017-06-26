@@ -24,6 +24,12 @@ public class MenuEntity {
     @Column(name = "url", unique = true)
     private String url;
 
+
+    /**
+     *
+     */
+    @Column(name = "path", unique = true)
+    private String path;
     /**
      * 模块父类id
      */
@@ -142,5 +148,13 @@ public class MenuEntity {
 
     public void setIsLink(Integer isLink) {
         this.isLink = isLink;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 }

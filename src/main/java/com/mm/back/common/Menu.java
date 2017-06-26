@@ -21,6 +21,7 @@ public class Menu implements Serializable{
      * 请求方法路径 唯一
      */
 	private String url;
+	private String icon;
 	/**
 	 * 模块编号 
 	 */
@@ -44,8 +45,10 @@ public class Menu implements Serializable{
 	 */
 	private Integer state;
 	private Integer type;
+
+	private Integer isLink;
 	
-	private List<Menu>  subModule;
+	private List<Menu>  subMenus;
 	
 	
 	/**
@@ -102,12 +105,14 @@ public class Menu implements Serializable{
 		this.parentId = parentId;
 	}
 
-	public List<Menu> getSubModule() {
-		return subModule;
+	public List<Menu> getSubMenus() {
+		return subMenus;
 	}
-	public void setSubModule(List<Menu> subModule) {
-		this.subModule = subModule;
+
+	public void setSubMenus(List<Menu> subMenus) {
+		this.subMenus = subMenus;
 	}
+
 	public Integer getType() {
 		return type;
 	}
@@ -120,6 +125,21 @@ public class Menu implements Serializable{
 	public void setIsAuthority(Integer isAuthority) {
 		this.isAuthority = isAuthority;
 	}
-	
-	
+
+
+	public Integer getIsLink() {
+		return isLink;
+	}
+
+	public void setIsLink(Integer isLink) {
+		this.isLink = isLink;
+	}
+
+	public String getIcon() {
+		return icon;
+	}
+
+	public void setIcon(String icon) {
+		this.icon = icon;
+	}
 }

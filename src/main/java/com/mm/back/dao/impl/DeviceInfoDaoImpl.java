@@ -42,4 +42,13 @@ public class DeviceInfoDaoImpl extends BaseDaoImpl<DeviceInfoEntity> implements 
         AoData aoData = this.findPage(null, "from DeviceInfoEntity ");
         return aoData;
     }
+
+    @Override
+    public void updateDelStatus(Integer deviceId, Integer isDel) {
+        DeviceInfoEntity deviceInfoEntity = this.get(DeviceInfoEntity.class, deviceId);
+        if (deviceInfoEntity != null) {
+            deviceInfoEntity.setIsDel(isDel);
+            deviceInfoEntity.setGmtModified(new Date());
+        }
+    }
 }

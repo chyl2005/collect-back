@@ -24,9 +24,9 @@ function getUrlParam(name) {
 function getServerParams() {
     var postData = {};
 
-    postData.deviceId = getUrlParam("deviceId");
-    postData.startTime = 20170601;
-    postData.endTime = 20170630;
+    postData.deviceId = $("#deviceId").val();
+    postData.startTime = $("#startTime").val();
+    postData.endTime = $("#endTime").val();
     return postData;
 }
 

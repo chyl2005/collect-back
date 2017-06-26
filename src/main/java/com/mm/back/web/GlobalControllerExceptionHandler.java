@@ -62,19 +62,23 @@ public class GlobalControllerExceptionHandler {
         return WebResponse.getErrorWebResponse();
     }
 
-    private void writeErrorLog(HttpServletRequest req, Exception ex) {
-        Map<String,Object> extraParams = ThreadLocalContext.get(ThreadLocalIndex.EXTRA_PARAMS);
-        String params = ThreadLocalContext.get(ThreadLocalIndex.PARAMS);
-        LOGGER.error(req.getRequestURI() + ", parameter " + req.getQueryString() +
-               "[REQUEST:" + params + "EXTRAPARAMS:[" + JsonUtils.object2Json(extraParams) + "]]",
-                ex);
+    private void writeErrorLog(HttpServletRequest request, Exception ex) {
+        LOGGER.error("INVOKE->{} ,parameterMap={} , METHOD={}, REQUEST={}, EXTRAPARAMS={}"
+                ,request.getRequestURI()
+                ,JsonUtils.object2Json(ThreadLocalContext.get(ThreadLocalIndex.PARAMS))
+                ,request.getMethod()
+                ,ThreadLocalContext.get(ThreadLocalIndex.PARAMS)
+                ,JsonUtils.object2Json(ThreadLocalContext.get(ThreadLocalIndex.EXTRA_PARAMS)), ex);
+
     }
 
-    private void writeWarnLog(HttpServletRequest req, Exception ex) {
-        Map<String,Object> extraParams = ThreadLocalContext.get(ThreadLocalIndex.EXTRA_PARAMS);
-        String params = ThreadLocalContext.get(ThreadLocalIndex.PARAMS);
-        LOGGER.warn(req.getRequestURI() + ", parameter " + req.getQueryString()+ " , METHOD:["+req.getMethod()+"] "+
-                "[REQUEST:" + params + "EXTRAPARAMS:[" + JsonUtils.object2Json(extraParams) + "]]",
-                 ex);
+    private void writeWarnLog(HttpServletRequest request, Exception ex) {
+        LOGGER.warn(" INVOKE->{} ,parameterMap={} , METHOD={}, REQUEST={}, EXTRAPARAMS={}"
+                ,request.getRequestURI()
+                ,JsonUtils.object2Json(ThreadLocalContext.get(ThreadLocalIndex.PARAMSMAP))
+                ,request.getMethod()
+                ,ThreadLocalContext.get(ThreadLocalIndex.PARAMS)
+                ,JsonUtils.object2Json(ThreadLocalContext.get(ThreadLocalIndex.EXTRA_PARAMS)), ex);
+
     }
 }

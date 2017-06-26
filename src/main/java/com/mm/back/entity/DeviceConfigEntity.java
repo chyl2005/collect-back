@@ -24,7 +24,7 @@ public class DeviceConfigEntity {
     @Column(name = "device_id")
     private Integer deviceId;
     @Column(name = "server_ip")
-    private Integer serverIp;
+    private String serverIp;
     @Column(name = "server_port")
     private Integer serverPort;
     @Column(name = "phone_num1")
@@ -73,11 +73,11 @@ public class DeviceConfigEntity {
         this.deviceId = deviceId;
     }
 
-    public Integer getServerIp() {
+    public String getServerIp() {
         return serverIp;
     }
 
-    public void setServerIp(Integer serverIp) {
+    public void setServerIp(String serverIp) {
         this.serverIp = serverIp;
     }
 

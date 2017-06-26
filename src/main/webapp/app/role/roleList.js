@@ -4,17 +4,14 @@
 var pageCur = 1;
 var pageSize = 10;
 // 列表数据请求url
-var dataUrl = rootPath + "/role/list";
+var dataUrl = rootPath + "role/list";
 
-// 模块列表
-var moduleUrl = rootPath + "/module/getModules";
-var saveAuthorityUrl = rootPath + "/authority/saveOrUpdate";
-var roleModuleUrl = rootPath + "/role/getAllModuleAuthority";
-var roleSaveOrUpdateUrl = rootPath + "/role/saveOrUpdate";
 
-var authoritySaveOrUpdateUrl = rootPath + "/authority/saveOrUpdate";
-var getAllModuleUrl = rootPath + "/module/getAllModuleVos";
-var deleteUrl = rootPath + "/role/deleteEntity";
+var saveAuthUrl = rootPath + "role/saveAuth";
+var roleModuleUrl = rootPath + "role/getAllModuleAuthority";
+var roleSaveOrUpdateUrl = rootPath + "role/saveOrUpdate";
+
+var deleteUrl = rootPath + "role/deleteEntity";
 $(document).ready(function () {
 
     // 加载数据
@@ -77,12 +74,12 @@ function dataCallbackShow(data) {
     paginator("#page", currentPage, pageSize, total, dataUrl);
 
     //编辑
-    $(".btn-info").on('click', function () {
+    $(".edit").on('click', function () {
         showRoleDialog(this);
     });
 
     //删除
-    $(".btn-danger").on('click', function () {
+    $(".del").on('click', function () {
         var postData = {};
         postData.id = $(this).closest("tr").find("#id").text();
         $.ajax({
@@ -100,7 +97,7 @@ function dataCallbackShow(data) {
         });
     });
     //角色授权
-    $(".btn-warning").on('click', function () {
+    $(".config").on('click', function () {
         showMenuDialog(this);
     });
 
@@ -191,30 +188,28 @@ function loadRoleModule(roleId) {
         },
         async: false,
         success: function (data) {
-            if (data != null) {
-                $("#saveOrUpdateDialog").find("#modules").html("");
+
+            if (data.status === 0) {
+                $("#menuDialog").find("#modules").html("");
                 var html = "";
-                for (var i = 0; i < data.length; i++) {
-                    var module = data[i];
+                data.data.forEach((menu) => {
                     html += '	<div style="padding: 10px;" >';
                     var checkbox = '<input type="checkbox" id="rootMod" value="@moduleId"  @checked  onchange="selectMySubModule(this)"/>@moduleName :';
                     // 根模块
-                    html += checkbox.replace("@moduleId", module.id).replace("@checked",
-                        module.isAuthority == 1 ? 'checked="checked"' : "").replace("@moduleName",
-                        module.name);
-                    for (var j = 0; j < module.subModule.length; j++) {
-                        // 子模块
-                        var subModule = module.subModule[j];
+                    html += checkbox.replace("@moduleId", menu.id).replace("@checked",
+                        menu.isAuthority == 1 ? 'checked="checked"' : "").replace("@moduleName", menu.name);
+
+
+                    menu.subMenus.forEach((subMenu) => {
                         var checkbox1 = '<span><input type="checkbox" value="@moduleId"  @checked   onchange="selectRootModule(this)"/>@moduleName </span>';
                         // 根模块
-                        html += checkbox1.replace("@moduleId", subModule.id).replace("@checked",
-                            subModule.isAuthority == 1 ? 'checked="checked"' : "").replace("@moduleName",
-                            subModule.name);
+                        html += checkbox1.replace("@moduleId", subMenu.id).replace("@checked",
+                            subMenu.isAuthority == 1 ? 'checked="checked"' : "").replace("@moduleName", subMenu.name);
 
-                    }
+                    });
                     html += '</div>';
-                }
-                $("#saveOrUpdateDialog").find("#modules").html(html);
+                });
+                $("#menuDialog").find(".menus").html(html);
             }
         }
     });
@@ -228,25 +223,27 @@ function loadRoleModule(roleId) {
 function saveOrUpdateAuthority() {
     var dialog = $("#menuDialog");
     // 弹窗数据清空
-    var moduleIds = "";
+    var menus = []
     dialog.find('input:checkbox').each(function (i) {
         if ($(this).prop("checked")) {
-            moduleIds += $(this).val() + ",";
+            var roleId = dialog.find("input[name='roleId']").val();
+            menus.push({
+                "roleId": roleId,
+                "menuId": $(this).val()
+            });
         }
     });
 
-    var postData = {};
-    postData.roleId = dialog.find("input[name='roleId']").val();
-    postData.moduleId = moduleIds;
 
     $.ajax({
         type: "post",
-        url: authoritySaveOrUpdateUrl,
+        url: saveAuthUrl,
         dataType: 'json',
-        data: postData,
+        data: JSON.stringify(menus),
         async: false,
+        contentType: "application/json",
         success: function (data) {
-            if (data != null) {
+            if (data.status === 0) {
                 dialog.modal('hide');
                 loadData(pageCur, pageSize, dataUrl);
             }

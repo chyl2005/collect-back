@@ -3,6 +3,7 @@ package com.mm.back.service.impl;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import com.mm.back.constants.DeleteStatusEnum;
 import com.mm.back.dao.LoginInfoDao;
 import com.mm.back.entity.LoginInfoEntity;
@@ -31,6 +32,7 @@ class LoginInfoServiceImpl implements LoginInfoService {
      * @author chenyanlong
      * @date 2015年11月26日 上午9:20:08
      */
+    @Transactional
     @Override
     public void save(String loginKey, Integer userId) {
         UserInfoCacheVo userInfoCache = authorityService.getUserInfoCache(userId);
@@ -58,6 +60,7 @@ class LoginInfoServiceImpl implements LoginInfoService {
      * @author chenyanlong
      * @date 2015年11月26日 上午9:20:12
      */
+    @Transactional
     @Override
     public void del(String loginKey) {
         loginInfoDao.del(loginKey);

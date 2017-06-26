@@ -137,8 +137,8 @@ public class ModuleService {
      * @author chenyanlong
      * @date 2015年12月10日 下午4:26:52
      */
-    public MenuEntity getModuleByUrl(String url) {
-        return this.moduleDao.getModuleByUrl(url);
+    public MenuEntity getModuleByPath(String url) {
+        return this.moduleDao.getModuleByPath(url);
     }
 
 }

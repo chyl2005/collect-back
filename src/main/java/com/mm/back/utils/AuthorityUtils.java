@@ -56,12 +56,12 @@ public class AuthorityUtils {
 			// 二级列表有权限
 			Menu secondMenu = secondModuleMap.get(menu.getParentId());
 			if (secondMenu != null) {
-				List<Menu> subModule = secondMenu.getSubModule();
+				List<Menu> subModule = secondMenu.getSubMenus();
 				if (null == subModule) {
 					subModule = new ArrayList<Menu>();
 				}
 				subModule.add(menu);
-				secondMenu.setSubModule(subModule);
+				secondMenu.setSubMenus(subModule);
 			}
 		}
 		// 二级组装到第一级
@@ -70,12 +70,12 @@ public class AuthorityUtils {
 			// 二级列表有权限
 			Menu firstMenu = firstModuleMap.get(moduleVo.getParentId());
 			if (firstMenu != null) {
-				List<Menu> subModule = firstMenu.getSubModule();
+				List<Menu> subModule = firstMenu.getSubMenus();
 				if (null == subModule) {
 					subModule = new ArrayList<Menu>();
 				}
 				subModule.add(moduleVo);
-				firstMenu.setSubModule(subModule);
+				firstMenu.setSubMenus(subModule);
 
 			}
 		}
@@ -132,12 +132,12 @@ public class AuthorityUtils {
 			// 二级列表有权限
 			Menu secondMenu = secondModuleMap.get(menu.getParentId());
 			if (secondMenu != null) {
-				List<Menu> subModule = secondMenu.getSubModule();
+				List<Menu> subModule = secondMenu.getSubMenus();
 				if (null == subModule) {
 					subModule = new ArrayList<Menu>();
 				}
 				subModule.add(menu);
-				secondMenu.setSubModule(subModule);
+				secondMenu.setSubMenus(subModule);
 			}
 		}
 		// 二级组装到第一级
@@ -146,12 +146,12 @@ public class AuthorityUtils {
 			// 二级列表有权限
 			Menu firstMenu = firstModuleMap.get(menu.getParentId());
 			if (firstMenu != null) {
-				List<Menu> subModule = firstMenu.getSubModule();
+				List<Menu> subModule = firstMenu.getSubMenus();
 				if (null == subModule) {
 					subModule = new ArrayList<Menu>();
 				}
 				subModule.add(menu);
-				firstMenu.setSubModule(subModule);
+				firstMenu.setSubMenus(subModule);
 
 			}
 		}
@@ -179,7 +179,9 @@ public class AuthorityUtils {
 		menu.setLevel(entity.getLevel());
 		menu.setCreateTime(entity.getGmtCreated());
 		menu.setState(entity.getIsDel());
-		menu.setSubModule(new ArrayList<Menu>());
+		menu.setSubMenus(new ArrayList<Menu>());
+		menu.setIsLink(entity.getIsLink());
+		menu.setIcon(entity.getIcon());
 		return menu;
 	}
 }

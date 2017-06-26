@@ -13,22 +13,20 @@ import org.springframework.stereotype.Component;
  * Desc:描述该类的作用
  */
 @Component
-public class Config implements InitializingBean{
+public class Config implements InitializingBean {
     private static final Logger LOGGER = LoggerFactory.getLogger(Config.class);
     @Value("${loginkey}")
-    private String loginkey ;
+    private String loginkey;
     @Value("${authCode}")
     private String authcode;
-    @Value("${loginUrl}")
-    private String loginUrl;
-
-    @Value("${successUrl}")
-    private  String successUrl ;
-
+    @Value("${host}")
+    private String host;
+    @Value("${projectName}")
+    private String projectName;
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        LOGGER.info("Config   loginkey={} authcode={} successUrl={}",loginkey,authcode,successUrl);
+        LOGGER.info("Config   loginkey={} authcode={} host={}", loginkey, authcode, host);
     }
 
     public String getLoginkey() {
@@ -39,11 +37,23 @@ public class Config implements InitializingBean{
         return authcode;
     }
 
+    public String getHost() {
+        return host;
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
     public String getSuccessUrl() {
-        return successUrl;
+        return host + "/" + projectName + "/index/index";
     }
 
     public String getLoginUrl() {
-        return loginUrl;
+        return host + "/" + projectName + "/login.html";
+    }
+
+    public String getBaseUrl() {
+        return host + "/" + projectName;
     }
 }

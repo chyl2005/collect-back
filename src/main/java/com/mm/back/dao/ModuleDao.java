@@ -117,6 +117,6 @@ public interface ModuleDao {
      * @author chenyanlong
      * @date 2015年12月10日 下午4:26:52
      */
-    MenuEntity getModuleByUrl(String url);
+    MenuEntity getModuleByPath(String url);
 
 }

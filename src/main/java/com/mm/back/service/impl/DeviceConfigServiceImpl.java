@@ -21,6 +21,11 @@ public class DeviceConfigServiceImpl implements DeviceConfigService {
     private DeviceConfigDao deviceConfigDao;
 
     @Override
+    public void insertOrUpdate(DeviceConfigEntity deviceConfig) {
+        deviceConfigDao.insertOrUpdate(deviceConfig);
+    }
+
+    @Override
     public DeviceConfigResponse getConfigInfo(Integer deviceId) {
         DeviceConfigEntity deviceConfig = deviceConfigDao.getDeviceConfig(deviceId);
         DeviceConfigResponse configResponse = ConvertUtils.parseToDeviceConfigResponse(deviceConfig);

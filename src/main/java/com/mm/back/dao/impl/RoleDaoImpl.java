@@ -1,6 +1,7 @@
 package com.mm.back.dao.impl;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import org.apache.commons.collections.CollectionUtils;
@@ -63,6 +64,7 @@ public class RoleDaoImpl extends BaseDaoImpl<RoleEntity> implements RoleDao {
     public Boolean del(Integer roleId, Integer isDel) {
         RoleEntity roleEntity = this.get(RoleEntity.class, roleId);
         roleEntity.setIsDel(isDel);
+        roleEntity.setGmtModified(new Date());
         this.update(roleEntity);
         return false;
     }
@@ -80,13 +82,12 @@ public class RoleDaoImpl extends BaseDaoImpl<RoleEntity> implements RoleDao {
     }
 
     /**
-     * @param roleId
      * @return RoleEntity    返回类型
      * @Description:
      * @author chenyanlong
      * @date 2016年3月17日 上午9:14:42
      */
-    public RoleEntity getRoleEntity(Integer roleId) {
-        return this.findFirst("from RoleEntity where roleId=?", roleId);
+    public RoleEntity getRoleEntity(Integer id) {
+        return this.get(RoleEntity.class, id);
     }
 }

@@ -20,7 +20,7 @@ public interface AuthorityDao {
      * @author chenyanlong
      * @date 2015年11月23日 下午3:27:58
      */
-    AuthorityEntity getAuthority(int roleId, String moduleId);
+    AuthorityEntity getAuthority(int roleId, Integer moduleId);
 
     /**
      * @param roleId 模块id
@@ -29,7 +29,7 @@ public interface AuthorityDao {
      * @author chenyanlong
      * @date 2015年11月23日 下午3:27:58
      */
-    AuthorityEntity getAuthority(int roleId);
+    List<AuthorityEntity> getAuthority(int roleId);
 
     /**
      * @param roleId
@@ -56,5 +56,8 @@ public interface AuthorityDao {
      * @date 2015年11月23日 下午3:44:51
      */
 
-    AuthorityEntity saveOrUpdateEntity(AuthorityEntity authorityEntity);
+    void saveOrUpdateEntity(AuthorityEntity authorityEntity);
+
+    void delByRoleId(Integer roleId);
+
 }

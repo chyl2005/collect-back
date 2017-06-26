@@ -3,7 +3,7 @@ package com.mm.back.controller;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -25,14 +25,14 @@ public class DeviceRecordController {
     private DeviceRecordService deviceRecordService;
 
     @RequestMapping("/index")
-    public String index() {
+    public String index(Integer deviceId, Model model) {
+        model.addAttribute("deviceId", deviceId);
         return "device/record";
     }
 
-
     @RequestMapping("/list")
     @ResponseBody
-    public WebResponse list( @RequestParam Integer deviceId,
+    public WebResponse list(@RequestParam Integer deviceId,
                             @RequestParam Integer startTime, @RequestParam Integer endTime) {
         WebResponse webResponse = WebResponse.getSuccessWebResponse();
         List<DeviceRecordResponse> records = deviceRecordService.getRecords(deviceId, startTime, endTime);

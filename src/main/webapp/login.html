@@ -44,8 +44,8 @@
                     <div class="center">
                         <h1>
                             <i class="ace-icon fa fa-leaf green"></i>
-                            <span class="red">Ace</span>
-                            <span class="white" id="id-text2">Application</span>
+                            <span class="red">xxx</span>
+                            <span class="white" id="id-text2">设备管理</span>
                         </h1>
                         <h4 class="blue" id="id-company-text">&copy; Company Name</h4>
                     </div>
@@ -58,7 +58,7 @@
                                 <div class="widget-main">
                                     <h4 class="header blue lighter bigger">
                                         <i class="ace-icon fa fa-coffee green"></i>
-                                        Please Enter Your Information
+                                        账户登录
                                     </h4>
 
                                     <div class="space-6"></div>
@@ -336,6 +336,8 @@
 
 
     $(document).ready(function () {
+
+        var path="/back";
         //回车登录
         $(document).keypress(function (event) {
             if (event.keyCode == "13") {
@@ -362,7 +364,7 @@
                 async: false,
                 success: function (data) {
                     if (data.status === 0) {
-                        window.location.href = path + "/main.html";
+                        window.location.href = path + "/index/index";
                     } else {
                         alert(data.message);
                     }

@@ -7,7 +7,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -29,8 +28,7 @@ import com.mm.back.vo.UserInfoCacheVo;
 public class LoginInterceptor implements HandlerInterceptor {
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginInterceptor.class);
     @Autowired
-    private Config config ;
-
+    private Config config;
 
     @Autowired
     private LoginInfoService loginInfoService;
@@ -43,7 +41,6 @@ public class LoginInterceptor implements HandlerInterceptor {
             response.sendRedirect(config.getLoginUrl());
             return false;
         }
-
 
         String startRow = request.getParameter("startRow");
         if (StringUtils.isNotBlank(startRow)) {

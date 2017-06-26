@@ -4,23 +4,17 @@
 var pageCur = 1;
 var pageSize = 10;
 // 列表数据请求url
-var dataUrl = rootPath + "deviceInfo/list";
-var deleteUrl = rootPath + "deviceInfo/del";
+var dataUrl = rootPath + "menu/list";
+var moduleUrl = rootPath + "menu/getModules";
+var deleteUrl = rootPath + "menu/deleteEntity";
 
-var updateStatusUrl = rootPath + "deviceInfo/updateStatus";
-var editUrl = rootPath + "deviceInfo/edit";
-
-var recordUrl = rootPath + "deviceRecord/index";
-
-var saveOrUpdateUrl = rootPath + "deviceInfo/saveOrUpdate";
-
-
-var configInfoUrl = rootPath + "deviceConfig/info";
-
-var configSaveOrUpdateUrl = rootPath + "deviceConfig/saveOrUpdate";
+var saveOrUpdateUrl = rootPath + "menu/saveOrUpdate";
 $(document).ready(function () {
 
-
+    var page_first_module = $("#first_module");
+    // 加载一级模块列表数据
+    var defaultHtml = '<option value="0" selected>全部</option>';
+    loadModule(page_first_module, 0, defaultHtml);
 
     // 加载数据
     loadData(pageCur, pageSize, dataUrl);
@@ -31,10 +25,46 @@ $(document).ready(function () {
 
 });
 
+/**
+ *
+ * @date 2016年3月16日 上午11:21:24
+ * @param element
+ * @param parentId
+ */
+function loadModule(element, parentId, defaultHtml) {
+    var result = {};
+    $.ajax({
+        url: moduleUrl,
+        data: {
+            "parentId": parentId
+        },
+        type: 'post',
+        dataType: 'json',
+        async: false,
+        success: function (data) {
+            if (data.data) {
+                element.html(defaultHtml);
+                var html = '';
+                data.data.forEach((item) => {
+                    var mid = item.id;
+                    var name = item.name;
+                    html += '<option value="' + mid + '">' + name + '</option>';
+                });
+                element.append(html);
+            }
+        }
+    });
+    return result;
+}
 
 // 获取请求服务器数据
 function getServerParams() {
     var postData = {};
+    var moduleId = parseInt($("#first_module").val());
+    // 查询全部传null
+    if (moduleId != 0) {
+        postData.parentId = moduleId;
+    }
     return postData;
 }
 
@@ -60,7 +90,7 @@ function dataCallbackShow(data) {
 
     // 数据空判断
     if (data.data == null || data.data.datas == null || data.data.datas.length == 0) {
-        $("#lists").html('<tr ><td valign="top" colspan="9"  class="center">无符合条件数据！</td></tr>');
+        $("#lists").html('<tr ><td valign="top" colspan="10"  class="center">无符合条件数据！</td></tr>');
         return;
     }
 
@@ -72,14 +102,15 @@ function dataCallbackShow(data) {
     items.forEach((item) => {
         // 克隆tr模板
         var row = rowTemplate.clone();
-        row.find("#deviceId").text(item.deviceId);
-        row.find("#serialNum").text(item.serialNum);
-        row.find("#deviceNum").text(item.deviceNum);
-        row.find("#cityName").text(item.cityName);
-        row.find("#provinceName").text(item.provinceName);
-        row.find("#gmtCreated").text(getSmpFormatDateByLong(item.gmtCreated, true));
+        row.find("#id").text(item.id);
+        row.find("#name").text(item.name);
+        row.find("#url").text(item.url);
+        row.find("#icon").text(item.icon);
+        row.find("#isLink").prop('checked', item.isLink == 1 ? true : false);
+        row.find("#parentId").text(item.parentId);
+        row.find("#level").text(item.level);
         row.find("#gmtModified").text(getSmpFormatDateByLong(item.gmtModified, true));
-        row.find("input[name='delStatus']").prop('checked', item.isDel == 1 ? true : false);
+        row.find("#isDel").prop('checked', item.isDel == 1 ? true : false);
         row.appendTo("#lists");
     });
 
@@ -87,98 +118,45 @@ function dataCallbackShow(data) {
     paginator("#page", currentPage, pageSize, total, dataUrl);
 
 
-    //编辑
-    $(".table .delStatus").on('click', function () {
-        var postData = {};
-        postData.id = $(this).closest("tr").find("#id").text();
-        var isDel = $(this).closest("tr").find("input[name='delStatus']").prop('checked');
-        postData.isDel = isDel ? 1 : 0;
-        $.ajax({
-            url: updateStatusUrl,
-            data: postData,
-            type: 'post',
-            dataType: 'json',
-            async: true,
-            success: function (data) {
-                if (null != data) {
-                    loadData(pageCur, pageSize, dataUrl);
-
-                }
-            }
-        });
-    });
-
-    //编辑
-    $(".table .config").on('click', function () {
-        showDialog(this);
-    });
-
-
-    //删除
-    $(".table .del").on('click', function () {
-        var postData = {};
-        postData.id = $(this).closest("tr").find("#id").text();
-        $.ajax({
-            url: deleteUrl,
-            data: postData,
-            type: 'post',
-            dataType: 'json',
-            async: true,
-            success: function (data) {
-                if (null != data) {
-                    loadData(pageCur, pageSize, dataUrl);
-
-                }
-            }
-        });
-    });
-    //设备记录
-    $(".table .chart").on('click', function () {
-        var deviceId = $(this).closest("tr").find("#deviceId").text();
-        window.location.href = recordUrl + "?" + $.param({"deviceId": deviceId});
-    });
-
-    $(".table .edit").on('click', function () {
-        var deviceId = $(this).closest("tr").find("#deviceId").text();
-        window.location.href = editUrl + "?" + $.param({"deviceId": deviceId});
-    });
 
 }
 
 
 // 查看详情
 function showDialog(_this) {
-    var dialog = $("#configDialog");
+    var dialog = $("#saveOrUpdateDialog");
     // 弹窗数据清空
     dialog.find(":input").val("");
     dialog.modal("show");
     // 获取选中行数据
     var rowNode = $(_this).closest("tr");
-    var deviceId = rowNode.find("#deviceId").text();
-    $.ajax({
-        type: "post",
-        url: configInfoUrl,
-        dataType: 'json',
-        data: {
-            "deviceId": deviceId
-        },
-        async: false,
-        success: function (data) {
-            if (data.status === 0) {
-                $.each(data.data, function (key, value) {
-                    console.log("设备配置信息---" + JSON.stringify(data.data));
-                    dialog.find("input[name='" + key + "']").val(value);
-                });
-
-
-            }
-        }
-    });
-
+    var menuId = rowNode.find("#id").text();
+    var moduleName = rowNode.find("#name").text();
+    var moduleUrl = rowNode.find("#url").text();
+    var isLink = rowNode.find("#isLink").prop('checked');
+    var parentId = rowNode.find("#parentId").text();
+    var icon = rowNode.find("#icon").text();
+    // 下来列表选中
+    dialog.find("input[name='parentModule']").val(parentId);
+    // 数据填充
+    dialog.find("input[type=hidden]").val(menuId);
+    dialog.find("input[name='name']").val(moduleName);
+    dialog.find("input[name='url']").val(moduleUrl);
+    dialog.find("input[type=checkbox]").prop('checked', isLink);
+    dialog.find("input[name='icon']").val(icon);
+    if ($(_this).hasClass("btn-xs")) {
+        dialog.find("h4").text("修改");
+    } else {
+        dialog.find("h4").text("添加");
+    }
+    var dialog_parentModule = dialog.find("#parentModule");
+    // 加载一级模块列表数据
+    var defaultHtml1 = '<option value="0" selected>根模块</option>';
+    loadModule(dialog_parentModule, 0, defaultHtml1);
 }
 
 function saveOrUpdate() {
-    var dialog = $("#configDialog");
+    var dialog = $("#saveOrUpdateDialog");
     // 弹窗数据清空
     var postData = {};
     postData.id = dialog.find("input[type=hidden]").val();

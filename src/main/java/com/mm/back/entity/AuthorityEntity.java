@@ -24,8 +24,8 @@ public class AuthorityEntity {
 	/**
 	 * 模块ID
 	 */
-	@Column(name = "module_id")
-	private String moduleId;
+	@Column(name = "menu_id")
+	private Integer menuId;
 	/**
 	 * 创建时间
 	 */
@@ -56,14 +56,36 @@ public class AuthorityEntity {
 	public void setRoleId(Integer roleId) {
 		this.roleId = roleId;
 	}
-	public String getModuleId() {
-		return moduleId;
-	}
-	public void setModuleId(String moduleId) {
-		this.moduleId = moduleId;
+
+	public Integer getMenuId() {
+		return menuId;
 	}
 
+	public void setMenuId(Integer menuId) {
+		this.menuId = menuId;
+	}
 
-	
+	public Date getGmtCreated() {
+		return gmtCreated;
+	}
 
+	public void setGmtCreated(Date gmtCreated) {
+		this.gmtCreated = gmtCreated;
+	}
+
+	public Date getGmtModified() {
+		return gmtModified;
+	}
+
+	public void setGmtModified(Date gmtModified) {
+		this.gmtModified = gmtModified;
+	}
+
+	public Integer getIsDel() {
+		return isDel;
+	}
+
+	public void setIsDel(Integer isDel) {
+		this.isDel = isDel;
+	}
 }

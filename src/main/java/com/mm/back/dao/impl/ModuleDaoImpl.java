@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import com.mm.back.common.AoData;
 import com.mm.back.constants.DeleteStatusEnum;
 import com.mm.back.constants.MenuEnum;
@@ -24,6 +25,7 @@ public class ModuleDaoImpl extends BaseDaoImpl<MenuEntity> implements ModuleDao 
      * @author chenyanlong
      * @date 2015年11月23日 下午2:33:08
      */
+    @Override
     public List<MenuEntity> getAllModules() {
         return this.find("from MenuEntity");
     }
@@ -35,8 +37,9 @@ public class ModuleDaoImpl extends BaseDaoImpl<MenuEntity> implements ModuleDao 
      * @author chenyanlong
      * @date 2015年11月23日 下午4:27:47
      */
+    @Override
     public List<MenuEntity> getModules(Set<Integer> values) {
-        return this.findIn("from MenuEntity where isDel=1 and  id in(:ids) order by level", "ids", values);
+        return this.findIn("from MenuEntity where isDel=0  and  id in(:ids) order by level", "ids", values);
     }
 
     /**
@@ -46,6 +49,7 @@ public class ModuleDaoImpl extends BaseDaoImpl<MenuEntity> implements ModuleDao 
      * @author chenyanlong
      * @date 2015年11月26日 上午9:45:13
      */
+    @Override
     public List<MenuEntity> getAllModules(Integer isDel) {
         StringBuilder hql = new StringBuilder();
         hql.append("from MenuEntity ");
@@ -65,6 +69,7 @@ public class ModuleDaoImpl extends BaseDaoImpl<MenuEntity> implements ModuleDao 
      * @author chenyanlong
      * @date 2015年11月25日 下午5:45:12
      */
+    @Override
     public List<MenuEntity> getModules(Integer parentId) {
 
         return this.find("from MenuEntity where parentId=? ", parentId);
@@ -77,6 +82,7 @@ public class ModuleDaoImpl extends BaseDaoImpl<MenuEntity> implements ModuleDao 
      * @author chenyanlong
      * @date 2015年11月25日 下午5:45:18
      */
+    @Override
     public AoData getPageModules(Integer parentId) {
         StringBuilder hql = new StringBuilder();
         hql.append("from MenuEntity ");
@@ -95,6 +101,7 @@ public class ModuleDaoImpl extends BaseDaoImpl<MenuEntity> implements ModuleDao 
      * @author chenyanlong
      * @date 2015年11月25日 下午5:45:18
      */
+    @Override
     public AoData getPageModules() {
         StringBuilder hql = new StringBuilder();
         hql.append("from MenuEntity  ");
@@ -108,6 +115,7 @@ public class ModuleDaoImpl extends BaseDaoImpl<MenuEntity> implements ModuleDao 
      * @author chenyanlong
      * @date 2015年11月27日 下午3:01:31
      */
+    @Transactional
     public MenuEntity updateEntity(MenuEntity menu) {
         MenuEntity menuEntity = this.get(MenuEntity.class, menu.getId());
         if (menuEntity != null) {
@@ -131,6 +139,8 @@ public class ModuleDaoImpl extends BaseDaoImpl<MenuEntity> implements ModuleDao 
      * @author chenyanlong
      * @date 2015年11月27日 下午3:01:50
      */
+    @Override
+    @Transactional
     public MenuEntity saveEntity(MenuEntity entity) {
         entity.setParentId(entity.getParentId() == null || entity.getParentId().equals(MenuEnum.ROOT)
                                    ? MenuEnum.ROOT : entity.getParentId());
@@ -152,6 +162,8 @@ public class ModuleDaoImpl extends BaseDaoImpl<MenuEntity> implements ModuleDao 
      * @author chenyanlong
      * @date 2015年11月27日 下午3:02:10
      */
+    @Override
+    @Transactional
     public void updateStatus(Integer moduleId, Integer isDel) {
         MenuEntity menuEntity = this.get(MenuEntity.class, moduleId);
         if (menuEntity != null) {
@@ -167,6 +179,7 @@ public class ModuleDaoImpl extends BaseDaoImpl<MenuEntity> implements ModuleDao 
      * @author chenyanlong
      * @date 2015年11月25日 下午5:45:18
      */
+    @Override
     public List<MenuEntity> getModulesByLevel(Integer level) {
         return this.find("from MenuEntity where level=? ", level);
     }
@@ -178,10 +191,12 @@ public class ModuleDaoImpl extends BaseDaoImpl<MenuEntity> implements ModuleDao 
      * @author chenyanlong
      * @date 2015年11月27日 下午4:55:39
      */
+    @Override
     public MenuEntity findById(Integer id) {
         return this.findById(id);
     }
 
+    @Transactional
     @Override
     public void del(Integer id) {
         MenuEntity entity = this.findById(id);
@@ -191,14 +206,15 @@ public class ModuleDaoImpl extends BaseDaoImpl<MenuEntity> implements ModuleDao 
     }
 
     /**
-     * @param url
+     * @param path
      * @return MenuEntity 返回类型
      * @Description:
      * @author chenyanlong
      * @date 2015年12月10日 下午4:26:52
      */
-    public MenuEntity getModuleByUrl(String url) {
-        return this.findFirst("from MenuEntity where url=?", url);
+    @Override
+    public MenuEntity getModuleByPath(String path) {
+        return this.findFirst("from MenuEntity where path=?", path);
     }
 
 }

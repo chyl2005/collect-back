@@ -93,25 +93,27 @@
                                             <td id="gmtModified" class="center"></td>
                                             <td class="center">
                                                 <label>
-                                                    <input name="switch-field-1" id="isDel" class="ace ace-switch ace-switch-2" type="checkbox">
+                                                    <input name="delStatus"  class="ace ace-switch ace-switch-2" type="checkbox">
                                                     <span class="lbl"></span>
                                                 </label>
                                             </td>
                                             <td class="center">
                                                 <div class="hidden-sm hidden-xs btn-group">
-                                                    <button class="btn btn-xs btn-success">
-                                                        <i class="ace-icon fa fa-check bigger-120"></i>
-                                                    </button>
 
-                                                    <button class="btn btn-xs btn-info">
+
+                                                    <button class="btn btn-xs btn-info edit">
                                                         <i class="ace-icon fa fa-pencil bigger-120"></i>
                                                     </button>
 
-                                                    <button class="btn btn-xs btn-danger">
+                                                    <button class="btn btn-xs btn-info config">
+                                                        <i class="ace-icon fa fa-cog bigger-120"></i>
+                                                    </button>
+
+                                                    <button class="btn btn-xs btn-danger del">
                                                         <i class="ace-icon fa fa-trash-o bigger-120"></i>
                                                     </button>
 
-                                                    <button class="btn btn-xs btn-warning">
+                                                    <button class="btn btn-xs btn-success chart">
                                                         <i class="ace-icon fa fa-line-chart bigger-120"></i>
                                                     </button>
                                                 </div>
@@ -145,7 +147,7 @@
 </div><!-- /.main-container -->
 
 
-<div class="modal fade" tabindex="-1" id="saveOrUpdateDialog" role="dialog" data-backdrop="static" aria-labelledby="myModalLabel">
+<div class="modal fade" tabindex="-1" id="configDialog" role="dialog" data-backdrop="static" aria-labelledby="myModalLabel">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -156,32 +158,72 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-xs-12 ">
-                        <input type="hidden" name="deviceId">
+                        <input type="hidden" name="deviceId" value="${deviceId}">
                         <div class="space-4"></div>
 
                         <form class="form-horizontal" role="form">
                             <div class="form-group">
-                                <label class="col-sm-3 control-label no-padding-right">用户名 </label>
+                                <label class="col-sm-3 control-label no-padding-right">IP: </label>
 
                                 <div class="col-sm-9">
-                                    <input type="text" placeholder="用户名" name="userName" class="col-xs-10 col-sm-5">
+                                    <input type="text" placeholder="IP" name="serverIp" class="col-xs-10 col-sm-5">
                                 </div>
                             </div>
 
 
                             <div class="form-group">
-                                <label class="col-sm-3 control-label no-padding-right">真实姓名 </label>
+                                <label class="col-sm-3 control-label no-padding-right">端口: </label>
 
                                 <div class="col-sm-9">
-                                    <input type="text" placeholder="真实姓名" name="trueName" class="col-xs-10 col-sm-5">
+                                    <input type="text" placeholder="端口" name="serverPort" class="col-xs-10 col-sm-5">
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="col-sm-3 control-label no-padding-right"> 密码 </label>
+                                <label class="col-sm-3 control-label no-padding-right"> 手机号1: </label>
 
                                 <div class="col-sm-9">
-                                    <input type="password" placeholder="密码" name="password" class="col-xs-10 col-sm-5">
+                                    <input type="text" placeholder="手机号1" name="phone_num1" class="col-xs-10 col-sm-5">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right"> 手机号2: </label>
+
+                                <div class="col-sm-9">
+                                    <input type="text" placeholder="手机号2" name="phone_num2" class="col-xs-10 col-sm-5">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right"> 传感器深度(m):</label>
+
+                                <div class="col-sm-9">
+                                    <input type="text" placeholder=" 传感器深度" name="sensorDepth" class="col-xs-10 col-sm-5">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right"> 地表高程(m): </label>
+
+                                <div class="col-sm-9">
+                                    <input type="text" placeholder="地表高程" name="surfaceHigh" class="col-xs-10 col-sm-5">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right"> 唤醒时间1: </label>
+
+                                <div class="col-sm-9">
+                                    <input type="text" placeholder="唤醒时间1" name="wakeupTime1" class="col-xs-10 col-sm-5">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right"> 唤醒时间2: </label>
+
+                                <div class="col-sm-9">
+                                    <input type="text" placeholder="唤醒时间2" name="wakeupTime2" class="col-xs-10 col-sm-5">
                                 </div>
                             </div>
                         </form>

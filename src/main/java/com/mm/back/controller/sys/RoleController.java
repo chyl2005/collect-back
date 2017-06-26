@@ -1,12 +1,16 @@
 package com.mm.back.controller.sys;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.mm.back.common.AoData;
 import com.mm.back.common.WebResponse;
+import com.mm.back.entity.AuthorityEntity;
 import com.mm.back.entity.RoleEntity;
+import com.mm.back.service.AuthorityService;
 import com.mm.back.service.ModuleService;
 import com.mm.back.service.RoleService;
 
@@ -25,7 +29,8 @@ public class RoleController {
 
     @Autowired
     private RoleService roleService;
-
+    @Autowired
+    private AuthorityService authorityService;
 
     @RequestMapping("/index")
     public String index() {
@@ -72,6 +77,24 @@ public class RoleController {
         WebResponse webResponse = WebResponse.getSuccessWebResponse();
         this.roleService.saveOrUpdate(entity);
         return webResponse;
+    }
+
+
+
+    /**
+     * @param list
+     * @return AuthorityEntity 返回类型
+     * @Description:
+     * @author chenyanlong
+     * @date 2016年3月16日 下午5:43:48
+     */
+    @RequestMapping("/saveAuth")
+    @ResponseBody
+    public WebResponse saveAuth(@RequestBody List<AuthorityEntity> list) {
+        WebResponse webResponse = WebResponse.getSuccessWebResponse();
+        this.authorityService.saveOrUpdateEntity(list);
+        return webResponse;
+
     }
 
 }

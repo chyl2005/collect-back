@@ -57,4 +57,9 @@ public class DeviceInfoServiceImpl implements DeviceInfoService {
         result.setDatas(responses);
         return result;
     }
+
+    @Override
+    public void updateDelStatus(Integer deviceId, Integer isDel) {
+        deviceInfoDao.updateDelStatus(deviceId,isDel);
+    }
 }

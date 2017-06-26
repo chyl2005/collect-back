@@ -26,4 +26,7 @@ public interface DeviceInfoService {
 
 
     AoData<List<DeviceInfoResponse>> getDeviceInfos();
+
+
+    void updateDelStatus(Integer deviceId,Integer isDel);
 }

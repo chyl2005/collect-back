@@ -7,9 +7,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
+import com.mm.back.common.Config;
 
 /**
  * Author:chenyanlong
@@ -21,6 +23,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 public class AccessControllAllowFilter extends OncePerRequestFilter {
     private static final Logger LOGGER = LoggerFactory.getLogger(AccessControllAllowFilter.class);
 
+    @Autowired
+    private Config config;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String origin = "*";
@@ -31,7 +35,7 @@ public class AccessControllAllowFilter extends OncePerRequestFilter {
         response.setHeader("Access-Control-Allow-Methods", "POST,GET,PUT,PATCH,DELETE,OPTIONS");
         response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         response.setHeader("Access-Control-Allow-Credentials", "true");
-        request.setAttribute("base","http://127.0.0.1:8080/back");
+        request.setAttribute("base",config.getBaseUrl());
         filterChain.doFilter(request, response);
     }
 }

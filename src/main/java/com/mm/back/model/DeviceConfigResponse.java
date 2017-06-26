@@ -12,7 +12,7 @@ import java.util.Date;
 public class DeviceConfigResponse {
 
     private Integer deviceId;
-    private Integer serverIp;
+    private String serverIp;
     private Integer serverPort;
     private String phoneNum1;
 
@@ -45,11 +45,11 @@ public class DeviceConfigResponse {
         this.deviceId = deviceId;
     }
 
-    public Integer getServerIp() {
+    public String getServerIp() {
         return serverIp;
     }
 
-    public void setServerIp(Integer serverIp) {
+    public void setServerIp(String serverIp) {
         this.serverIp = serverIp;
     }
 

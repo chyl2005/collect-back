@@ -16,8 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+import com.mm.back.common.ThreadLocalContext;
+import com.mm.back.common.ThreadLocalIndex;
 import com.mm.back.entity.MenuEntity;
 import com.mm.back.service.ModuleService;
+import com.mm.back.utils.JsonUtils;
 import com.mm.back.utils.UserUtils;
 
 /**
@@ -52,16 +55,23 @@ public class CheckPermissionInterceptor extends HandlerInterceptorAdapter {
 			actionPath = actionPath.startsWith("/") ? actionPath.substring(1, actionPath.length()) : actionPath;
 			actionPath=actionPath.endsWith("/")?actionPath.substring(0, actionPath.length()-1) : actionPath;
 		}
-		MenuEntity menuEntity = this.moduleService.getModuleByUrl(actionPath);
+		ThreadLocalContext.set(ThreadLocalIndex.EXTRA_PARAMS, UserUtils.getUser());
+		ThreadLocalContext.set(ThreadLocalIndex.PARAMSMAP, request.getParameterMap());
+		MenuEntity menuEntity = this.moduleService.getModuleByPath(actionPath);
 		if (null!= menuEntity) {
 			Integer moduleId = menuEntity.getId();
 			// 用户拥有权限的模块
 			Set<Integer> moduleIds = UserUtils.getMenuIds();
 			if (moduleIds.contains(moduleId)) {
-				request.setAttribute("module", menuEntity);
 				return true;
 			}
 		}
+		LOGGER.info("INVOKE->{} ,parameterMap:{} , METHOD:{}, REQUEST:{} ,EXTRAPARAMS:{}, IME COST:{}ms"
+				, request.getRequestURI()
+				, JsonUtils.object2Json(ThreadLocalContext.get(ThreadLocalIndex.PARAMSMAP))
+				, request.getMethod()
+				, ThreadLocalContext.get(ThreadLocalIndex.PARAMS)
+				, JsonUtils.object2Json(ThreadLocalContext.get(ThreadLocalIndex.EXTRA_PARAMS)));
 		 request.getRequestDispatcher("/noPermissionPage").forward(request, response);  
 		return false;
 	}

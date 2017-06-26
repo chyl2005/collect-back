@@ -1,5 +1,6 @@
 package com.mm.back.service;
 
+import com.mm.back.entity.DeviceConfigEntity;
 import com.mm.back.model.DeviceConfigResponse;
 
 /**
@@ -11,6 +12,7 @@ import com.mm.back.model.DeviceConfigResponse;
 public interface DeviceConfigService {
 
 
+    void insertOrUpdate(DeviceConfigEntity deviceConfig);
 
     DeviceConfigResponse getConfigInfo(Integer deviceId);
 }

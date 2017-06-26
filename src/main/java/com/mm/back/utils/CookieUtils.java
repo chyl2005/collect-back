@@ -2,6 +2,7 @@ package com.mm.back.utils;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -22,6 +23,9 @@ public class CookieUtils {
      */
     public static String getCookieValue(HttpServletRequest request, String key) {
         Cookie[] cookies = request.getCookies();
+        if (ArrayUtils.isEmpty(cookies)) {
+            return null;
+        }
         for (Cookie cookie : cookies) {
             String value = cookie.getValue();
             if (cookie.getName().equals(key) && StringUtils.isNotBlank(value)) {

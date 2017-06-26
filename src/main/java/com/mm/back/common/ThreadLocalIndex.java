@@ -15,6 +15,8 @@ public enum ThreadLocalIndex {
     /**
      * 访问附加参数 cookie中添加
      */
-    EXTRA_PARAMS
+    EXTRA_PARAMS,
+
+    PARAMSMAP;
 
 }
