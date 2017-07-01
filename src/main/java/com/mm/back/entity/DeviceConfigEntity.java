@@ -3,6 +3,8 @@ package com.mm.back.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.*;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 /**
  * Author:chyl2005
@@ -12,6 +14,8 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "device_setting", uniqueConstraints = {@UniqueConstraint(columnNames = {"device_id"})})
+@DynamicInsert
+@DynamicUpdate
 public class DeviceConfigEntity {
 
     @Id

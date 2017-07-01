@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import com.mm.back.common.AoData;
 import com.mm.back.common.ConvertUtils;
 import com.mm.back.dao.DeviceInfoDao;
@@ -30,6 +31,7 @@ public class DeviceRecordServiceImpl implements DeviceRecordService {
     @Autowired
     private DeviceInfoDao deviceInfoDao;
 
+    @Transactional
     @Override
     public void insertOrUpdate(DeviceRecordDto deviceRecordDto) {
         String deviceNum = deviceRecordDto.getDeviceNum();
@@ -70,7 +72,7 @@ public class DeviceRecordServiceImpl implements DeviceRecordService {
         DeviceRecordEntity record = new DeviceRecordEntity();
         String collectTime = deviceRecordDto.getCollectTime();
         Date collectDate = DateUtils.getDate(collectTime, DateUtils.YMD_HMS_FORMAT_DIAS);
-
+        record.setDeviceNum(deviceRecordDto.getDeviceNum());
         record.setDeviceId(deviceRecordDto.getDeviceId());
         record.setDatekey(DateUtils.getDatekey(collectDate));
         record.setCollectTime(collectDate);

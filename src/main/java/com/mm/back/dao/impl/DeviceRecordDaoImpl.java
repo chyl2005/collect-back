@@ -20,13 +20,14 @@ import com.mm.back.entity.DeviceRecordEntity;
 public class DeviceRecordDaoImpl extends BaseDaoImpl<DeviceRecordEntity> implements DeviceRecordDao {
     @Override
     public void insertOrUpdate(DeviceRecordEntity recordEntity) {
-        DeviceRecordEntity deviceRecord = this.findFirst("from DeviceRecordEntity where deviceId=? and datekey = ?", recordEntity.getDeviceId(), recordEntity.getDatekey());
+        DeviceRecordEntity deviceRecord = this.findFirst("from DeviceRecordEntity where deviceId=? and datekey =?", recordEntity.getDeviceId(), recordEntity.getDatekey());
         if (deviceRecord != null) {
             deviceRecord.setGmtModified(new Date());
             deviceRecord.setIsDel(DeleteStatusEnum.NOT_DEL.getCode());
             this.update(deviceRecord);
         } else {
             recordEntity.setGmtModified(new Date());
+            recordEntity.setGmtCreated(new Date());
             recordEntity.setIsDel(DeleteStatusEnum.NOT_DEL.getCode());
             this.save(recordEntity);
         }

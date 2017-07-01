@@ -3,6 +3,8 @@ package com.mm.back.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.*;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 /**
  * Author:chyl2005
@@ -11,7 +13,9 @@ import javax.persistence.*;
  * Desc:设备上传记录信息
  */
 @Entity
-@Table(name = "device_record ", uniqueConstraints = {@UniqueConstraint(columnNames = {"device_id", "datekey"})})
+@Table(name = "device_record")
+@DynamicInsert
+@DynamicUpdate
 public class DeviceRecordEntity {
 
     @Id
@@ -21,6 +25,7 @@ public class DeviceRecordEntity {
     /**
      *
      */
+
     @Column(name = "device_id")
     private Integer deviceId;
 
@@ -40,20 +45,13 @@ public class DeviceRecordEntity {
     @Column(name = "surface_high")
     private BigDecimal surfaceHigh;
 
-
     @Column(name = "water_high")
     private BigDecimal waterHigh;
     @Column(name = "water_depth")
     private BigDecimal waterDepth;
 
     /**
-     * 采集时间
-     */
-    @Column(name = "collect_time")
-    private Date collectTime;
-    /**
-     *
-     *气温
+     * 气温
      */
     @Column(name = "air_temperature")
     private BigDecimal airTemperature;
@@ -72,8 +70,14 @@ public class DeviceRecordEntity {
     /**
      * 信号
      */
-    @Column(name = "signal")
+    @Column(name = "signals")
     private BigDecimal signal;
+
+    /**
+     * 采集时间
+     */
+    @Column(name = "collect_time")
+    private Date collectTime;
     /**
      * 创建时间
      */
@@ -89,7 +93,6 @@ public class DeviceRecordEntity {
      */
     @Column(name = "is_del")
     private Integer isDel;
-
 
     public Integer getId() {
         return id;

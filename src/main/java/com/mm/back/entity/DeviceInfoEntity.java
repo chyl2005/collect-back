@@ -3,6 +3,8 @@ package com.mm.back.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.*;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 /**
  * Author:chyl2005
@@ -11,7 +13,9 @@ import javax.persistence.*;
  * Desc:设备基础信息
  */
 @Entity
-@Table(name = "device_info ")
+@Table(name = "device_info")
+@DynamicInsert
+@DynamicUpdate
 public class DeviceInfoEntity {
 
     @Id
