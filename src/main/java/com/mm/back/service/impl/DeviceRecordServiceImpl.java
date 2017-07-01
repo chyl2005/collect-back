@@ -3,6 +3,7 @@ package com.mm.back.service.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -71,7 +72,10 @@ public class DeviceRecordServiceImpl implements DeviceRecordService {
     private DeviceRecordEntity parseToDeviceRecordEntity(DeviceRecordDto deviceRecordDto) {
         DeviceRecordEntity record = new DeviceRecordEntity();
         String collectTime = deviceRecordDto.getCollectTime();
-        Date collectDate = DateUtils.getDate(collectTime, DateUtils.YMD_HMS_FORMAT_DIAS);
+        Date collectDate = new Date();
+        if (StringUtils.isNotBlank(collectTime)) {
+            collectDate = DateUtils.getDate(collectTime, DateUtils.YMD_HMS_FORMAT_DIAS);
+        }
         record.setDeviceNum(deviceRecordDto.getDeviceNum());
         record.setDeviceId(deviceRecordDto.getDeviceId());
         record.setDatekey(DateUtils.getDatekey(collectDate));
