@@ -1,7 +1,8 @@
 package com.mm.back.service;
 
 import com.mm.back.entity.DeviceConfigEntity;
-import com.mm.back.model.DeviceConfigResponse;
+import com.mm.back.dto.DeviceSettingDto;
+import com.mm.back.vo.DeviceConfigVo;
 
 /**
  * Author:chyl2005
@@ -14,5 +15,7 @@ public interface DeviceConfigService {
 
     void insertOrUpdate(DeviceConfigEntity deviceConfig);
 
-    DeviceConfigResponse getConfigInfo(Integer deviceId);
+    void insertOrUpdate(DeviceSettingDto deviceSettingDto);
+
+    DeviceConfigVo getConfigInfo(Integer deviceId);
 }

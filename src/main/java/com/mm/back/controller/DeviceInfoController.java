@@ -11,9 +11,10 @@ import com.mm.back.common.AoData;
 import com.mm.back.common.WebResponse;
 import com.mm.back.constants.DeleteStatusEnum;
 import com.mm.back.entity.DeviceInfoEntity;
-import com.mm.back.model.DeviceInfoResponse;
+import com.mm.back.dto.DeviceInfoDto;
 import com.mm.back.service.DeviceConfigService;
 import com.mm.back.service.DeviceInfoService;
+import com.mm.back.vo.DeviceInfoVo;
 
 /**
  * Author:chyl2005
@@ -65,7 +66,7 @@ public class DeviceInfoController {
     @ResponseBody
     public WebResponse list() {
         WebResponse webResponse = WebResponse.getSuccessWebResponse();
-        AoData<List<DeviceInfoResponse>> deviceInfos = deviceInfoService.getDeviceInfos();
+        AoData<List<DeviceInfoVo>> deviceInfos = deviceInfoService.getDeviceInfos();
         webResponse.setData(deviceInfos);
         return webResponse;
     }

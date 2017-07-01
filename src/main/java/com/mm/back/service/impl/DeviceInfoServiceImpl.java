@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import com.mm.back.common.AoData;
 import com.mm.back.common.ConvertUtils;
 import com.mm.back.dao.DeviceInfoDao;
 import com.mm.back.entity.DeviceInfoEntity;
-import com.mm.back.model.DeviceInfoResponse;
+import com.mm.back.dto.DeviceInfoDto;
+import com.mm.back.vo.DeviceInfoVo;
 import com.mm.back.service.DeviceInfoService;
 
 /**
@@ -30,10 +32,28 @@ public class DeviceInfoServiceImpl implements DeviceInfoService {
      * @return
      */
     @Override
-    public DeviceInfoResponse getDeviceInfo(Integer deviceId) {
+    public DeviceInfoVo getDeviceInfo(Integer deviceId) {
         DeviceInfoEntity deviceInfo = deviceInfoDao.getDeviceInfo(deviceId);
-        DeviceInfoResponse deviceInfoResponse = ConvertUtils.parseToDeviceInfoResponse(deviceInfo);
-        return deviceInfoResponse;
+        DeviceInfoVo deviceInfoDto = ConvertUtils.parseToDeviceInfoVo(deviceInfo);
+        return deviceInfoDto;
+    }
+
+    /**
+     *
+     * @param deviceInfoDto
+     * @return  设备ID
+     */
+    @Transactional
+    @Override
+    public Integer insertOrUpdate(DeviceInfoDto deviceInfoDto) {
+        DeviceInfoEntity deviceInfo = this.deviceInfoDao.getDeviceByDeviceNum(deviceInfoDto.getDeviceNum());
+        if (deviceInfo == null) {
+            deviceInfo=new DeviceInfoEntity();
+        }
+        deviceInfo.setDeviceNum(deviceInfoDto.getDeviceNum());
+        deviceInfo.setDeviceType(deviceInfoDto.getDeviceType());
+        insertOrUpdate(deviceInfo);
+        return deviceInfo.getId();
     }
 
     @Override
@@ -42,14 +62,14 @@ public class DeviceInfoServiceImpl implements DeviceInfoService {
     }
 
     @Override
-    public AoData<List<DeviceInfoResponse>> getDeviceInfos() {
+    public AoData<List<DeviceInfoVo>> getDeviceInfos() {
         AoData<List<DeviceInfoEntity>> aoData = this.deviceInfoDao.getDeviceInfos();
         List<DeviceInfoEntity> deviceInfos = aoData.getDatas();
-        ArrayList<DeviceInfoResponse> responses = new ArrayList<>();
+        ArrayList<DeviceInfoVo> responses = new ArrayList<>();
         for (DeviceInfoEntity deviceInfo : deviceInfos) {
-            responses.add(ConvertUtils.parseToDeviceInfoResponse(deviceInfo));
+            responses.add(ConvertUtils.parseToDeviceInfoVo(deviceInfo));
         }
-        AoData<List<DeviceInfoResponse>> result = new AoData<>();
+        AoData<List<DeviceInfoVo>> result = new AoData<>();
         result.setiDisplayLength(aoData.getiDisplayLength());
         result.setiTotalRecords(aoData.getiTotalRecords());
         result.setiTotalDisplayRecords(aoData.getiTotalDisplayRecords());

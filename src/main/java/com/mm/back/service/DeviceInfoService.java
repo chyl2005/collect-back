@@ -3,7 +3,8 @@ package com.mm.back.service;
 import java.util.List;
 import com.mm.back.common.AoData;
 import com.mm.back.entity.DeviceInfoEntity;
-import com.mm.back.model.DeviceInfoResponse;
+import com.mm.back.dto.DeviceInfoDto;
+import com.mm.back.vo.DeviceInfoVo;
 
 /**
  * Author:chyl2005
@@ -18,14 +19,17 @@ public interface DeviceInfoService {
      * @param deviceId
      * @return
      */
-    DeviceInfoResponse getDeviceInfo(Integer deviceId);
+    DeviceInfoVo getDeviceInfo(Integer deviceId);
 
 
+
+
+    Integer insertOrUpdate(DeviceInfoDto deviceInfoDto);
 
     void insertOrUpdate(DeviceInfoEntity deviceInfo);
 
 
-    AoData<List<DeviceInfoResponse>> getDeviceInfos();
+    AoData<List<DeviceInfoVo>> getDeviceInfos();
 
 
     void updateDelStatus(Integer deviceId,Integer isDel);

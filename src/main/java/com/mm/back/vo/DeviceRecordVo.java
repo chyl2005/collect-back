@@ -1,4 +1,4 @@
-package com.mm.back.model;
+package com.mm.back.vo;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -9,7 +9,7 @@ import java.util.Date;
  * Time:13:15
  * Desc:描述该类的作用
  */
-public class DeviceRecordResponse {
+public class DeviceRecordVo {
 
     /**
      * 设备ID
@@ -20,19 +20,43 @@ public class DeviceRecordResponse {
      */
     private Integer datekey;
     /**
+     * 地表高程
+     */
+    private BigDecimal surfaceHigh;
+    /**
+     * 传感器深度
+     */
+    private BigDecimal sensorDepth;
+
+    /**
+     * 水面高程
+     */
+    private BigDecimal waterHigh;
+    /**
+     * 水面埋深
+     */
+    private BigDecimal waterDepth;
+    /**
      * 气温
      */
     private BigDecimal airTemperature;
+
     /**
      * 水温
      */
     private BigDecimal waterTemperature;
-    /**
-     *
-     */
-    private BigDecimal waterHigh;
-    private BigDecimal waterDepth;
 
+    /**
+     * 电压
+     */
+    private BigDecimal voltage;
+
+    /**
+     * 信号
+     */
+    private BigDecimal signal;
+
+    private Date collectTime;
     /**
      * 创建时间
      */
@@ -116,5 +140,45 @@ public class DeviceRecordResponse {
 
     public void setIsDel(Integer isDel) {
         this.isDel = isDel;
+    }
+
+    public BigDecimal getSurfaceHigh() {
+        return surfaceHigh;
+    }
+
+    public void setSurfaceHigh(BigDecimal surfaceHigh) {
+        this.surfaceHigh = surfaceHigh;
+    }
+
+    public BigDecimal getSensorDepth() {
+        return sensorDepth;
+    }
+
+    public void setSensorDepth(BigDecimal sensorDepth) {
+        this.sensorDepth = sensorDepth;
+    }
+
+    public BigDecimal getVoltage() {
+        return voltage;
+    }
+
+    public void setVoltage(BigDecimal voltage) {
+        this.voltage = voltage;
+    }
+
+    public BigDecimal getSignal() {
+        return signal;
+    }
+
+    public void setSignal(BigDecimal signal) {
+        this.signal = signal;
+    }
+
+    public Date getCollectTime() {
+        return collectTime;
+    }
+
+    public void setCollectTime(Date collectTime) {
+        this.collectTime = collectTime;
     }
 }

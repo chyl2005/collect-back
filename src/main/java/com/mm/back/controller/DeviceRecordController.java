@@ -8,8 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.mm.back.common.WebResponse;
-import com.mm.back.model.DeviceRecordResponse;
+import com.mm.back.dto.DeviceRecordDto;
 import com.mm.back.service.DeviceRecordService;
+import com.mm.back.vo.DeviceRecordVo;
 
 /**
  * Author:chyl2005
@@ -35,7 +36,7 @@ public class DeviceRecordController {
     public WebResponse list(@RequestParam Integer deviceId,
                             @RequestParam Integer startTime, @RequestParam Integer endTime) {
         WebResponse webResponse = WebResponse.getSuccessWebResponse();
-        List<DeviceRecordResponse> records = deviceRecordService.getRecords(deviceId, startTime, endTime);
+        List<DeviceRecordVo> records = deviceRecordService.getRecords(deviceId, startTime, endTime);
         webResponse.setData(records);
         return webResponse;
     }

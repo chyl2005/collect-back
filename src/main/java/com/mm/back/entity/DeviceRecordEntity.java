@@ -23,25 +23,57 @@ public class DeviceRecordEntity {
      */
     @Column(name = "device_id")
     private Integer deviceId;
+
+    /**
+     * 设备编号
+     */
+    @Column(name = "device_num")
+    private String deviceNum;
     /**
      * 20170101
      */
     @Column(name = "datekey")
     private Integer datekey;
-    /**
-     *
-     *
-     */
-    @Column(name = "air_temperature")
-    private BigDecimal airTemperature;
 
-    @Column(name = "water_temperature")
-    private BigDecimal waterTemperature;
+    @Column(name = "sensor_depth")
+    private BigDecimal sensorDepth;
+    @Column(name = "surface_high")
+    private BigDecimal surfaceHigh;
+
+
     @Column(name = "water_high")
     private BigDecimal waterHigh;
     @Column(name = "water_depth")
     private BigDecimal waterDepth;
 
+    /**
+     * 采集时间
+     */
+    @Column(name = "collect_time")
+    private Date collectTime;
+    /**
+     *
+     *气温
+     */
+    @Column(name = "air_temperature")
+    private BigDecimal airTemperature;
+
+    /**
+     * 水温
+     */
+    @Column(name = "water_temperature")
+    private BigDecimal waterTemperature;
+    /**
+     * 电压
+     */
+    @Column(name = "voltage")
+    private BigDecimal voltage;
+
+    /**
+     * 信号
+     */
+    @Column(name = "signal")
+    private BigDecimal signal;
     /**
      * 创建时间
      */
@@ -57,6 +89,7 @@ public class DeviceRecordEntity {
      */
     @Column(name = "is_del")
     private Integer isDel;
+
 
     public Integer getId() {
         return id;
@@ -136,5 +169,53 @@ public class DeviceRecordEntity {
 
     public void setIsDel(Integer isDel) {
         this.isDel = isDel;
+    }
+
+    public BigDecimal getSensorDepth() {
+        return sensorDepth;
+    }
+
+    public void setSensorDepth(BigDecimal sensorDepth) {
+        this.sensorDepth = sensorDepth;
+    }
+
+    public BigDecimal getSurfaceHigh() {
+        return surfaceHigh;
+    }
+
+    public void setSurfaceHigh(BigDecimal surfaceHigh) {
+        this.surfaceHigh = surfaceHigh;
+    }
+
+    public Date getCollectTime() {
+        return collectTime;
+    }
+
+    public void setCollectTime(Date collectTime) {
+        this.collectTime = collectTime;
+    }
+
+    public BigDecimal getVoltage() {
+        return voltage;
+    }
+
+    public void setVoltage(BigDecimal voltage) {
+        this.voltage = voltage;
+    }
+
+    public BigDecimal getSignal() {
+        return signal;
+    }
+
+    public void setSignal(BigDecimal signal) {
+        this.signal = signal;
+    }
+
+    public String getDeviceNum() {
+        return deviceNum;
+    }
+
+    public void setDeviceNum(String deviceNum) {
+        this.deviceNum = deviceNum;
     }
 }

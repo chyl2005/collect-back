@@ -19,15 +19,10 @@ public class DeviceInfoEntity {
     @Column(name = "id")
     private Integer id;
     /**
-     * 如井号
-     */
-    @Column(name = "serial_num")
-    private Integer serialNum;
-    /**
      * 设备硬件编号
      */
     @Column(name = "device_num")
-    private Integer deviceNum;
+    private String deviceNum;
     /**
      * 设备类型
      *
@@ -42,20 +37,20 @@ public class DeviceInfoEntity {
     @Column(name = "city_id")
     private Integer cityId;
     @Column(name = "city_name")
-    private Integer cityName;
+    private String cityName;
     @Column(name = "province_id")
     private Integer provinceId;
     @Column(name = "province_name")
-    private Integer provinceName;
+    private String provinceName;
     /**
      * 创建时间
      */
-    @Column(name="gmt_created")
+    @Column(name = "gmt_created")
     private Date gmtCreated;
     /**
      * 修改时间
      */
-    @Column(name="gmt_modified")
+    @Column(name = "gmt_modified")
     private Date gmtModified;
 
     /**
@@ -72,19 +67,12 @@ public class DeviceInfoEntity {
         this.id = id;
     }
 
-    public Integer getSerialNum() {
-        return serialNum;
-    }
 
-    public void setSerialNum(Integer serialNum) {
-        this.serialNum = serialNum;
-    }
-
-    public Integer getDeviceNum() {
+    public String getDeviceNum() {
         return deviceNum;
     }
 
-    public void setDeviceNum(Integer deviceNum) {
+    public void setDeviceNum(String deviceNum) {
         this.deviceNum = deviceNum;
     }
 
@@ -120,11 +108,11 @@ public class DeviceInfoEntity {
         this.cityId = cityId;
     }
 
-    public Integer getCityName() {
+    public String getCityName() {
         return cityName;
     }
 
-    public void setCityName(Integer cityName) {
+    public void setCityName(String cityName) {
         this.cityName = cityName;
     }
 
@@ -136,11 +124,11 @@ public class DeviceInfoEntity {
         this.provinceId = provinceId;
     }
 
-    public Integer getProvinceName() {
+    public String getProvinceName() {
         return provinceName;
     }
 
-    public void setProvinceName(Integer provinceName) {
+    public void setProvinceName(String provinceName) {
         this.provinceName = provinceName;
     }
 

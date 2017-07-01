@@ -8,9 +8,6 @@ import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.util.concurrent.GlobalEventExecutor;
 
 import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -19,9 +16,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.mm.back.service.HandlerMessageService;
-import com.mm.back.constants.ClientConst;
 import com.mm.back.constants.CommandEnum;
+import com.mm.back.service.impl.HandlerMessageService;
 
 /**
  * Author:chyl2005
@@ -36,29 +32,32 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
 
     public static ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
 
-    private static Map<String, Integer> clientOKNum = new HashMap<>();
+    public static Map<String, Integer> clientOKNum = new HashMap<>();
 
     @Autowired
     private HandlerMessageService messageService;
     /**
      * ip地址-设备硬件编号映射
      */
-    private static Map<String, String> addressToDeviceNumMap = new ConcurrentHashMap<>();
+    public static Map<String, String> addressToDeviceNumMap = new ConcurrentHashMap<>();
 
     @Override
-    public void handlerAdded(ChannelHandlerContext ctx) throws Exception {  // (2)
+    public void handlerAdded(ChannelHandlerContext channelHandlerContext) throws Exception {
         //        Channel incoming = ctx.channel();
         //        for (Channel channel : channels) {
         //            channel.writeAndFlush("[SERVER] - " + incoming.remoteAddress() + " 加入\n");
         //        }
-        //设备连接时 发送获取硬件编号指令
-        ctx.writeAndFlush(CommandEnum.QUERY_DEVICE_NUM);
-        LOGGER.info("客户端ip={} 新增", ctx.channel().remoteAddress().toString());
-        channels.add(ctx.channel());
+        //设备连接时  查询设备参数
+        channelHandlerContext.writeAndFlush(CommandEnum.QUERY_PARAM.getCommond());
+        //地址到 设备号映射
+        addressToDeviceNumMap.put(channelHandlerContext.channel().remoteAddress().toString(), "");
+
+        LOGGER.info("客户端ip={} 新增", channelHandlerContext.channel().remoteAddress().toString());
+        channels.add(channelHandlerContext.channel());
     }
 
     @Override
-    public void handlerRemoved(ChannelHandlerContext ctx) throws Exception {  // (3)
+    public void handlerRemoved(ChannelHandlerContext ctx) throws Exception {
         //        Channel incoming = ctx.channel();
         //                for (Channel channel : channels) {
         //                    channel.writeAndFlush("[SERVER] - " + incoming.remoteAddress() + " 离开\n");
@@ -72,31 +71,25 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
 
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, String message) throws Exception {
+        String noWhitespaceMessage = StringUtils.deleteWhitespace(message);
         String msg = new String(message.getBytes("gbk"), "utf-8");
-
-        //判断返回消息类型
-        if (message.contains(ClientConst.DEVICE_NUM.getName())) {
-            String[] split = message.split("：");
-            addressToDeviceNumMap.put(channelHandlerContext.channel().remoteAddress().toString(), split[1]);
-        }else {
-            String deviceNum = addressToDeviceNumMap.get(channelHandlerContext.channel().remoteAddress().toString());
-            messageService.handlerMessage(deviceNum,message);
+        //命令编号
+        String address = channelHandlerContext.channel().remoteAddress().toString();
+        if (message.contains("commandNum")) {
+            messageService.handlerMessage(noWhitespaceMessage, address);
+        }
+        //发送设置信息
+        if (message.contains("ok")) {
+            String deviceNum = addressToDeviceNumMap.get(address);
+            LOGGER.info("ServerHandler.channelRead0 address={}  deviceNum={}", address, deviceNum);
+            String sendmsg = messageService.sendMessage(deviceNum);
+            channelHandlerContext.writeAndFlush(sendmsg);
         }
 
         // 收到消息直接打印输出
         LOGGER.info(channelHandlerContext.channel().remoteAddress() + " Say : " + message);
-        // 返回客户端消息 - 我已经接收到了你的消息
-        if (StringUtils.isNotBlank(message) && message.equals("OK")) {
-            Integer oknum = clientOKNum.get(channelHandlerContext.channel().remoteAddress().toString());
-            if (oknum == null || oknum > 5) {
-                oknum = new Integer(0);
-            }
-            channelHandlerContext.writeAndFlush(CommandEnum.commonds.get(oknum) + "\r\n");
-            oknum++;
-            clientOKNum.put(channelHandlerContext.channel().remoteAddress().toString(), oknum);
 
-        }
-        channelHandlerContext.writeAndFlush("Received your message :" + message + "!\n");
+        channelHandlerContext.writeAndFlush("Received your message :" + message + "!");
     }
 
     /*
@@ -117,32 +110,10 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        super.exceptionCaught(ctx, cause);
-        //LOGGER.error("exceptionCaught ", cause);
-        //ctx.close();
-    }
+        //super.exceptionCaught(ctx, cause);
+        ctx.writeAndFlush("server error");
+        LOGGER.error("ServerHandler.exceptionCaught  ", cause);
 
-    /**
-     * Get host IP address
-     *
-     * @return IP Address
-     */
-    private InetAddress getAddress() {
-        try {
-            for (Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces(); interfaces.hasMoreElements(); ) {
-                NetworkInterface networkInterface = interfaces.nextElement();
-                if (networkInterface.isLoopback() || networkInterface.isVirtual() || !networkInterface.isUp()) {
-                    continue;
-                }
-                Enumeration<InetAddress> addresses = networkInterface.getInetAddresses();
-                if (addresses.hasMoreElements()) {
-                    return addresses.nextElement();
-                }
-            }
-        } catch (SocketException e) {
-            LOGGER.info("Error when getting host ip address: <{}>.", e.getMessage());
-        }
-        return null;
     }
 
 }

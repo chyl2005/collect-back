@@ -1,13 +1,10 @@
 package com.mm.back.common;
 
-import com.mm.back.entity.DeviceConfigEntity;
-import com.mm.back.entity.DeviceInfoEntity;
-import com.mm.back.entity.DeviceRecordEntity;
-import com.mm.back.entity.UserEntity;
-import com.mm.back.model.DeviceConfigResponse;
-import com.mm.back.model.DeviceInfoResponse;
-import com.mm.back.model.DeviceRecordResponse;
-import com.mm.back.model.UserResponse;
+import com.mm.back.entity.*;
+import com.mm.back.vo.DeviceConfigVo;
+import com.mm.back.vo.DeviceInfoVo;
+import com.mm.back.vo.DeviceRecordVo;
+import com.mm.back.vo.UserVo;
 
 /**
  * Author:chyl2005
@@ -20,19 +17,19 @@ public class ConvertUtils {
     private ConvertUtils() {
     }
 
-    public static UserResponse parseToUserResponse(UserEntity userEntity) {
-        UserResponse userResponse = new UserResponse();
-        userResponse.setUserId(userEntity.getId());
-        userResponse.setUserName(userEntity.getUserName());
-        userResponse.setTrueName(userEntity.getTrueName());
-        userResponse.setGmtCreated(userEntity.getGmtCreated());
-        userResponse.setGmtModified(userEntity.getGmtModified());
-        userResponse.setIsDel(userEntity.getIsDel());
-        return userResponse;
+    public static UserVo parseToUserResponse(UserEntity userEntity) {
+        UserVo userVo = new UserVo();
+        userVo.setUserId(userEntity.getId());
+        userVo.setUserName(userEntity.getUserName());
+        userVo.setTrueName(userEntity.getTrueName());
+        userVo.setGmtCreated(userEntity.getGmtCreated());
+        userVo.setGmtModified(userEntity.getGmtModified());
+        userVo.setIsDel(userEntity.getIsDel());
+        return userVo;
     }
 
-    public static DeviceInfoResponse parseToDeviceInfoResponse(DeviceInfoEntity deviceInfoEntity) {
-        DeviceInfoResponse deviceInfo = new DeviceInfoResponse();
+    public static DeviceInfoVo parseToDeviceInfoVo(DeviceInfoEntity deviceInfoEntity) {
+        DeviceInfoVo deviceInfo = new DeviceInfoVo();
         deviceInfo.setDeviceId(deviceInfoEntity.getId());
         deviceInfo.setDeviceNum(deviceInfoEntity.getDeviceNum());
         deviceInfo.setGmtCreated(deviceInfoEntity.getGmtCreated());
@@ -42,14 +39,13 @@ public class ConvertUtils {
         deviceInfo.setProvinceId(deviceInfoEntity.getProvinceId());
         deviceInfo.setProvinceName(deviceInfoEntity.getProvinceName());
         deviceInfo.setDeviceType(deviceInfoEntity.getDeviceType());
-        deviceInfo.setSerialNum(deviceInfoEntity.getSerialNum());
         deviceInfo.setLatitude(deviceInfoEntity.getLatitude());
         deviceInfo.setLongitude(deviceInfoEntity.getLongitude());
         return deviceInfo;
     }
 
-    public static DeviceConfigResponse parseToDeviceConfigResponse(DeviceConfigEntity configEntity) {
-        DeviceConfigResponse configResponse = new DeviceConfigResponse();
+    public static DeviceConfigVo parseToDeviceConfigVo(DeviceConfigEntity configEntity) {
+        DeviceConfigVo configResponse = new DeviceConfigVo();
         configResponse.setDeviceId(configEntity.getDeviceId());
         configResponse.setPhoneNum1(configEntity.getPhoneNum1());
         configResponse.setPhoneNum2(configEntity.getPhoneNum2());
@@ -62,20 +58,30 @@ public class ConvertUtils {
         configResponse.setGmtCreated(configEntity.getGmtCreated());
         configResponse.setGmtModified(configEntity.getGmtModified());
         configResponse.setIsDel(configEntity.getIsDel());
+        configResponse.setLinearCoefficient(configEntity.getLinearCoefficient());
+        configResponse.setSoftwareVersion(configEntity.getSoftwareVersion());
+        configResponse.setSerialNum(configEntity.getSerialNum());
         return configResponse;
     }
 
-    public static DeviceRecordResponse parseToDeviceRecordResponse(DeviceRecordEntity recordEntity) {
-        DeviceRecordResponse recordResponse = new DeviceRecordResponse();
-        recordResponse.setDeviceId(recordEntity.getDeviceId());
-        recordResponse.setDatekey(recordEntity.getDatekey());
-        recordResponse.setAirTemperature(recordEntity.getAirTemperature());
-        recordResponse.setWaterDepth(recordEntity.getWaterDepth());
-        recordResponse.setWaterHigh(recordEntity.getWaterHigh());
-        recordResponse.setWaterTemperature(recordEntity.getWaterTemperature());
-        recordResponse.setGmtCreated(recordEntity.getGmtCreated());
-        recordResponse.setGmtModified(recordEntity.getGmtModified());
-        recordResponse.setIsDel(recordEntity.getIsDel());
-        return recordResponse;
+
+
+    public static DeviceRecordVo parseToDeviceRecordVo(DeviceRecordEntity recordEntity) {
+        DeviceRecordVo recordVo = new DeviceRecordVo();
+        recordVo.setDeviceId(recordEntity.getDeviceId());
+        recordVo.setDatekey(recordEntity.getDatekey());
+        recordVo.setSensorDepth(recordEntity.getSensorDepth());
+        recordVo.setSurfaceHigh(recordEntity.getSurfaceHigh());
+        recordVo.setWaterDepth(recordEntity.getWaterDepth());
+        recordVo.setWaterHigh(recordEntity.getWaterHigh());
+        recordVo.setAirTemperature(recordEntity.getAirTemperature());
+        recordVo.setWaterTemperature(recordEntity.getWaterTemperature());
+        recordVo.setVoltage(recordEntity.getVoltage());
+        recordVo.setSignal(recordEntity.getSignal());
+        recordVo.setCollectTime(recordEntity.getCollectTime());
+        recordVo.setGmtCreated(recordEntity.getGmtCreated());
+        recordVo.setGmtModified(recordEntity.getGmtModified());
+        recordVo.setIsDel(recordEntity.getIsDel());
+        return recordVo;
     }
 }

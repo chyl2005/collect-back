@@ -1,4 +1,4 @@
-package com.mm.back.model;
+package com.mm.back.vo;
 
 import java.util.Date;
 import java.util.List;
@@ -9,7 +9,7 @@ import java.util.List;
  * Time:12:19
  * Desc:描述该类的作用
  */
-public class UserResponse {
+public class UserVo {
 
 
 

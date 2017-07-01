@@ -16,6 +16,11 @@ public interface DeviceInfoDao {
 
     DeviceInfoEntity getDeviceInfo(Integer deviceId);
 
+    DeviceInfoEntity getDeviceByDeviceNum(String deviceNum);
+
+
+
+
     AoData<List<DeviceInfoEntity>> getDeviceInfos();
 
 

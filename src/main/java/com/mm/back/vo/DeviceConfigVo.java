@@ -1,7 +1,8 @@
-package com.mm.back.model;
+package com.mm.back.vo;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import javax.persistence.Column;
 
 /**
  * Author:chyl2005
@@ -9,18 +10,25 @@ import java.util.Date;
  * Time:13:08
  * Desc:设备配置信息
  */
-public class DeviceConfigResponse {
+public class DeviceConfigVo {
 
     private Integer deviceId;
-    private String serverIp;
-    private Integer serverPort;
+    /**
+     * 井号
+     */
+    private Integer serialNum;
     private String phoneNum1;
-
     private String phoneNum2;
     private BigDecimal sensorDepth;
     private BigDecimal surfaceHigh;
+    private String serverIp;
+    private Integer serverPort;
     private String wakeupTime1;
     private String wakeupTime2;
+
+    private BigDecimal linearCoefficient;
+    private String softwareVersion;
+
 
     /**
      * 创建时间
@@ -131,5 +139,29 @@ public class DeviceConfigResponse {
 
     public void setIsDel(Integer isDel) {
         this.isDel = isDel;
+    }
+
+    public BigDecimal getLinearCoefficient() {
+        return linearCoefficient;
+    }
+
+    public void setLinearCoefficient(BigDecimal linearCoefficient) {
+        this.linearCoefficient = linearCoefficient;
+    }
+
+    public String getSoftwareVersion() {
+        return softwareVersion;
+    }
+
+    public void setSoftwareVersion(String softwareVersion) {
+        this.softwareVersion = softwareVersion;
+    }
+
+    public Integer getSerialNum() {
+        return serialNum;
+    }
+
+    public void setSerialNum(Integer serialNum) {
+        this.serialNum = serialNum;
     }
 }

@@ -60,6 +60,7 @@
         <mvc:interceptor>
             <mvc:mapping path="/**"/>
             <mvc:exclude-mapping path="/api/**"/>
+            <mvc:exclude-mapping path="/test/**"/>
             <mvc:exclude-mapping path="/isLogin/**"/>
             <mvc:exclude-mapping path="/assets/**"/>
             <mvc:exclude-mapping path="/doc/**"/>
@@ -72,6 +73,7 @@
         <mvc:interceptor>
             <mvc:mapping path="/**"/>
             <mvc:exclude-mapping path="/api/**"/>
+            <mvc:exclude-mapping path="/test/**"/>
             <mvc:exclude-mapping path="/isLogin/**"/>
             <mvc:exclude-mapping path="/assets/**"/>
             <mvc:exclude-mapping path="/doc/**"/>

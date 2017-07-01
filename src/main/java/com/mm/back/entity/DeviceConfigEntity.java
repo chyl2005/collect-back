@@ -11,7 +11,7 @@ import javax.persistence.*;
  * Desc:设备参数信息
  */
 @Entity
-@Table(name = "device_config ", uniqueConstraints = {@UniqueConstraint(columnNames = {"device_id"})})
+@Table(name = "device_setting", uniqueConstraints = {@UniqueConstraint(columnNames = {"device_id"})})
 public class DeviceConfigEntity {
 
     @Id
@@ -19,10 +19,14 @@ public class DeviceConfigEntity {
     @Column(name = "id")
     private Integer id;
     /**
-     * DeviceInfoEntity id
+     * 如井号
      */
+    @Column(name = "serial_num")
+    private Integer serialNum;
+
     @Column(name = "device_id")
     private Integer deviceId;
+
     @Column(name = "server_ip")
     private String serverIp;
     @Column(name = "server_port")
@@ -40,21 +44,28 @@ public class DeviceConfigEntity {
     private String wakeupTime1;
     @Column(name = "wakeup_time2")
     private String wakeupTime2;
-
+    @Column(name = "linear_coefficient")
+    private BigDecimal linearCoefficient;
+    @Column(name = "software_version")
+    private String softwareVersion;
     /**
      * 创建时间
      */
-    @Column(name="gmt_created")
+    @Column(name = "gmt_created")
     private Date gmtCreated;
     /**
      * 修改时间
      */
-    @Column(name="gmt_modified")
+    @Column(name = "gmt_modified")
     private Date gmtModified;
+
+    @Column(name = "is_running")
+    private Integer isRunning;
+
     /**
      * 删除标记
      */
-    @Column(name="is_del")
+    @Column(name = "is_del")
     private Integer isDel;
 
     public Integer getId() {
@@ -159,5 +170,37 @@ public class DeviceConfigEntity {
 
     public void setPhoneNum2(String phoneNum2) {
         this.phoneNum2 = phoneNum2;
+    }
+
+    public BigDecimal getLinearCoefficient() {
+        return linearCoefficient;
+    }
+
+    public void setLinearCoefficient(BigDecimal linearCoefficient) {
+        this.linearCoefficient = linearCoefficient;
+    }
+
+    public String getSoftwareVersion() {
+        return softwareVersion;
+    }
+
+    public void setSoftwareVersion(String softwareVersion) {
+        this.softwareVersion = softwareVersion;
+    }
+
+    public Integer getIsRunning() {
+        return isRunning;
+    }
+
+    public void setIsRunning(Integer isRunning) {
+        this.isRunning = isRunning;
+    }
+
+    public Integer getSerialNum() {
+        return serialNum;
+    }
+
+    public void setSerialNum(Integer serialNum) {
+        this.serialNum = serialNum;
     }
 }

@@ -1,4 +1,4 @@
-package com.mm.back.model;
+package com.mm.back.vo;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -9,7 +9,7 @@ import java.util.Date;
  * Time:13:08
  * Desc:描述该类的作用
  */
-public class DeviceInfoResponse {
+public class DeviceInfoVo {
 
 
     private Integer deviceId;
@@ -20,7 +20,7 @@ public class DeviceInfoResponse {
     /**
      * 设备硬件编号
      */
-    private Integer deviceNum;
+    private String deviceNum;
     /**
      * 设备类型
      *
@@ -30,9 +30,9 @@ public class DeviceInfoResponse {
     private BigDecimal latitude;
     private BigDecimal longitude;
     private Integer cityId;
-    private Integer cityName;
+    private String cityName;
     private Integer provinceId;
-    private Integer provinceName;
+    private String provinceName;
     /**
      * 创建时间
      */
@@ -64,11 +64,11 @@ public class DeviceInfoResponse {
         this.serialNum = serialNum;
     }
 
-    public Integer getDeviceNum() {
+    public String getDeviceNum() {
         return deviceNum;
     }
 
-    public void setDeviceNum(Integer deviceNum) {
+    public void setDeviceNum(String deviceNum) {
         this.deviceNum = deviceNum;
     }
 
@@ -104,11 +104,11 @@ public class DeviceInfoResponse {
         this.cityId = cityId;
     }
 
-    public Integer getCityName() {
+    public String getCityName() {
         return cityName;
     }
 
-    public void setCityName(Integer cityName) {
+    public void setCityName(String cityName) {
         this.cityName = cityName;
     }
 
@@ -120,11 +120,11 @@ public class DeviceInfoResponse {
         this.provinceId = provinceId;
     }
 
-    public Integer getProvinceName() {
+    public String getProvinceName() {
         return provinceName;
     }
 
-    public void setProvinceName(Integer provinceName) {
+    public void setProvinceName(String provinceName) {
         this.provinceName = provinceName;
     }
 

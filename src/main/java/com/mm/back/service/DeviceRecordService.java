@@ -2,7 +2,8 @@ package com.mm.back.service;
 
 import java.util.List;
 import com.mm.back.common.AoData;
-import com.mm.back.model.DeviceRecordResponse;
+import com.mm.back.dto.DeviceRecordDto;
+import com.mm.back.vo.DeviceRecordVo;
 
 /**
  * Author:chyl2005
@@ -12,7 +13,11 @@ import com.mm.back.model.DeviceRecordResponse;
  */
 public interface DeviceRecordService {
 
-    List<DeviceRecordResponse> getRecords(Integer deviceId, Integer startTime, Integer endTime);
 
-    AoData<List<DeviceRecordResponse>> getPageRecords(Integer deviceId, Integer startTime, Integer endTime);
+
+    void insertOrUpdate(DeviceRecordDto deviceRecordDto);
+
+    List<DeviceRecordVo> getRecords(Integer deviceId, Integer startTime, Integer endTime);
+
+    AoData<List<DeviceRecordVo>> getPageRecords(Integer deviceId, Integer startTime, Integer endTime);
 }

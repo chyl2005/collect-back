@@ -2,6 +2,7 @@ package com.mm.back.dao.impl;
 
 import java.util.Date;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import com.mm.back.constants.DeleteStatusEnum;
 import com.mm.back.dao.DeviceConfigDao;
 import com.mm.back.entity.DeviceConfigEntity;
@@ -18,6 +19,7 @@ public class DeviceConfigDaoImpl extends BaseDaoImpl<DeviceConfigEntity> impleme
     /**
      * @param deviceConfig
      */
+    @Transactional
     @Override
     public void insertOrUpdate(DeviceConfigEntity deviceConfig) {
         DeviceConfigEntity device = this.findFirst("from DeviceConfigEntity where deviceId=?", deviceConfig.getDeviceId());
@@ -34,6 +36,9 @@ public class DeviceConfigDaoImpl extends BaseDaoImpl<DeviceConfigEntity> impleme
             device.setIsDel(DeleteStatusEnum.NOT_DEL.getCode());
             this.update(device);
         } else {
+            deviceConfig.setIsDel(DeleteStatusEnum.NOT_DEL.getCode());
+            deviceConfig.setGmtCreated(new Date());
+            deviceConfig.setGmtModified(new Date());
             this.save(deviceConfig);
         }
 

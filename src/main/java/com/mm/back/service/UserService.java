@@ -16,7 +16,7 @@ import com.mm.back.dao.impl.UserRoleDaoImpl;
 import com.mm.back.entity.RoleEntity;
 import com.mm.back.entity.UserEntity;
 import com.mm.back.entity.UserRoleEntity;
-import com.mm.back.model.UserResponse;
+import com.mm.back.vo.UserVo;
 import com.mm.back.utils.MD5Utils;
 
 @Service("userService")
@@ -61,10 +61,10 @@ public class UserService {
         //角色表
         List<RoleEntity> roleEntities = this.roleDaoImpl.getRoleByRoleIds(roleIds);
         Map<Integer, RoleEntity> roleMap = roleEntities.stream().collect(Collectors.toMap(role -> role.getId(), role -> role));
-        List<UserResponse> userResponses = new ArrayList<>();
+        List<UserVo> userVos = new ArrayList<>();
         //组装数据
         for (UserEntity user : userList) {
-            UserResponse userResponse = ConvertUtils.parseToUserResponse(user);
+            UserVo userVo = ConvertUtils.parseToUserResponse(user);
             List<Integer> roles = userRoleMap.get(user.getId());
             List<String> roleNames = new ArrayList<>();
             if (CollectionUtils.isNotEmpty(roles)) {
@@ -75,8 +75,8 @@ public class UserService {
                     }
                 }
             }
-            userResponse.setRoleName(roleNames);
-            userResponses.add(userResponse);
+            userVo.setRoleName(roleNames);
+            userVos.add(userVo);
         }
         return aoData;
     }

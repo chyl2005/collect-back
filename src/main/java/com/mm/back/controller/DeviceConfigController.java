@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.mm.back.common.WebResponse;
 import com.mm.back.entity.DeviceConfigEntity;
-import com.mm.back.model.DeviceConfigResponse;
 import com.mm.back.service.DeviceConfigService;
+import com.mm.back.vo.DeviceConfigVo;
 
 /**
  * Author:chyl2005
@@ -35,7 +35,7 @@ public class DeviceConfigController {
     @ResponseBody
     public WebResponse getConfigInfo(@RequestParam Integer deviceId) {
         WebResponse webResponse = WebResponse.getSuccessWebResponse();
-        DeviceConfigResponse configInfo = deviceConfigService.getConfigInfo(deviceId);
+        DeviceConfigVo configInfo = deviceConfigService.getConfigInfo(deviceId);
         webResponse.setData(configInfo);
         return webResponse;
 

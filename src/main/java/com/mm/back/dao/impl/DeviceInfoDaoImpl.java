@@ -27,14 +27,18 @@ public class DeviceInfoDaoImpl extends BaseDaoImpl<DeviceInfoEntity> implements 
             deviceInfo.setGmtCreated(new Date());
             this.save(deviceInfo);
         }
-        this.saveOrUpdate(deviceInfo);
-
     }
 
     @Override
     public DeviceInfoEntity getDeviceInfo(Integer deviceId) {
         DeviceInfoEntity entity = this.get(DeviceInfoEntity.class, deviceId);
         return entity;
+    }
+
+    @Override
+    public DeviceInfoEntity getDeviceByDeviceNum(String deviceNum) {
+        return this.findFirst("from DeviceInfoEntity where deviceNum=?", deviceNum);
+
     }
 
     @Override

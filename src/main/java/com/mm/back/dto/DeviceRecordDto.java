@@ -1,34 +1,32 @@
 package com.mm.back.dto;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
 /**
  * Author:chyl2005
- * Date:17/4/16
- * Time:09:06
- * 设备上传记录信息
+ * Date:17/6/15
+ * Time:13:15
+ * Desc:描述该类的作用
  */
-public class UploadRecordDto {
+public class DeviceRecordDto {
 
+    /**
+     * 设备ID
+     */
+    private Integer deviceId;
     /**
      * 设备编号
      */
-    private Integer deviceNum;
+    private String deviceNum;
 
     /**
-     * 序列号
+     * 井号
      */
-    private Integer serialNum;
+    private Integer wellNum;
     /**
-     * 设备类型
+     * 时间格式   2017/4/21/9/45/55
      */
-    private Integer deviceType;
-
-    /**
-     * 上传时间
-     */
-    private Date uploadTime;
+    private String collectTime;
 
     /**
      * 地表高程
@@ -38,7 +36,6 @@ public class UploadRecordDto {
      * 传感器深度
      */
     private BigDecimal sensorDepth;
-
 
     /**
      * 水面高程
@@ -68,38 +65,28 @@ public class UploadRecordDto {
      */
     private BigDecimal signal;
 
-    /**
-     * 经度
-     */
-    private BigDecimal longitude;
-
-    /**
-     * 纬度
-     */
-    private BigDecimal latitude;
-
-    public Integer getDeviceNum() {
+    public String getDeviceNum() {
         return deviceNum;
     }
 
-    public void setDeviceNum(Integer deviceNum) {
+    public void setDeviceNum(String deviceNum) {
         this.deviceNum = deviceNum;
     }
 
-    public Integer getDeviceType() {
-        return deviceType;
+    public Integer getWellNum() {
+        return wellNum;
     }
 
-    public void setDeviceType(Integer deviceType) {
-        this.deviceType = deviceType;
+    public void setWellNum(Integer wellNum) {
+        this.wellNum = wellNum;
     }
 
-    public Date getUploadTime() {
-        return uploadTime;
+    public String getCollectTime() {
+        return collectTime;
     }
 
-    public void setUploadTime(Date uploadTime) {
-        this.uploadTime = uploadTime;
+    public void setCollectTime(String collectTime) {
+        this.collectTime = collectTime;
     }
 
     public BigDecimal getSurfaceHigh() {
@@ -166,27 +153,11 @@ public class UploadRecordDto {
         this.signal = signal;
     }
 
-    public BigDecimal getLongitude() {
-        return longitude;
+    public Integer getDeviceId() {
+        return deviceId;
     }
 
-    public void setLongitude(BigDecimal longitude) {
-        this.longitude = longitude;
-    }
-
-    public BigDecimal getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(BigDecimal latitude) {
-        this.latitude = latitude;
-    }
-
-    public Integer getSerialNum() {
-        return serialNum;
-    }
-
-    public void setSerialNum(Integer serialNum) {
-        this.serialNum = serialNum;
+    public void setDeviceId(Integer deviceId) {
+        this.deviceId = deviceId;
     }
 }
