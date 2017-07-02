@@ -4,11 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.mm.back.common.ConvertUtils;
-import com.mm.back.dao.DeviceConfigDao;
-import com.mm.back.entity.DeviceConfigEntity;
+import com.mm.back.dao.DeviceUploadSettingDao;
 import com.mm.back.dto.DeviceSettingDto;
-import com.mm.back.vo.DeviceConfigVo;
-import com.mm.back.service.DeviceConfigService;
+import com.mm.back.entity.DeviceUploadSettingEntity;
+import com.mm.back.service.DeviceUploadSettingService;
+import com.mm.back.vo.DeviceSettingVo;
 
 /**
  * Author:chyl2005
@@ -17,36 +17,28 @@ import com.mm.back.service.DeviceConfigService;
  * Desc:描述该类的作用
  */
 @Service
-public class DeviceConfigServiceImpl implements DeviceConfigService {
+public class DeviceUploadSettingServiceImpl implements DeviceUploadSettingService {
 
     @Autowired
-    private DeviceConfigDao deviceConfigDao;
+    private DeviceUploadSettingDao uploadSettingDao;
 
-    @Transactional
-    @Override
-    public void insertOrUpdate(DeviceConfigEntity deviceConfig) {
-        deviceConfigDao.insertOrUpdate(deviceConfig);
-    }
 
     @Transactional
     @Override
     public void insertOrUpdate(DeviceSettingDto deviceSettingDto) {
-        DeviceConfigEntity entity = parseToDeviceConfigEntity(deviceSettingDto);
-        insertOrUpdate(entity);
+        DeviceUploadSettingEntity entity = parseToDeviceConfigEntity(deviceSettingDto);
+        uploadSettingDao.insertOrUpdate(entity);
     }
 
     @Override
-    public DeviceConfigVo getConfigInfo(Integer deviceId) {
-        DeviceConfigEntity deviceConfig = deviceConfigDao.getDeviceConfig(deviceId);
-        DeviceConfigVo configResponse = ConvertUtils.parseToDeviceConfigVo(deviceConfig);
+    public DeviceSettingVo getSetting(Integer deviceId) {
+        DeviceUploadSettingEntity deviceConfig = uploadSettingDao.getSetting(deviceId);
+        DeviceSettingVo configResponse = ConvertUtils.parseToDeviceConfigVo(deviceConfig);
         return configResponse;
     }
 
-
-
-
-    private DeviceConfigEntity parseToDeviceConfigEntity(DeviceSettingDto deviceSettingDto){
-        DeviceConfigEntity entity = new DeviceConfigEntity();
+    private DeviceUploadSettingEntity parseToDeviceConfigEntity(DeviceSettingDto deviceSettingDto) {
+        DeviceUploadSettingEntity entity = new DeviceUploadSettingEntity();
         entity.setDeviceId(deviceSettingDto.getDeviceId());
         entity.setWakeupTime1(deviceSettingDto.getWakeupTime1());
         entity.setWakeupTime2(deviceSettingDto.getWakeupTime2());

@@ -9,15 +9,17 @@ import io.netty.util.concurrent.GlobalEventExecutor;
 
 import java.net.InetAddress;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.mm.back.constants.CommandEnum;
-import com.mm.back.service.impl.HandlerMessageService;
+import com.mm.back.service.HandlerMessageService;
 
 /**
  * Author:chyl2005
@@ -72,18 +74,39 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, String message) throws Exception {
         String noWhitespaceMessage = StringUtils.deleteWhitespace(message);
-        String msg = new String(message.getBytes("gbk"), "utf-8");
         //命令编号
         String address = channelHandlerContext.channel().remoteAddress().toString();
         if (message.contains("commandNum")) {
             messageService.handlerMessage(noWhitespaceMessage, address);
         }
+
         //发送设置信息
-        if (message.contains("ok")) {
-            String deviceNum = addressToDeviceNumMap.get(address);
-            LOGGER.info("ServerHandler.channelRead0 address={}  deviceNum={}", address, deviceNum);
-            String sendmsg = messageService.sendMessage(deviceNum);
-            channelHandlerContext.writeAndFlush(sendmsg);
+        if (message.contains("OK")) {
+            Integer oknum = clientOKNum.get(channelHandlerContext.channel().remoteAddress().toString());
+            oknum = oknum != null ? oknum % 8 : 0;
+
+            //第一个ok 查询采集信息
+            if (oknum == 0) {
+                channelHandlerContext.writeAndFlush(CommandEnum.QUERY_NEW_DATA1.getCommond());
+            }
+
+            if (oknum != 0) {
+                String deviceNum = addressToDeviceNumMap.get(address);
+                LOGGER.info("ServerHandler.channelRead0 address={}  deviceNum={}", address, deviceNum);
+                List<String> sendMessages = messageService.sendMessage(deviceNum);
+                if (CollectionUtils.isNotEmpty(sendMessages)) {
+                    Integer index = oknum - 1;
+                    if (index <= sendMessages.size()) {
+                        channelHandlerContext.writeAndFlush(sendMessages.get(index));
+                    }
+
+                } else {
+                    channelHandlerContext.writeAndFlush(CommandEnum.QUERY_PARAM.getCommond());
+                }
+            }
+
+            //请求ok次数
+            clientOKNum.put(channelHandlerContext.channel().remoteAddress().toString(), oknum++);
         }
 
         // 收到消息直接打印输出

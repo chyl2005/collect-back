@@ -10,13 +10,13 @@ import org.hibernate.annotations.DynamicUpdate;
  * Author:chyl2005
  * Date:17/4/23
  * Time:11:30
- * Desc:设备参数信息
+ * Desc:设备上传参数信息
  */
 @Entity
-@Table(name = "device_setting", uniqueConstraints = {@UniqueConstraint(columnNames = {"device_id"})})
+@Table(name = "device_upload_setting", uniqueConstraints = {@UniqueConstraint(columnNames = {"device_id"})})
 @DynamicInsert
 @DynamicUpdate
-public class DeviceConfigEntity {
+public class DeviceUploadSettingEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +30,12 @@ public class DeviceConfigEntity {
 
     @Column(name = "device_id")
     private Integer deviceId;
+
+    /**
+     * 设备编号
+     */
+    @Column(name = "device_num")
+    private String deviceNum;
 
     @Column(name = "server_ip")
     private String serverIp;
@@ -63,8 +69,8 @@ public class DeviceConfigEntity {
     @Column(name = "gmt_modified")
     private Date gmtModified;
 
-    @Column(name = "is_running")
-    private Integer isRunning;
+    @Column(name = "status")
+    private Integer status;
 
     /**
      * 删除标记
@@ -192,12 +198,12 @@ public class DeviceConfigEntity {
         this.softwareVersion = softwareVersion;
     }
 
-    public Integer getIsRunning() {
-        return isRunning;
+    public Integer getStatus() {
+        return status;
     }
 
-    public void setIsRunning(Integer isRunning) {
-        this.isRunning = isRunning;
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     public Integer getSerialNum() {
@@ -206,5 +212,13 @@ public class DeviceConfigEntity {
 
     public void setSerialNum(Integer serialNum) {
         this.serialNum = serialNum;
+    }
+
+    public String getDeviceNum() {
+        return deviceNum;
+    }
+
+    public void setDeviceNum(String deviceNum) {
+        this.deviceNum = deviceNum;
     }
 }

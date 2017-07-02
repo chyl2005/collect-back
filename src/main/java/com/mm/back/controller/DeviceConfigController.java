@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.mm.back.common.WebResponse;
-import com.mm.back.entity.DeviceConfigEntity;
-import com.mm.back.service.DeviceConfigService;
-import com.mm.back.vo.DeviceConfigVo;
+import com.mm.back.entity.DeviceSettingEntity;
+import com.mm.back.service.DeviceSettingService;
+import com.mm.back.vo.DeviceSettingVo;
 
 /**
  * Author:chyl2005
@@ -21,13 +21,13 @@ import com.mm.back.vo.DeviceConfigVo;
 public class DeviceConfigController {
 
     @Autowired
-    private DeviceConfigService deviceConfigService;
+    private DeviceSettingService deviceSettingService;
 
     @RequestMapping("/saveOrUpdate")
     @ResponseBody
-    public WebResponse saveOrUpdate(DeviceConfigEntity deviceConfig) {
+    public WebResponse saveOrUpdate(DeviceSettingEntity deviceConfig) {
         WebResponse webResponse = WebResponse.getSuccessWebResponse();
-        deviceConfigService.insertOrUpdate(deviceConfig);
+        deviceSettingService.insertOrUpdate(deviceConfig);
         return webResponse;
     }
 
@@ -35,7 +35,7 @@ public class DeviceConfigController {
     @ResponseBody
     public WebResponse getConfigInfo(@RequestParam Integer deviceId) {
         WebResponse webResponse = WebResponse.getSuccessWebResponse();
-        DeviceConfigVo configInfo = deviceConfigService.getConfigInfo(deviceId);
+        DeviceSettingVo configInfo = deviceSettingService.getSetting(deviceId);
         webResponse.setData(configInfo);
         return webResponse;
 

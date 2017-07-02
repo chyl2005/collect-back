@@ -11,8 +11,7 @@ import com.mm.back.common.AoData;
 import com.mm.back.common.WebResponse;
 import com.mm.back.constants.DeleteStatusEnum;
 import com.mm.back.entity.DeviceInfoEntity;
-import com.mm.back.dto.DeviceInfoDto;
-import com.mm.back.service.DeviceConfigService;
+import com.mm.back.service.DeviceSettingService;
 import com.mm.back.service.DeviceInfoService;
 import com.mm.back.vo.DeviceInfoVo;
 
@@ -29,7 +28,7 @@ public class DeviceInfoController {
     @Autowired
     private DeviceInfoService deviceInfoService;
     @Autowired
-    private DeviceConfigService deviceConfigService;
+    private DeviceSettingService deviceSettingService;
 
     /**
      * 设备列表
@@ -83,7 +82,7 @@ public class DeviceInfoController {
     @ResponseBody
     public WebResponse configInfo(@RequestParam Integer deviceId) {
         WebResponse webResponse = WebResponse.getSuccessWebResponse();
-        webResponse.setData(this.deviceConfigService.getConfigInfo(deviceId));
+        webResponse.setData(this.deviceSettingService.getSetting(deviceId));
         return webResponse;
     }
 

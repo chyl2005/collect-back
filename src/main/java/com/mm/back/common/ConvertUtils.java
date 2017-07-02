@@ -1,7 +1,7 @@
 package com.mm.back.common;
 
 import com.mm.back.entity.*;
-import com.mm.back.vo.DeviceConfigVo;
+import com.mm.back.vo.DeviceSettingVo;
 import com.mm.back.vo.DeviceInfoVo;
 import com.mm.back.vo.DeviceRecordVo;
 import com.mm.back.vo.UserVo;
@@ -44,8 +44,8 @@ public class ConvertUtils {
         return deviceInfo;
     }
 
-    public static DeviceConfigVo parseToDeviceConfigVo(DeviceConfigEntity configEntity) {
-        DeviceConfigVo configResponse = new DeviceConfigVo();
+    public static DeviceSettingVo parseToDeviceConfigVo(DeviceSettingEntity configEntity) {
+        DeviceSettingVo configResponse = new DeviceSettingVo();
         configResponse.setDeviceId(configEntity.getDeviceId());
         configResponse.setPhoneNum1(configEntity.getPhoneNum1());
         configResponse.setPhoneNum2(configEntity.getPhoneNum2());
@@ -63,6 +63,27 @@ public class ConvertUtils {
         configResponse.setSerialNum(configEntity.getSerialNum());
         return configResponse;
     }
+
+    public static DeviceSettingVo parseToDeviceConfigVo(DeviceUploadSettingEntity setting) {
+        DeviceSettingVo configResponse = new DeviceSettingVo();
+        configResponse.setDeviceId(setting.getDeviceId());
+        configResponse.setPhoneNum1(setting.getPhoneNum1());
+        configResponse.setPhoneNum2(setting.getPhoneNum2());
+        configResponse.setWakeupTime1(setting.getWakeupTime1());
+        configResponse.setWakeupTime2(setting.getWakeupTime2());
+        configResponse.setSensorDepth(setting.getSensorDepth());
+        configResponse.setSurfaceHigh(setting.getSurfaceHigh());
+        configResponse.setServerPort(setting.getServerPort());
+        configResponse.setServerIp(setting.getServerIp());
+        configResponse.setGmtCreated(setting.getGmtCreated());
+        configResponse.setGmtModified(setting.getGmtModified());
+        configResponse.setIsDel(setting.getIsDel());
+        configResponse.setLinearCoefficient(setting.getLinearCoefficient());
+        configResponse.setSoftwareVersion(setting.getSoftwareVersion());
+        configResponse.setSerialNum(setting.getSerialNum());
+        return configResponse;
+    }
+
 
 
 

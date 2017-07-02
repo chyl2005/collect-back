@@ -6,7 +6,7 @@ package com.mm.back.dto;
  * Time:13:40
  * Desc:描述该类的作用
  */
-public class DeviceConfigData extends BaseData<DeviceSettingDto>{
+public class DeviceSettingData extends BaseData<DeviceSettingDto>{
 
 
 

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.mm.back.dao.DeviceInfoDao;
-import com.mm.back.dto.DeviceConfigData;
+import com.mm.back.dto.DeviceSettingData;
 import com.mm.back.entity.DeviceInfoEntity;
 import com.mm.back.utils.JsonUtils;
 
@@ -39,7 +39,7 @@ public class TestController {
 
     @RequestMapping("/data")
     @ResponseBody
-    public boolean data(@RequestBody DeviceConfigData data) {
+    public boolean data(@RequestBody DeviceSettingData data) {
         String s = JsonUtils.object2Json(data);
         return true;
     }

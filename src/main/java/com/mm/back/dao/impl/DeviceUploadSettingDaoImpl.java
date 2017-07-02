@@ -4,8 +4,8 @@ import java.util.Date;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import com.mm.back.constants.DeleteStatusEnum;
-import com.mm.back.dao.DeviceConfigDao;
-import com.mm.back.entity.DeviceConfigEntity;
+import com.mm.back.dao.DeviceUploadSettingDao;
+import com.mm.back.entity.DeviceUploadSettingEntity;
 
 /**
  * Author:chyl2005
@@ -14,15 +14,15 @@ import com.mm.back.entity.DeviceConfigEntity;
  * Desc:描述该类的作用
  */
 @Repository
-public class DeviceConfigDaoImpl extends BaseDaoImpl<DeviceConfigEntity> implements DeviceConfigDao {
+public class DeviceUploadSettingDaoImpl extends BaseDaoImpl<DeviceUploadSettingEntity> implements DeviceUploadSettingDao {
 
     /**
      * @param deviceConfig
      */
     @Transactional
     @Override
-    public void insertOrUpdate(DeviceConfigEntity deviceConfig) {
-        DeviceConfigEntity device = this.findFirst("from DeviceConfigEntity where deviceId=?", deviceConfig.getDeviceId());
+    public void insertOrUpdate(DeviceUploadSettingEntity deviceConfig) {
+        DeviceUploadSettingEntity device = this.findFirst("from DeviceUploadSettingEntity where deviceId=?", deviceConfig.getDeviceId());
         if (device != null) {
             device.setPhoneNum1(deviceConfig.getPhoneNum1());
             device.setPhoneNum2(deviceConfig.getPhoneNum2());
@@ -45,7 +45,7 @@ public class DeviceConfigDaoImpl extends BaseDaoImpl<DeviceConfigEntity> impleme
     }
 
     @Override
-    public DeviceConfigEntity getDeviceConfig(Integer deviceId) {
-        return this.findFirst("from DeviceConfigEntity where deviceId=?", deviceId);
+    public DeviceUploadSettingEntity getSetting(Integer deviceId) {
+        return this.findFirst("from DeviceUploadSettingEntity where deviceId=?", deviceId);
     }
 }

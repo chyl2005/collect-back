@@ -1,56 +1,92 @@
-package com.mm.back.vo;
+package com.mm.back.entity;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import javax.persistence.Column;
+import javax.persistence.*;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 /**
  * Author:chyl2005
- * Date:17/6/15
- * Time:13:08
- * Desc:设备配置信息
+ * Date:17/4/23
+ * Time:11:30
+ * Desc:后台配置参数信息
  */
-public class DeviceConfigVo {
+@Entity
+@Table(name = "device_setting", uniqueConstraints = {@UniqueConstraint(columnNames = {"device_id"})})
+@DynamicInsert
+@DynamicUpdate
+public class DeviceSettingEntity {
 
-    private Integer deviceId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Integer id;
     /**
-     * 井号
+     * 如井号
      */
+    @Column(name = "serial_num")
     private Integer serialNum;
-    private String phoneNum1;
-    private String phoneNum2;
-    private BigDecimal sensorDepth;
-    private BigDecimal surfaceHigh;
+
+    @Column(name = "device_id")
+    private Integer deviceId;
+
+    /**
+     * 设备编号
+     */
+    @Column(name = "device_num")
+    private String deviceNum;
+
+    @Column(name = "server_ip")
     private String serverIp;
+    @Column(name = "server_port")
     private Integer serverPort;
+    @Column(name = "phone_num1")
+    private String phoneNum1;
+
+    @Column(name = "phone_num2")
+    private String phoneNum2;
+    @Column(name = "sensor_depth")
+    private BigDecimal sensorDepth;
+    @Column(name = "surface_high")
+    private BigDecimal surfaceHigh;
+    @Column(name = "wakeup_time1")
     private String wakeupTime1;
+    @Column(name = "wakeup_time2")
     private String wakeupTime2;
-
+    @Column(name = "linear_coefficient")
     private BigDecimal linearCoefficient;
+    @Column(name = "software_version")
     private String softwareVersion;
-
-
     /**
      * 创建时间
      */
+    @Column(name = "gmt_created")
     private Date gmtCreated;
     /**
      * 修改时间
      */
+    @Column(name = "gmt_modified")
     private Date gmtModified;
 
     /**
-     * @see com.mm.back.constants.DeleteStatusEnum
+     * 0 未下发  1已下发
      */
+    @Column(name = "status")
+    private Integer status;
 
+    /**
+     * 删除标记
+     */
+    @Column(name = "is_del")
     private Integer isDel;
 
-    public Integer getDeviceId() {
-        return deviceId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setDeviceId(Integer deviceId) {
-        this.deviceId = deviceId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getServerIp() {
@@ -67,22 +103,6 @@ public class DeviceConfigVo {
 
     public void setServerPort(Integer serverPort) {
         this.serverPort = serverPort;
-    }
-
-    public String getPhoneNum1() {
-        return phoneNum1;
-    }
-
-    public void setPhoneNum1(String phoneNum1) {
-        this.phoneNum1 = phoneNum1;
-    }
-
-    public String getPhoneNum2() {
-        return phoneNum2;
-    }
-
-    public void setPhoneNum2(String phoneNum2) {
-        this.phoneNum2 = phoneNum2;
     }
 
     public BigDecimal getSensorDepth() {
@@ -141,6 +161,22 @@ public class DeviceConfigVo {
         this.isDel = isDel;
     }
 
+    public String getPhoneNum1() {
+        return phoneNum1;
+    }
+
+    public void setPhoneNum1(String phoneNum1) {
+        this.phoneNum1 = phoneNum1;
+    }
+
+    public String getPhoneNum2() {
+        return phoneNum2;
+    }
+
+    public void setPhoneNum2(String phoneNum2) {
+        this.phoneNum2 = phoneNum2;
+    }
+
     public BigDecimal getLinearCoefficient() {
         return linearCoefficient;
     }
@@ -157,11 +193,35 @@ public class DeviceConfigVo {
         this.softwareVersion = softwareVersion;
     }
 
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
     public Integer getSerialNum() {
         return serialNum;
     }
 
     public void setSerialNum(Integer serialNum) {
         this.serialNum = serialNum;
+    }
+
+    public String getDeviceNum() {
+        return deviceNum;
+    }
+
+    public void setDeviceNum(String deviceNum) {
+        this.deviceNum = deviceNum;
+    }
+
+    public Integer getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(Integer deviceId) {
+        this.deviceId = deviceId;
     }
 }

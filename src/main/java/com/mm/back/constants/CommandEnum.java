@@ -29,6 +29,24 @@ public enum CommandEnum {
     SET_PHONE2(15, "设置电话2号码", "电话号码设置成功"),
     QUERY_DEVICE_NUM(16, "查询硬件序列号", "硬件序列号");
 
+    public static final List<String> commonds = new ArrayList<>();
+
+    static {
+
+
+        commonds.add(QUERY_NEW_DATA1.commond);
+        commonds.add(SET_WELL_NUM.commond);
+        commonds.add(SET_SURFACE_HIGH.commond);
+        commonds.add(SET_SENSOR_DEPTH.commond);
+        commonds.add(SET_LINE.commond);
+        commonds.add(SET_TIME.commond);
+        commonds.add(SET_WAKEUP.commond);
+        commonds.add(SET_PHONE1.commond);
+        commonds.add(SET_PHONE2.commond);
+
+    }
+
+
     /**
      * 命令分隔符
      */

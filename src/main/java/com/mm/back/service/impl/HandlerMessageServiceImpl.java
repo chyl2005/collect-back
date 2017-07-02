@@ -1,5 +1,7 @@
 package com.mm.back.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +14,9 @@ import com.mm.back.dao.DeviceInfoDao;
 import com.mm.back.dto.*;
 import com.mm.back.entity.DeviceInfoEntity;
 import com.mm.back.netty.ServerHandler;
-import com.mm.back.service.DeviceConfigService;
-import com.mm.back.service.DeviceInfoService;
-import com.mm.back.service.DeviceRecordService;
+import com.mm.back.service.*;
 import com.mm.back.utils.JsonUtils;
-import com.mm.back.vo.DeviceConfigVo;
+import com.mm.back.vo.DeviceSettingVo;
 
 /**
  * Author:chyl2005
@@ -25,15 +25,18 @@ import com.mm.back.vo.DeviceConfigVo;
  * Desc:描述该类的作用
  */
 @Service
-public class HandlerMessageService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(HandlerMessageService.class);
+public class HandlerMessageServiceImpl implements HandlerMessageService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(HandlerMessageServiceImpl.class);
     @Autowired
     private DeviceInfoService deviceInfoService;
 
     @Autowired
     private DeviceRecordService deviceRecordService;
     @Autowired
-    private DeviceConfigService configService;
+    private DeviceSettingService settingService;
+
+    @Autowired
+    private DeviceUploadSettingService uploadSettingService;
 
     @Autowired
     private DeviceInfoDao deviceInfoDao;
@@ -45,12 +48,13 @@ public class HandlerMessageService {
      * @param address
      * @return
      */
+    @Override
     @Transactional
     public void handlerMessage(String message, String address) {
         BaseData baseData = JsonUtils.json2Object(message, BaseData.class);
         Integer commandNum = baseData.getCommandNum();
         if (CommandEnum.QUERY_PARAM.getCode().equals(commandNum)) {
-            DeviceConfigData data = JsonUtils.json2Object(message, DeviceConfigData.class);
+            DeviceSettingData data = JsonUtils.json2Object(message, DeviceSettingData.class);
             DeviceSettingDto deviceSettingDto = data.getData();
             LOGGER.info("HandlerMessageService.handlerMessage deviceConfigDto={} ", JsonUtils.object2Json(deviceSettingDto));
             //保存设备基础信息
@@ -58,7 +62,9 @@ public class HandlerMessageService {
             LOGGER.info("HandlerMessageService.handlerMessage deviceId={} ", deviceId);
             //保存设备配置信息
             deviceSettingDto.setDeviceId(deviceId);
-            configService.insertOrUpdate(deviceSettingDto);
+            uploadSettingService.insertOrUpdate(deviceSettingDto);
+            //后台配置数据填充
+            settingService.saveIfNotExist(deviceSettingDto);
             //地址到 设备号映射
             ServerHandler.addressToDeviceNumMap.put(address, deviceSettingDto.getDeviceNum());
 
@@ -77,44 +83,46 @@ public class HandlerMessageService {
     }
 
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
-    public String sendMessage(String deviceNum) {
+    @Override
+    public List<String> sendMessage(String deviceNum) {
         DeviceInfoEntity deviceInfo = deviceInfoDao.getDeviceByDeviceNum(deviceNum);
         if (deviceInfo == null) {
             return null;
         }
-        DeviceConfigVo configInfo = configService.getConfigInfo(deviceInfo.getId());
+        //获取后台配置信息
+        DeviceSettingVo configInfo = settingService.getSetting(deviceInfo.getId());
         if (configInfo == null) {
             LOGGER.error("HandlerMessageService.sendMessage  没有设备参数信息");
         }
-        StringBuilder sendMsg = new StringBuilder();
+        List<String> setParams = new ArrayList<>();
         if (configInfo.getSensorDepth() != null) {
-            sendMsg.append(CommandEnum.SET_SENSOR_DEPTH.getCommond() + CommandEnum.SPILT + configInfo.getSensorDepth() + "\r\n");
+            setParams.add(CommandEnum.SET_SENSOR_DEPTH.getCommond() + CommandEnum.SPILT + configInfo.getSensorDepth());
         }
         if (configInfo.getSurfaceHigh() != null) {
-            sendMsg.append(CommandEnum.SET_SURFACE_HIGH.getCommond() + CommandEnum.SPILT + configInfo.getSurfaceHigh() + "\r\n");
+            setParams.add(CommandEnum.SET_SURFACE_HIGH.getCommond() + CommandEnum.SPILT + configInfo.getSurfaceHigh());
         }
         if (configInfo.getLinearCoefficient() != null) {
-            sendMsg.append(CommandEnum.SET_LINE.getCommond() + CommandEnum.SPILT + configInfo.getLinearCoefficient() + "\r\n");
+            setParams.add(CommandEnum.SET_LINE.getCommond() + CommandEnum.SPILT + configInfo.getLinearCoefficient());
         }
         if (configInfo.getPhoneNum1() != null) {
-            sendMsg.append(CommandEnum.SET_PHONE1.getCommond() + CommandEnum.SPILT + configInfo.getPhoneNum1() + "\r\n");
+            setParams.add(CommandEnum.SET_PHONE1.getCommond() + CommandEnum.SPILT + configInfo.getPhoneNum1());
         }
         if (configInfo.getPhoneNum2() != null) {
-            sendMsg.append(CommandEnum.SET_PHONE2.getCommond() + CommandEnum.SPILT + configInfo.getPhoneNum2() + "\r\n");
+            setParams.add(CommandEnum.SET_PHONE2.getCommond() + CommandEnum.SPILT + configInfo.getPhoneNum2());
         }
         if (configInfo.getWakeupTime1() != null && configInfo.getWakeupTime2() != null) {
-            sendMsg.append(CommandEnum.SET_WAKEUP.getCommond().replace("@wakeupTime1", configInfo.getWakeupTime1()).replace("@wakeupTime2", configInfo.getWakeupTime2()) + "\r\n");
+            setParams.add(CommandEnum.SET_WAKEUP.getCommond().replace("@wakeupTime1", configInfo.getWakeupTime1()).replace("@wakeupTime2", configInfo.getWakeupTime2()));
         }
 
         if (configInfo.getServerIp() != null) {
-            sendMsg.append(CommandEnum.SET_IP.getCommond() + CommandEnum.SPILT + configInfo.getServerIp() + "\r\n");
+            setParams.add(CommandEnum.SET_IP.getCommond() + CommandEnum.SPILT + configInfo.getServerIp());
         }
         if (configInfo.getSerialNum() != null) {
-            sendMsg.append(CommandEnum.SET_WELL_NUM.getCommond() + CommandEnum.SPILT + configInfo.getSerialNum() + "\r\n");
+            setParams.add(CommandEnum.SET_WELL_NUM.getCommond() + CommandEnum.SPILT + configInfo.getSerialNum());
         }
 
-        LOGGER.info("HandlerMessageService.sendMessage   sendMsg={}", sendMsg.toString());
-        return sendMsg.toString();
+        LOGGER.info("HandlerMessageService.sendMessage   sendMsg={}", JsonUtils.object2Json(setParams));
+        return setParams;
     }
 
     private DeviceInfoDto parseToDeviceInfoDto(DeviceSettingDto deviceSettingDto) {
