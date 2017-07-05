@@ -83,7 +83,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
         //发送设置信息
         if (message.contains("OK")) {
             Integer oknum = clientOKNum.get(channelHandlerContext.channel().remoteAddress().toString());
-            oknum = oknum != null ? oknum % 8 : 0;
+            oknum = oknum != null ? oknum % 9 : 0;
 
             //第一个ok 查询采集信息
             if (oknum == 0) {
