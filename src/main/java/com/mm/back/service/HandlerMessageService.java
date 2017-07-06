@@ -1,6 +1,7 @@
 package com.mm.back.service;
 
 import java.util.List;
+import com.mm.back.constants.CommandEnum;
 
 /**
  * Author:chenyanlong@meituan.com
@@ -11,7 +12,7 @@ import java.util.List;
 public interface HandlerMessageService {
 
 
-    void handlerMessage(String message, String address);
+    List<CommandEnum>  handlerMessage(String message, String address);
 
 
     List<String> sendMessage(String deviceNum);

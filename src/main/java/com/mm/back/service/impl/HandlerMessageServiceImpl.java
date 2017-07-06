@@ -50,7 +50,7 @@ public class HandlerMessageServiceImpl implements HandlerMessageService {
      */
     @Override
     @Transactional
-    public void handlerMessage(String message, String address) {
+    public List<CommandEnum> handlerMessage(String message, String address) {
         BaseData baseData = JsonUtils.json2Object(message, BaseData.class);
         Integer commandNum = baseData.getCommandNum();
         if (CommandEnum.QUERY_PARAM.getCode().equals(commandNum)) {
@@ -79,6 +79,8 @@ public class HandlerMessageServiceImpl implements HandlerMessageService {
             BaseData<StoreInfoDto> base = JsonUtils.json2Object(message, BaseData.class);
             StoreInfoDto StoreInfoDto = base.getData();
         }
+
+        return null;
 
     }
 
@@ -120,6 +122,8 @@ public class HandlerMessageServiceImpl implements HandlerMessageService {
         if (configInfo.getSerialNum() != null) {
             setParams.add(CommandEnum.SET_WELL_NUM.getCommond() + CommandEnum.SPILT + configInfo.getSerialNum());
         }
+
+        setParams.add(CommandEnum.QUERY_PARAM.getCommond());
 
         LOGGER.info("HandlerMessageService.sendMessage   sendMsg={}", JsonUtils.object2Json(setParams));
         return setParams;

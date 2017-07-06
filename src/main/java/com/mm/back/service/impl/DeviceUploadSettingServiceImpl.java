@@ -40,6 +40,8 @@ public class DeviceUploadSettingServiceImpl implements DeviceUploadSettingServic
     private DeviceUploadSettingEntity parseToDeviceConfigEntity(DeviceSettingDto deviceSettingDto) {
         DeviceUploadSettingEntity entity = new DeviceUploadSettingEntity();
         entity.setDeviceId(deviceSettingDto.getDeviceId());
+        entity.setDeviceNum(deviceSettingDto.getDeviceNum());
+        entity.setSerialNum(deviceSettingDto.getWellNum());
         entity.setWakeupTime1(deviceSettingDto.getWakeupTime1());
         entity.setWakeupTime2(deviceSettingDto.getWakeupTime2());
         entity.setServerIp(deviceSettingDto.getIPAddress());

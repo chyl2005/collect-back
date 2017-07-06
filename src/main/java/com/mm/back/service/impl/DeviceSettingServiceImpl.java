@@ -57,6 +57,8 @@ public class DeviceSettingServiceImpl implements DeviceSettingService {
     private DeviceSettingEntity parseToDeviceConfigEntity(DeviceSettingDto deviceSettingDto){
         DeviceSettingEntity entity = new DeviceSettingEntity();
         entity.setDeviceId(deviceSettingDto.getDeviceId());
+        entity.setDeviceNum(deviceSettingDto.getDeviceNum());
+        entity.setSerialNum(deviceSettingDto.getWellNum());
         entity.setWakeupTime1(deviceSettingDto.getWakeupTime1());
         entity.setWakeupTime2(deviceSettingDto.getWakeupTime2());
         entity.setServerIp(deviceSettingDto.getIPAddress());

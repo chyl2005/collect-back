@@ -96,7 +96,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
                 List<String> sendMessages = messageService.sendMessage(deviceNum);
                 if (CollectionUtils.isNotEmpty(sendMessages)) {
                     Integer index = oknum - 1;
-                    if (index <= sendMessages.size()) {
+                    if (index <sendMessages.size()) {
                         channelHandlerContext.writeAndFlush(sendMessages.get(index));
                     }
 
@@ -106,7 +106,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
             }
 
             //请求ok次数
-            clientOKNum.put(channelHandlerContext.channel().remoteAddress().toString(), oknum++);
+            clientOKNum.put(channelHandlerContext.channel().remoteAddress().toString(), ++oknum);
         }
 
         // 收到消息直接打印输出
@@ -137,6 +137,10 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
         ctx.writeAndFlush("server error");
         LOGGER.error("ServerHandler.exceptionCaught  ", cause);
 
+    }
+
+    public static void main(String[] args) {
+        System.out.println(1 % 9);
     }
 
 }
