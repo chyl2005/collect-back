@@ -77,16 +77,16 @@ public class TestController {
         record.setDeviceNum("YC-AB-0002");
         record.setCollectTime(DateUtils.getDateformat(collectDate, DateUtils.YMD_HMS_FORMAT_DIAS));
         record.setSensorDepth(BigDecimal.valueOf(RandomUtils.nextInt(20, 50)));
-        record.setSurfaceHigh(BigDecimal.valueOf(RandomUtils.nextInt(200, 500)));
+        record.setSurfaceHigh(BigDecimal.valueOf(RandomUtils.nextInt(100, 500)));
 
         record.setWaterDepth(BigDecimal.valueOf(RandomUtils.nextInt(20, 200)));
-        record.setWaterHigh(BigDecimal.valueOf(RandomUtils.nextInt(200, 200)));
+        record.setWaterHigh(BigDecimal.valueOf(RandomUtils.nextInt(20, 200)));
 
         record.setAirTemperature(BigDecimal.valueOf(RandomUtils.nextInt(20, 30)));
         record.setWaterTemperature(BigDecimal.valueOf(RandomUtils.nextInt(1, 30)));
 
         record.setVoltage(BigDecimal.valueOf(RandomUtils.nextInt(1, 10)));
         record.setSignal(BigDecimal.valueOf(RandomUtils.nextInt(20, 100)));
-        deviceRecordService.insert(record);
+        deviceRecordService.insertOrUpdate(record);
     }
 }

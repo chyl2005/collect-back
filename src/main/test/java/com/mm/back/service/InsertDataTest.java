@@ -43,6 +43,6 @@ public class InsertDataTest {
 
         record.setVoltage(BigDecimal.valueOf(RandomUtils.nextInt(1, 10)));
         record.setSignal(BigDecimal.valueOf(RandomUtils.nextInt(20, 100)));
-        deviceRecordService.insert(record);
+        deviceRecordService.insertOrUpdate(record);
     }
 }

@@ -13,9 +13,9 @@ import org.hibernate.annotations.DynamicUpdate;
  * Desc:设备上传记录信息
  */
 @Entity
-@Table(name = "device_record")
 @DynamicInsert
 @DynamicUpdate
+@Table(name = "device_record ", uniqueConstraints = {@UniqueConstraint(columnNames = {"device_id", "minutes"})})
 public class DeviceRecordEntity {
 
     @Id
@@ -23,11 +23,16 @@ public class DeviceRecordEntity {
     @Column(name = "id")
     private Integer id;
     /**
-     *
+     *设备ID
      */
-
     @Column(name = "device_id")
     private Integer deviceId;
+
+    /**
+     * 上传分钟key  201701011200
+     */
+    @Column(name = "minutes")
+    private Long minutes;
 
     /**
      * 设备编号
@@ -220,5 +225,13 @@ public class DeviceRecordEntity {
 
     public void setDeviceNum(String deviceNum) {
         this.deviceNum = deviceNum;
+    }
+
+    public Long getMinutes() {
+        return minutes;
+    }
+
+    public void setMinutes(Long minutes) {
+        this.minutes = minutes;
     }
 }

@@ -15,6 +15,7 @@ public class DateUtils {
     public static final String YY_MM = "yyyyMM";
     public static final String YMD_FORMAT = "yyyy-MM-dd";
     public static final String yyyyMMddHHmmss = "yyyyMMddHHmmss";
+    public static final String yyyyMMddHHmm = "yyyyMMddHHmm";
     public static final String YMD_HMS_FORMAT_DIAS = "yyyy/MM/dd/HH/mm/ss";
     public static final String YMD_HMS_FORMAT = "yyyy-MM-dd HH:mm:ss";
     public static final int SECONDS_IN_HOUR = 60 * 60;

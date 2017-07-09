@@ -9,6 +9,7 @@ import com.mm.back.common.AoData;
 import com.mm.back.constants.DeleteStatusEnum;
 import com.mm.back.dao.DeviceRecordDao;
 import com.mm.back.entity.DeviceRecordEntity;
+import com.mm.back.utils.DateUtils;
 
 /**
  * Author:chyl2005
@@ -31,10 +32,21 @@ public class DeviceRecordDaoImpl extends BaseDaoImpl<DeviceRecordEntity> impleme
 
     @Override
     public void insertOrUpdate(DeviceRecordEntity recordEntity) {
-        if (recordEntity.getId() != null) {
-            recordEntity.setGmtModified(new Date());
-            recordEntity.setIsDel(DeleteStatusEnum.NOT_DEL.getCode());
-            this.update(recordEntity);
+        DeviceRecordEntity oldEntity = this.findFirst("from DeviceRecordEntity where deviceNum=? and minutes=?"
+                ,recordEntity.getDeviceNum(),recordEntity.getMinutes());
+        if (oldEntity != null) {
+            oldEntity.setDeviceId(recordEntity.getDeviceId());
+            oldEntity.setSensorDepth(recordEntity.getSensorDepth());
+            oldEntity.setSurfaceHigh(recordEntity.getSurfaceHigh());
+            oldEntity.setWaterDepth(recordEntity.getWaterDepth());
+            oldEntity.setWaterHigh(recordEntity.getWaterHigh());
+            oldEntity.setAirTemperature(recordEntity.getAirTemperature());
+            oldEntity.setWaterTemperature(recordEntity.getWaterTemperature());
+            oldEntity.setVoltage(recordEntity.getVoltage());
+            oldEntity.setSignal(recordEntity.getSignal());
+            oldEntity.setGmtModified(new Date());
+            oldEntity.setIsDel(DeleteStatusEnum.NOT_DEL.getCode());
+            this.update(oldEntity);
         } else {
             recordEntity.setGmtModified(new Date());
             recordEntity.setGmtCreated(new Date());

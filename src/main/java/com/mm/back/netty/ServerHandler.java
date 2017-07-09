@@ -50,7 +50,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
         //            channel.writeAndFlush("[SERVER] - " + incoming.remoteAddress() + " 加入\n");
         //        }
         //设备连接时  查询设备参数
-        channelHandlerContext.writeAndFlush(CommandEnum.QUERY_PARAM.getCommond());
+        channelHandlerContext.writeAndFlush(CommandEnum.QUERY_PARAM.getCommond() + "\n");
         //地址到 设备号映射
         addressToDeviceNumMap.put(channelHandlerContext.channel().remoteAddress().toString(), "");
 
@@ -96,12 +96,12 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
                 List<String> sendMessages = messageService.sendMessage(deviceNum);
                 if (CollectionUtils.isNotEmpty(sendMessages)) {
                     Integer index = oknum - 1;
-                    if (index <sendMessages.size()) {
+                    if (index < sendMessages.size()) {
                         channelHandlerContext.writeAndFlush(sendMessages.get(index));
                     }
 
                 } else {
-                    channelHandlerContext.writeAndFlush(CommandEnum.QUERY_PARAM.getCommond());
+                    channelHandlerContext.writeAndFlush(CommandEnum.QUERY_PARAM.getCommond() + "\n");
                 }
             }
 
@@ -112,7 +112,6 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
         // 收到消息直接打印输出
         LOGGER.info(channelHandlerContext.channel().remoteAddress() + " Say : " + message);
 
-        channelHandlerContext.writeAndFlush("Received your message :" + message + "!");
     }
 
     /*

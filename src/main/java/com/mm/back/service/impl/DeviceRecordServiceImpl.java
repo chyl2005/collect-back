@@ -90,17 +90,15 @@ public class DeviceRecordServiceImpl implements DeviceRecordService {
         record.setDeviceNum(deviceRecordDto.getDeviceNum());
         record.setDeviceId(deviceRecordDto.getDeviceId());
         record.setDatekey(DateUtils.getDatekey(collectDate));
+        String yyyyMMddHHmm = DateUtils.getDateformat(collectDate, DateUtils.yyyyMMddHHmm);
+        record.setMinutes(Long.valueOf(yyyyMMddHHmm));
         record.setCollectTime(collectDate);
-
         record.setSensorDepth(deviceRecordDto.getSensorDepth());
         record.setSurfaceHigh(deviceRecordDto.getSurfaceHigh());
-
         record.setWaterDepth(deviceRecordDto.getWaterDepth());
         record.setWaterHigh(deviceRecordDto.getWaterHigh());
-
         record.setAirTemperature(deviceRecordDto.getAirTemperature());
         record.setWaterTemperature(deviceRecordDto.getWaterTemperature());
-
         record.setVoltage(deviceRecordDto.getVoltage());
         record.setSignal(deviceRecordDto.getSignal());
         return record;

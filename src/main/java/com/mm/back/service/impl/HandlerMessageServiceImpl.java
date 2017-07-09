@@ -74,7 +74,7 @@ public class HandlerMessageServiceImpl implements HandlerMessageService {
             DeviceRecordData data = JsonUtils.json2Object(message, DeviceRecordData.class);
             DeviceRecordDto deviceRecordDto = data.getData();
             LOGGER.info("HandlerMessageService.handlerMessage deviceRecordDto={} ", JsonUtils.object2Json(deviceRecordDto));
-            deviceRecordService.insert(deviceRecordDto);
+            deviceRecordService.insertOrUpdate(deviceRecordDto);
         } else if (CommandEnum.QUERY_STORE_INFO.getCode().equals(commandNum)) {
             BaseData<StoreInfoDto> base = JsonUtils.json2Object(message, BaseData.class);
             StoreInfoDto StoreInfoDto = base.getData();
