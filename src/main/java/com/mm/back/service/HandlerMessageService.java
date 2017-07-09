@@ -1,5 +1,7 @@
 package com.mm.back.service;
 
+import io.netty.channel.ChannelHandlerContext;
+
 import java.util.List;
 import com.mm.back.constants.CommandEnum;
 
@@ -15,5 +17,5 @@ public interface HandlerMessageService {
     List<CommandEnum>  handlerMessage(String message, String address);
 
 
-    List<String> sendMessage(String deviceNum);
+    void sendMessage(ChannelHandlerContext channelHandlerContext);
 }

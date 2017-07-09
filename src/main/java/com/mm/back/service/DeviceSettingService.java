@@ -18,4 +18,7 @@ public interface DeviceSettingService {
     void insertOrUpdate(DeviceSettingDto deviceSettingDto);
 
     DeviceSettingVo getSetting(Integer deviceId);
+
+
+    DeviceSettingDto getSettingDto(Integer deviceId);
 }

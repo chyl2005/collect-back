@@ -1,7 +1,11 @@
 package com.mm.back.constants;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
+import com.mm.back.dto.DeviceSettingDto;
+import com.mm.back.utils.DateUtils;
 
 /**
  * Author:chyl2005
@@ -17,35 +21,16 @@ public enum CommandEnum {
     QUERY_PARAM(104, "JSON查询全部参数", ""),
     QUERY_STORE_INFO(103, "JSON查询储存信息", ""),
     HISTORY(5, "导出历史数据", ""),
-    SET_WELL_NUM(6, "设置井号", "井号设置成功，当前井号"),
-    SET_SURFACE_HIGH(7, "设置地表高程", "设置地表高程成功，当前参考地表高程"),
-    SET_SENSOR_DEPTH(8, "设置传感器埋深", "设置传感器埋深成功，当前参考传感器埋深"),
-    SET_LINE(9, "设置线性修正系数", "当前线性修正系数"),
-    SET_TIME(10, "设定时间", "设定时间成功"),
-    SET_WAKEUP(11, "设置唤醒时间1：@wakeupTime1 /设置唤醒时间2：@wakeupTime2", "设置唤醒时间成功，当前唤醒时间"),
-    SET_PORT(12, "设置端口号", "端口号修改成功"),
-    SET_IP(13, "设置IP地址", "端口号修改成功"),
-    SET_PHONE1(14, "设置电话1号码", "电话号码设置成功"),
-    SET_PHONE2(15, "设置电话2号码", "电话号码设置成功"),
-    QUERY_DEVICE_NUM(16, "查询硬件序列号", "硬件序列号");
+    SET_PARAM(6, "SetUp:@##wellNum:@wellNum##currentTime:2017/07/09/20/37/00##surfaceHigh:5778.55##sensorDepth:030.00##linearCoefficient:1.0000##phonenumber1:15324260695##phonenumber2:00010000000##IPAddress:103.044.145.247##portNumber:55511##WakeInterval:0001##UploadTime:21/10##", "");
 
     public static final List<String> commonds = new ArrayList<>();
 
     static {
 
-
         commonds.add(QUERY_NEW_DATA1.commond);
-        commonds.add(SET_WELL_NUM.commond);
-        commonds.add(SET_SURFACE_HIGH.commond);
-        commonds.add(SET_SENSOR_DEPTH.commond);
-        commonds.add(SET_LINE.commond);
-        commonds.add(SET_TIME.commond);
-        commonds.add(SET_WAKEUP.commond);
-        commonds.add(SET_PHONE1.commond);
-        commonds.add(SET_PHONE2.commond);
+        commonds.add(SET_PARAM.commond);
 
     }
-
 
     /**
      * 命令分隔符
@@ -75,5 +60,28 @@ public enum CommandEnum {
 
     public String getSuccess() {
         return success;
+    }
+
+    /**
+     * 获取客户端配置参数
+     *
+     * @return
+     */
+    public static String getClientSettingParam(DeviceSettingDto setting) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("SetUp:").append(setting.getDeviceNum()).append("##");
+        sb.append("wellNum:").append(setting.getWellNum()).append("##");
+        String currentTime = DateUtils.getDateformat(new Date(), DateUtils.YMD_HMS_FORMAT_DIAS);
+        sb.append("currentTime:").append(currentTime).append("##");
+        sb.append("surfaceHigh:").append(setting.getSurfaceHigh().setScale(2)).append("##");
+        sb.append("sensorDepth:").append(setting.getSensorDepth().setScale(2)).append("##");
+        sb.append("linearCoefficient:").append(setting.getLinearCoefficient().setScale(4)).append("##");
+        sb.append("phonenumber1:").append(setting.getPhonenumber1()).append("##");
+        sb.append("phonenumber2:").append(setting.getPhonenumber2()).append("##");
+        sb.append("IPAddress:103.044.145.247").append(StringUtils.isNotBlank(setting.getIPAddress())?setting.getIPAddress():"47.94.194.137").append("##");
+        sb.append("portNumber:").append(10086).append("##");
+        sb.append("WakeInterval:").append(setting.getWakeInterval()).append("##");
+        sb.append("UploadTime:").append(setting.getUploadTime()).append("##");
+        return sb.toString();
     }
 }

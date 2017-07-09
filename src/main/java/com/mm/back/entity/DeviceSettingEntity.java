@@ -50,14 +50,22 @@ public class DeviceSettingEntity {
     private BigDecimal sensorDepth;
     @Column(name = "surface_high")
     private BigDecimal surfaceHigh;
-    @Column(name = "wakeup_time1")
-    private String wakeupTime1;
-    @Column(name = "wakeup_time2")
-    private String wakeupTime2;
     @Column(name = "linear_coefficient")
     private BigDecimal linearCoefficient;
     @Column(name = "software_version")
     private String softwareVersion;
+
+    /**
+     * 12/11  mm:ss
+     */
+    @Column(name = "upload_time")
+    private String uploadTime;
+    /**
+     * 四位   不足补零  时间间隔，每天测量多次，每次的时间间隔，单位是分钟，最大1440
+     */
+    @Column(name = "wake_interval")
+    private String wakeInterval;
+
     /**
      * 创建时间
      */
@@ -121,20 +129,20 @@ public class DeviceSettingEntity {
         this.surfaceHigh = surfaceHigh;
     }
 
-    public String getWakeupTime1() {
-        return wakeupTime1;
+    public String getUploadTime() {
+        return uploadTime;
     }
 
-    public void setWakeupTime1(String wakeupTime1) {
-        this.wakeupTime1 = wakeupTime1;
+    public void setUploadTime(String uploadTime) {
+        this.uploadTime = uploadTime;
     }
 
-    public String getWakeupTime2() {
-        return wakeupTime2;
+    public String getWakeInterval() {
+        return wakeInterval;
     }
 
-    public void setWakeupTime2(String wakeupTime2) {
-        this.wakeupTime2 = wakeupTime2;
+    public void setWakeInterval(String wakeInterval) {
+        this.wakeInterval = wakeInterval;
     }
 
     public Date getGmtCreated() {

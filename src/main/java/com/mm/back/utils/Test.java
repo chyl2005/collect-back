@@ -1,18 +1,16 @@
-package com.mm.back.service;
+package com.mm.back.utils;
 
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Author:chyl2005
- * Date:17/6/9
- * Time:11:16
+ * Author:chenyanlong@meituan.com
+ * Date:17/7/9
+ * Time:23:26
  * Desc:描述该类的作用
  */
-public class TestNetty {
-
-
+public class Test {
 
     public static ScheduledExecutorService scheduledExecutorService = new ScheduledThreadPoolExecutor(4);
 

@@ -24,8 +24,14 @@ public class DeviceSettingVo {
     private BigDecimal surfaceHigh;
     private String serverIp;
     private Integer serverPort;
-    private String wakeupTime1;
-    private String wakeupTime2;
+    /**
+     * 12/11  mm:ss
+     */
+    private String uploadTime;
+    /**
+     * 四位   不足补零  时间间隔，每天测量多次，每次的时间间隔，单位是分钟，最大1440
+     */
+    private String wakeInterval;
 
     private BigDecimal linearCoefficient;
     private String softwareVersion;
@@ -102,20 +108,20 @@ public class DeviceSettingVo {
         this.surfaceHigh = surfaceHigh;
     }
 
-    public String getWakeupTime1() {
-        return wakeupTime1;
+    public String getUploadTime() {
+        return uploadTime;
     }
 
-    public void setWakeupTime1(String wakeupTime1) {
-        this.wakeupTime1 = wakeupTime1;
+    public void setUploadTime(String uploadTime) {
+        this.uploadTime = uploadTime;
     }
 
-    public String getWakeupTime2() {
-        return wakeupTime2;
+    public String getWakeInterval() {
+        return wakeInterval;
     }
 
-    public void setWakeupTime2(String wakeupTime2) {
-        this.wakeupTime2 = wakeupTime2;
+    public void setWakeInterval(String wakeInterval) {
+        this.wakeInterval = wakeInterval;
     }
 
     public Date getGmtCreated() {

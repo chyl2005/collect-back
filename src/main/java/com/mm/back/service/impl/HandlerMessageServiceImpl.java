@@ -1,7 +1,10 @@
 package com.mm.back.service.impl;
 
-import java.util.ArrayList;
+import io.netty.channel.ChannelHandlerContext;
+
 import java.util.List;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +16,10 @@ import com.mm.back.constants.DeviceTypeEnum;
 import com.mm.back.dao.DeviceInfoDao;
 import com.mm.back.dto.*;
 import com.mm.back.entity.DeviceInfoEntity;
+import com.mm.back.netty.SendDelayMessageService;
 import com.mm.back.netty.ServerHandler;
 import com.mm.back.service.*;
 import com.mm.back.utils.JsonUtils;
-import com.mm.back.vo.DeviceSettingVo;
 
 /**
  * Author:chyl2005
@@ -40,6 +43,9 @@ public class HandlerMessageServiceImpl implements HandlerMessageService {
 
     @Autowired
     private DeviceInfoDao deviceInfoDao;
+
+    @Autowired
+    private SendDelayMessageService sendDelayMessageService;
 
     /**
      * 处理客户端返回的数据
@@ -86,47 +92,38 @@ public class HandlerMessageServiceImpl implements HandlerMessageService {
 
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
     @Override
-    public List<String> sendMessage(String deviceNum) {
+    public void sendMessage(ChannelHandlerContext channelHandlerContext) {
+        String address = channelHandlerContext.channel().remoteAddress().toString();
+        String deviceNum = ServerHandler.addressToDeviceNumMap.get(address);
         DeviceInfoEntity deviceInfo = deviceInfoDao.getDeviceByDeviceNum(deviceNum);
-        if (deviceInfo == null) {
-            return null;
+        if (StringUtils.isNotBlank(deviceNum) || deviceInfo == null) {
+            sendDelayMessageService.send(channelHandlerContext, CommandEnum.QUERY_PARAM.getCommond() + "\n");
+            LOGGER.error(channelHandlerContext.channel().remoteAddress() + " 发送 : " + CommandEnum.QUERY_PARAM.getCommond());
+            return;
         }
+
         //获取后台配置信息
-        DeviceSettingVo configInfo = settingService.getSetting(deviceInfo.getId());
-        if (configInfo == null) {
-            LOGGER.error("HandlerMessageService.sendMessage  没有设备参数信息");
+        DeviceSettingDto settingDto = settingService.getSettingDto(deviceInfo.getId());
+        if (settingDto == null) {
+            sendDelayMessageService.send(channelHandlerContext, CommandEnum.QUERY_PARAM.getCommond() + "\n");
+            LOGGER.error(channelHandlerContext.channel().remoteAddress() + "没有查询到配置信息 发送 : " + CommandEnum.QUERY_PARAM.getCommond());
+            return;
         }
-        List<String> setParams = new ArrayList<>();
-        if (configInfo.getSensorDepth() != null) {
-            setParams.add(CommandEnum.SET_SENSOR_DEPTH.getCommond() + CommandEnum.SPILT + configInfo.getSensorDepth());
+        Integer oknum = ServerHandler.clientOKNum.get(channelHandlerContext.channel().remoteAddress().toString());
+        oknum = oknum != null ? oknum % 9 : 0;
+
+        //第一个ok 查询采集信息
+        if (oknum == 0) {
+            sendDelayMessageService.send(channelHandlerContext, CommandEnum.QUERY_NEW_DATA1.getCommond());
         }
-        if (configInfo.getSurfaceHigh() != null) {
-            setParams.add(CommandEnum.SET_SURFACE_HIGH.getCommond() + CommandEnum.SPILT + configInfo.getSurfaceHigh());
-        }
-        if (configInfo.getLinearCoefficient() != null) {
-            setParams.add(CommandEnum.SET_LINE.getCommond() + CommandEnum.SPILT + configInfo.getLinearCoefficient());
-        }
-        if (configInfo.getPhoneNum1() != null) {
-            setParams.add(CommandEnum.SET_PHONE1.getCommond() + CommandEnum.SPILT + configInfo.getPhoneNum1());
-        }
-        if (configInfo.getPhoneNum2() != null) {
-            setParams.add(CommandEnum.SET_PHONE2.getCommond() + CommandEnum.SPILT + configInfo.getPhoneNum2());
-        }
-        if (configInfo.getWakeupTime1() != null && configInfo.getWakeupTime2() != null) {
-            setParams.add(CommandEnum.SET_WAKEUP.getCommond().replace("@wakeupTime1", configInfo.getWakeupTime1()).replace("@wakeupTime2", configInfo.getWakeupTime2()));
+        if (oknum == 1) {
+            sendDelayMessageService.send(channelHandlerContext, CommandEnum.getClientSettingParam(settingDto) + "\n");
         }
 
-        if (configInfo.getServerIp() != null) {
-            setParams.add(CommandEnum.SET_IP.getCommond() + CommandEnum.SPILT + configInfo.getServerIp());
-        }
-        if (configInfo.getSerialNum() != null) {
-            setParams.add(CommandEnum.SET_WELL_NUM.getCommond() + CommandEnum.SPILT + configInfo.getSerialNum());
-        }
+        LOGGER.info("ServerHandler.channelRead0 address={}  oknum={}", address, oknum);
+        //请求ok次数
+        ServerHandler.clientOKNum.put(channelHandlerContext.channel().remoteAddress().toString(), ++oknum);
 
-        setParams.add(CommandEnum.QUERY_PARAM.getCommond());
-
-        LOGGER.info("HandlerMessageService.sendMessage   sendMsg={}", JsonUtils.object2Json(setParams));
-        return setParams;
     }
 
     private DeviceInfoDto parseToDeviceInfoDto(DeviceSettingDto deviceSettingDto) {

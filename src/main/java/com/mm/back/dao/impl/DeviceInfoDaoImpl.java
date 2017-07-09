@@ -2,6 +2,7 @@ package com.mm.back.dao.impl;
 
 import java.util.Date;
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Repository;
 import com.mm.back.common.AoData;
 import com.mm.back.constants.DeleteStatusEnum;
@@ -37,6 +38,9 @@ public class DeviceInfoDaoImpl extends BaseDaoImpl<DeviceInfoEntity> implements 
 
     @Override
     public DeviceInfoEntity getDeviceByDeviceNum(String deviceNum) {
+        if (StringUtils.isBlank(deviceNum)) {
+            return null;
+        }
         return this.findFirst("from DeviceInfoEntity where deviceNum=?", deviceNum);
 
     }

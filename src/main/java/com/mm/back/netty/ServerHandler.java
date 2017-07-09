@@ -37,6 +37,8 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
     public static Map<String, Integer> clientOKNum = new HashMap<>();
 
     @Autowired
+    private SendDelayMessageService sendDelayMessageService;
+    @Autowired
     private HandlerMessageService messageService;
     /**
      * ip地址-设备硬件编号映射
@@ -50,7 +52,8 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
         //            channel.writeAndFlush("[SERVER] - " + incoming.remoteAddress() + " 加入\n");
         //        }
         //设备连接时  查询设备参数
-        channelHandlerContext.writeAndFlush(CommandEnum.QUERY_PARAM.getCommond() + "\n");
+        sendDelayMessageService.send(channelHandlerContext, CommandEnum.QUERY_PARAM.getCommond() + "\n");
+        LOGGER.info(channelHandlerContext.channel().remoteAddress() + " 发送 : " + CommandEnum.QUERY_PARAM.getCommond());
         //地址到 设备号映射
         addressToDeviceNumMap.put(channelHandlerContext.channel().remoteAddress().toString(), "");
 
@@ -73,40 +76,19 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
 
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, String message) throws Exception {
-        String noWhitespaceMessage = StringUtils.deleteWhitespace(message);
         //命令编号
         String address = channelHandlerContext.channel().remoteAddress().toString();
+        String deviceNum = addressToDeviceNumMap.get(address);
+        LOGGER.info("ServerHandler.channelRead0 address={}  deviceNum={}", address, deviceNum);
+
+        String noWhitespaceMessage = StringUtils.deleteWhitespace(message);
         if (message.contains("commandNum")) {
             messageService.handlerMessage(noWhitespaceMessage, address);
         }
 
         //发送设置信息
         if (message.contains("OK")) {
-            Integer oknum = clientOKNum.get(channelHandlerContext.channel().remoteAddress().toString());
-            oknum = oknum != null ? oknum % 9 : 0;
 
-            //第一个ok 查询采集信息
-            if (oknum == 0) {
-                channelHandlerContext.writeAndFlush(CommandEnum.QUERY_NEW_DATA1.getCommond());
-            }
-
-            if (oknum != 0) {
-                String deviceNum = addressToDeviceNumMap.get(address);
-                LOGGER.info("ServerHandler.channelRead0 address={}  deviceNum={}", address, deviceNum);
-                List<String> sendMessages = messageService.sendMessage(deviceNum);
-                if (CollectionUtils.isNotEmpty(sendMessages)) {
-                    Integer index = oknum - 1;
-                    if (index < sendMessages.size()) {
-                        channelHandlerContext.writeAndFlush(sendMessages.get(index));
-                    }
-
-                } else {
-                    channelHandlerContext.writeAndFlush(CommandEnum.QUERY_PARAM.getCommond() + "\n");
-                }
-            }
-
-            //请求ok次数
-            clientOKNum.put(channelHandlerContext.channel().remoteAddress().toString(), ++oknum);
         }
 
         // 收到消息直接打印输出
@@ -136,10 +118,6 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
         ctx.writeAndFlush("server error");
         LOGGER.error("ServerHandler.exceptionCaught  ", cause);
 
-    }
-
-    public static void main(String[] args) {
-        System.out.println(1 % 9);
     }
 
 }

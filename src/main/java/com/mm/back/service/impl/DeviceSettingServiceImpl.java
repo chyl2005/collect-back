@@ -52,16 +52,20 @@ public class DeviceSettingServiceImpl implements DeviceSettingService {
         return configResponse;
     }
 
-
-
+    @Override
+    public DeviceSettingDto getSettingDto(Integer deviceId) {
+        DeviceSettingEntity deviceConfig = deviceSettingDao.getSetting(deviceId);
+        DeviceSettingDto settingDto = ConvertUtils.parseToDeviceSettingDto(deviceConfig);
+        return settingDto;
+    }
 
     private DeviceSettingEntity parseToDeviceConfigEntity(DeviceSettingDto deviceSettingDto){
         DeviceSettingEntity entity = new DeviceSettingEntity();
         entity.setDeviceId(deviceSettingDto.getDeviceId());
         entity.setDeviceNum(deviceSettingDto.getDeviceNum());
         entity.setSerialNum(deviceSettingDto.getWellNum());
-        entity.setWakeupTime1(deviceSettingDto.getWakeupTime1());
-        entity.setWakeupTime2(deviceSettingDto.getWakeupTime2());
+        entity.setUploadTime(deviceSettingDto.getUploadTime());
+        entity.setWakeInterval(deviceSettingDto.getWakeInterval());
         entity.setServerIp(deviceSettingDto.getIPAddress());
         entity.setServerPort(deviceSettingDto.getPortNumber());
         entity.setSurfaceHigh(deviceSettingDto.getSurfaceHigh());

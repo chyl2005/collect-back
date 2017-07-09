@@ -1,5 +1,6 @@
 package com.mm.back.common;
 
+import com.mm.back.dto.DeviceSettingDto;
 import com.mm.back.entity.*;
 import com.mm.back.vo.DeviceSettingVo;
 import com.mm.back.vo.DeviceInfoVo;
@@ -44,13 +45,33 @@ public class ConvertUtils {
         return deviceInfo;
     }
 
+
+
+    public static DeviceSettingDto parseToDeviceSettingDto(DeviceSettingEntity configEntity) {
+        DeviceSettingDto settingDto = new DeviceSettingDto();
+        settingDto.setDeviceId(configEntity.getDeviceId());
+        settingDto.setPhonenumber1(configEntity.getPhoneNum1());
+        settingDto.setPhonenumber2(configEntity.getPhoneNum2());
+        settingDto.setUploadTime(configEntity.getUploadTime());
+        settingDto.setWakeInterval(configEntity.getWakeInterval());
+        settingDto.setSensorDepth(configEntity.getSensorDepth());
+        settingDto.setSurfaceHigh(configEntity.getSurfaceHigh());
+        settingDto.setPortNumber(configEntity.getServerPort());
+        settingDto.setIPAddress(configEntity.getServerIp());
+        settingDto.setLinearCoefficient(configEntity.getLinearCoefficient());
+        settingDto.setSoftwareVersion(configEntity.getSoftwareVersion());
+        settingDto.setWellNum(configEntity.getSerialNum());
+        settingDto.setDeviceNum(configEntity.getDeviceNum());
+        return settingDto;
+    }
+
     public static DeviceSettingVo parseToDeviceConfigVo(DeviceSettingEntity configEntity) {
         DeviceSettingVo configResponse = new DeviceSettingVo();
         configResponse.setDeviceId(configEntity.getDeviceId());
         configResponse.setPhoneNum1(configEntity.getPhoneNum1());
         configResponse.setPhoneNum2(configEntity.getPhoneNum2());
-        configResponse.setWakeupTime1(configEntity.getWakeupTime1());
-        configResponse.setWakeupTime2(configEntity.getWakeupTime2());
+        configResponse.setUploadTime(configEntity.getUploadTime());
+        configResponse.setWakeInterval(configEntity.getWakeInterval());
         configResponse.setSensorDepth(configEntity.getSensorDepth());
         configResponse.setSurfaceHigh(configEntity.getSurfaceHigh());
         configResponse.setServerPort(configEntity.getServerPort());
@@ -70,8 +91,8 @@ public class ConvertUtils {
         configResponse.setDeviceId(setting.getDeviceId());
         configResponse.setPhoneNum1(setting.getPhoneNum1());
         configResponse.setPhoneNum2(setting.getPhoneNum2());
-        configResponse.setWakeupTime1(setting.getWakeupTime1());
-        configResponse.setWakeupTime2(setting.getWakeupTime2());
+        configResponse.setUploadTime(setting.getUploadTime());
+        configResponse.setWakeInterval(setting.getWakeInterval());
         configResponse.setSensorDepth(setting.getSensorDepth());
         configResponse.setSurfaceHigh(setting.getSurfaceHigh());
         configResponse.setServerPort(setting.getServerPort());
