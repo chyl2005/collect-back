@@ -3,12 +3,16 @@ package com.mm.back.entity;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 /**
  * 系统用户表
  */
 @Entity
 @Table(name="tb_user")
+@DynamicInsert
+@DynamicUpdate
 public class UserEntity implements Serializable{
 	/**
 	 * @Fields serialVersionUID : 

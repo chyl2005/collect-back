@@ -93,7 +93,7 @@
                                             <td class="center">
                                                 <div class="hidden-sm hidden-xs btn-group">
                                                     <button class="btn btn-xs btn-success">
-                                                        <i class="ace-icon fa fa-check bigger-120"></i>
+                                                        <i class="ace-icon fa fa-cog bigger-120"></i>
                                                     </button>
 
                                                     <button class="btn btn-xs btn-info">
@@ -136,6 +136,45 @@
 
     <#include "/common/_footer.html"/>
 </div><!-- /.main-container -->
+
+
+
+<!--角色分配弹窗-->
+
+<div class="modal fade" id="distributeRoleDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">角色分配</h4>
+            </div>
+            <input type="hidden" id="userId">
+            <!-- 	窗口主体 start		 -->
+            <div class="modal-body">
+
+
+
+
+
+                <div id="modules" style="padding: 10px;">
+                    <!-- 		<input type="checkbox" value=""  onchange="selectMySub()" />权限管理
+                     <span><input  type="checkbox" value=""  />角色管理
+                     </span> -->
+
+                </div>
+
+            </div>
+            <!-- 	窗口主体 end		 -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <!-- <button type="button" class="btn btn-primary" onclick="saveOrUpdateAuthority()">保存</button> -->
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
 <div class="modal fade" tabindex="-1" id="saveOrUpdateDialog" role="dialog" data-backdrop="static" aria-labelledby="myModalLabel">
@@ -197,11 +236,10 @@
             </div>
         </div>
     </div>
-
+</div>
 
     <script src="${base}/app/user/userList.js"></script>
 
 
-    <script src="${base}/app/dataUtils.js"></script>
 </body>
 </html>

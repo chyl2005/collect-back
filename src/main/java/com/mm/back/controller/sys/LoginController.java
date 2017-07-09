@@ -31,9 +31,7 @@ import com.mm.back.utils.ValidateCode;
 public class LoginController {
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
 
-
     private static final Integer LOGIN_CACHE_TIME = 3600 * 24;
-
 
     @Autowired
     private UserService userService;
@@ -187,15 +185,17 @@ public class LoginController {
      */
     @RequestMapping("/register")
     @ResponseBody
-    public UserEntity register(UserEntity user) {
+    public WebResponse register(UserEntity user) {
+        WebResponse webResponse = WebResponse.getSuccessWebResponse();
         user.setGmtModified(new Date());
         user.setGmtCreated(new Date());
         String password = user.getPassword();
         String username = user.getUserName();
         String pwd = MD5Utils.getMD5(username + password);
         user.setPassword(pwd);
-        UserEntity entity = this.userService.saveEntity(user);
-        return entity;
+        this.userService.saveOrUpdate(user);
+        return webResponse;
+
     }
 
 }

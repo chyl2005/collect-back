@@ -37,11 +37,12 @@ public class DeviceSettingServiceImpl implements DeviceSettingService {
         deviceSettingDao.insertOrUpdate(deviceConfig);
     }
 
+
     @Transactional
     @Override
     public void insertOrUpdate(DeviceSettingDto deviceSettingDto) {
         DeviceSettingEntity entity = parseToDeviceConfigEntity(deviceSettingDto);
-        insertOrUpdate(entity);
+        deviceSettingDao.insertOrUpdate(entity);
     }
 
     @Override

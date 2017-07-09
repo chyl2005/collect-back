@@ -28,7 +28,7 @@
                         <span class="user-info">
 									<small>Welcome,</small>
 									Jason
-								</span>
+                        </span>
 
                         <i class="ace-icon fa fa-caret-down"></i>
                     </a>
@@ -42,7 +42,7 @@
                         </li>
 
                         <li>
-                            <a href="profile.html">
+                            <a href="${base}/my/info">
                                 <i class="ace-icon fa fa-user"></i>
                                 Profile
                             </a>
@@ -51,7 +51,7 @@
                         <li class="divider"></li>
 
                         <li>
-                            <a href="#">
+                            <a href="${base}/api/logout">
                                 <i class="ace-icon fa fa-power-off"></i>
                                 Logout
                             </a>
@@ -62,3 +62,22 @@
         </div>
     </div><!-- /.navbar-container -->
 </div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.ajax({
+            type: 'post',
+            url: rootPath + 'index/logininfo',
+            async: true,
+            dataType: "json",
+            success: function (data) {
+                if (data.status === 0) {
+                    $(".navbar-container .user-info").html('<small>Welcome,</small>' + data.data.name)
+                }
+
+            }
+        });
+
+
+    });
+
+</script>

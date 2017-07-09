@@ -4,13 +4,13 @@
 var pageCur = 1;
 var pageSize = 10;
 // 列表数据请求url
-const dataUrl = rootPath + "/user/list";
+const dataUrl = rootPath + "user/list";
 
-const saveOrUpdateUrl = rootPath + "/user/saveOrUpdate";
+const saveOrUpdateUrl = rootPath + "user/saveOrUpdate";
 
-const roleUrl = rootPath + "/user/getRoles";
-const deleteUrl = rootPath + "/user/deleteEntity";
-const saveOrUpdateUserRoleUrl = rootPath + "/user/saveOrUpdateUserRole";
+const roleUrl = rootPath + "user/getRoles";
+const deleteUrl = rootPath + "user/deleteEntity";
+const saveOrUpdateUserRoleUrl = rootPath + "user/saveOrUpdateUserRole";
 $(document).ready(function () {
 
     // 加载数据
@@ -76,6 +76,10 @@ function dataCallbackShow(data) {
     // 绑定分页方法
     paginator("#page", currentPage, pageSize, total, dataUrl);
 
+
+    $(".btn-success").on('click', function () {
+        distributeRole(this);
+    });
     //编辑
     $(".btn-info").on('click', function () {
         saveOrUpdateDialog(this);
@@ -94,6 +98,8 @@ function dataCallbackShow(data) {
                 if (0 == data.data.status) {
                     loadData(pageCur, pageSize, dataUrl);
 
+                } else {
+                    alert(data.message);
                 }
             }
         });
@@ -134,10 +140,12 @@ function saveOrUpdate() {
         dataType: 'json',
         async: true,
         success: function (data) {
-            if (null != data) {
+            if (data.status === 0) {
                 loadData(pageCur, pageSize, dataUrl);
                 dialog.find(":input").val("");
                 dialog.modal("hide");
+            } else {
+                alert(data.message);
             }
         }
     });
@@ -153,8 +161,6 @@ function distributeRole(_this) {
     // 获取选中行数据
     var rowNode = $(_this).closest("tr");
     var userId = rowNode.find("#id").text();
-    var trueName = rowNode.find("#trueName").text();
-    var userName = rowNode.find("#userName").text();
     dialog.find("#userId").val(userId);
     loadRoles(userId);
 
@@ -167,9 +173,8 @@ function distributeRole(_this) {
  * @param userId
  */
 function loadRoles(userId) {
-    $
-        .ajax({
-            type: "post",
+    $.ajax({
+            type: "get",
             url: roleUrl,
             dataType: 'json',
             data: {
@@ -177,20 +182,21 @@ function loadRoles(userId) {
             },
             async: false,
             success: function (data) {
-                if (data != null) {
+                if (data.status === 0) {
                     $("#distributeRoleDialog").find("#modules").html("");
-                    var html = '	';
-                    for (var j = 0; j < data.length; j++) {
-                        var item = data[j];
-
+                    var html = "";
+                    data.data.forEach((item) => {
                         var checkbox1 = '<span><input type="checkbox" value="@roleId"  @checked   onchange="saveOrUpdateRole(this)""/>@roleName </span>';
                         // 根模块
                         html += checkbox1.replace("@roleId", item.id).replace("@checked",
                             item.isAuthority == 1 ? 'checked="checked"' : "").replace("@roleName",
                             item.roleName);
 
-                    }
+                    })
+
                     $("#distributeRoleDialog").find("#modules").html(html);
+                } else {
+                    alert(data.message);
                 }
             }
         });
@@ -220,8 +226,10 @@ function saveOrUpdateRole(_this) {
         dataType: 'json',
         async: true,
         success: function (data) {
-            if (null != data) {
+            if (data.status === 0) {
                 alert("成功");
+            } else {
+                alert(data.message);
             }
         }
     });

@@ -17,6 +17,7 @@ public class DeviceSettingVo {
      * 井号
      */
     private Integer serialNum;
+    private String deviceNum;
     private String phoneNum1;
     private String phoneNum2;
     private BigDecimal sensorDepth;
@@ -163,5 +164,13 @@ public class DeviceSettingVo {
 
     public void setSerialNum(Integer serialNum) {
         this.serialNum = serialNum;
+    }
+
+    public String getDeviceNum() {
+        return deviceNum;
+    }
+
+    public void setDeviceNum(String deviceNum) {
+        this.deviceNum = deviceNum;
     }
 }

@@ -5,9 +5,6 @@ $(document).ready(function () {
 
 
 
-
-
-    Highcharts.setOptions({global: {useUTC: false}});
     // 加载数据
     loadData(dataUrl);
     $(".searchData").on('click', function () {
@@ -31,7 +28,7 @@ function getServerParams() {
 function loadData(url) {
     var postData = getServerParams();
     $.ajax({
-        type: "get",
+        type: "post",
         url: url,
         dataType: 'json',
         data: postData,
@@ -51,24 +48,9 @@ function dataCallbackShow(data) {
         text: '设备指标'
     };
     var subtitle = {
-        text: ''
+        text: 'Source: runoob.com'
     };
-    var xAxis = {
-        type: 'datetime',
-        tickPixelInterval: 120,
-        title: {
-            text: '时间'
-        },
-        dateTimeLabelFormats: {
-            millisecond: '%m-%d %H:%M',
-            second: '%m-%d %H:%M',
-            minute: '%m-%d %H:%M',
-            hour: '%m-%d %H:%M',
-            day: '%m-%d %H:%M',
-            month: '%m-%d %H:%M',
-            year: '%m-%d %H:%M'
-        }
-    }
+    var xAxis = {categories: []};
 
 
     var legend = {
@@ -93,62 +75,27 @@ function dataCallbackShow(data) {
 
     var items = data.data;
     items.forEach((item) => {
+        xAxis.categories.push(item.datekey);
+        waterHigh.push(item.waterHigh);
+        waterDepth.push(item.waterDepth);
+        sensorDepth.push(item.sensorDepth);
+        surfaceHigh.push(item.surfaceHigh);
 
-        waterHigh.push({
-            x: item.collectTime,
-            y: item.waterHigh
-        });
-        waterDepth.push({
-            x: item.collectTime,
-            y: item.waterDepth
-        });
-        sensorDepth.push({
-            x: item.collectTime,
-            y: item.sensorDepth
-        });
-        surfaceHigh.push({
-            x: item.collectTime,
-            y: item.surfaceHigh
-        });
-
-        airTemperature.push({
-            x: item.collectTime,
-            y: item.airTemperature
-        });
-        waterTemperature.push({
-            x: item.collectTime,
-            y: item.waterTemperature
-        });
-        voltage.push({
-            x: item.collectTime,
-            y: item.voltage
-        });
-        signal.push({
-            x: item.collectTime,
-            y: item.signal
-        });
-
-
+        airTemperature.push(item.airTemperature);
+        waterTemperature.push(item.waterTemperature);
+        voltage.push(item.voltage);
+        signal.push(item.signal);
     });
 
-    //数值后缀
-    var valueSuffixMap = new HashMap();
-    valueSuffixMap.put("地表高程", "米");
-    valueSuffixMap.put("水面高程", "米");
-    valueSuffixMap.put("水深", "米");
-    valueSuffixMap.put("传感器埋深", "米");
-    valueSuffixMap.put("气温", '\xB0C');
-    valueSuffixMap.put("水温", '\xB0C');
-    valueSuffixMap.put("电压", "V");
-    valueSuffixMap.put("信号", "");
 
-    var tooltip = {
+    var tooltip1 = {
         formatter: function () {
             var showText = '<b>' + this.series.name + '</b><br/>' +
-                Highcharts.dateFormat('%m-%d %H:%M:%S', this.x) + '<br/>' +
-                Highcharts.numberFormat(this.y) + valueSuffixMap.get(this.series.name);
-            return showText;
-        }
+                Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+                Highcharts.numberFormat(this.y);
+            return showTextl;
+        },
+        valueSuffix: '米'
     }
 
 
@@ -183,12 +130,11 @@ function dataCallbackShow(data) {
     };
 
     var charts1 = {};
-    charts1.type = 'spline';
     charts1.title = title;
     charts1.subtitle = subtitle;
     charts1.xAxis = xAxis;
     charts1.yAxis = yAxis1;
-    charts1.tooltip = tooltip;
+    charts1.tooltip = tooltip1;
     charts1.legend = legend;
     charts1.series = series1;
     charts1.credits = {
@@ -196,6 +142,9 @@ function dataCallbackShow(data) {
     };
 
 
+    var tooltip2 = {
+        valueSuffix: '\xB0C'
+    }
     //图表2
     var series2 = [];
     series2.push({
@@ -208,47 +157,31 @@ function dataCallbackShow(data) {
     });
     series2.push({
         name: '电压',
-        data: voltage,
-        yAxis: 1
+        data: voltage
     });
     series2.push({
         name: '信号',
-        data: signal,
-        yAxis: 1
+        data: signal
     });
 
 
-    var yAxis2 = [
-        {
-            title: {
-                text: 'Temperature (\xB0C)'
-            },
-            plotLines: [{
-                value: 0,
-                width: 1,
-                color: '#808080'
-            }]
+    var yAxis2 = {
+        title: {
+            text: 'Temperature (\xB0C)'
         },
-        {
-            title: {
-                text: '数值',
-                style: {
-                    color: '#00AA00'
-                }
-            },
-            opposite: true
-        }
-
-    ];
-
+        plotLines: [{
+            value: 0,
+            width: 1,
+            color: '#808080'
+        }]
+    };
 
     var charts2 = {};
-    charts2.type = 'spline';
     charts2.title = title;
     charts2.subtitle = subtitle;
     charts2.xAxis = xAxis;
     charts2.yAxis = yAxis2;
-    charts2.tooltip = tooltip;
+    charts2.tooltip = tooltip2;
     charts2.legend = legend;
     charts2.series = series2;
     charts2.credits = {

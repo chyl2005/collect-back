@@ -63,13 +63,68 @@
                             <input type="text" class="form-control" id="deviceId" placeholder="请输入设备ID" value="${deviceId}">
                         </div>
                         <div class="col-sm-2">
-                            <button type="button" class="btn btn-primary searchData" >查询</button>
+                            <button type="button" class="btn btn-primary searchData">查询</button>
                         </div>
 
                         <div class="page-content-area">
 
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="widget-box transparent">
+                                        <div class="widget-header widget-header-flat">
+                                            <h4 class="widget-title lighter">
+                                                <i class="ace-icon fa fa-signal"></i>
+                                                Stats
+                                            </h4>
 
-                        </div><!-- /.page-content-area -->
+                                            <div class="widget-toolbar">
+                                                <a href="#" data-action="collapse">
+                                                    <i class="ace-icon fa fa-chevron-up"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                        <div class="widget-body">
+                                            <div class="widget-main padding-4">
+
+                                                <div id="charts1"></div>
+
+                                            </div><!-- /.widget-main -->
+                                        </div><!-- /.widget-body -->
+                                    </div><!-- /.widget-box -->
+                                </div>
+
+
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="widget-box transparent">
+                                        <div class="widget-header widget-header-flat">
+                                            <h4 class="widget-title lighter">
+                                                <i class="ace-icon fa fa-signal"></i>
+                                                Stats
+                                            </h4>
+
+                                            <div class="widget-toolbar">
+                                                <a href="#" data-action="collapse">
+                                                    <i class="ace-icon fa fa-chevron-up"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                        <div class="widget-body">
+                                            <div class="widget-main padding-4">
+
+                                                <div id="charts2"></div>
+
+                                            </div><!-- /.widget-main -->
+                                        </div><!-- /.widget-body -->
+                                    </div><!-- /.widget-box -->
+                                </div>
+                            </div>
+                        </div>
 
 
                         <!-- PAGE CONTENT ENDS -->
@@ -87,27 +142,23 @@
 <script src="${base}/assets/js/highcharts.js"></script>
 
 
-<script src="${base}/app/dataUtils.js"></script>
-
 <script type="text/javascript">
-    var nowdate = new Date();
-    var y = nowdate.getFullYear();
-    var m = nowdate.getMonth() + 1;
-    var d = nowdate.getDate();
+    var curDate = new Date();
+
     $('.endTime').datetimepicker({
         format: 'YYYYMMDD',
         showTodayButton: true,
         showClose: true,
-        defaultDate: getFormatDate(nowdate, "yyyyMMdd")
+        defaultDate: getFormatDate(curDate, "yyyyMMdd")
 
     });
 
-    nowdate.setMonth(nowdate.getMonth() - 1);
+    var preDate = new Date(curDate.getTime() - 7 * 24 * 60 * 60 * 1000);
     $('.startTime').datetimepicker({
         format: 'YYYYMMDD',
         showTodayButton: true,
         showClose: true,
-        defaultDate: getFormatDate(nowdate, "yyyyMMdd")
+        defaultDate: getFormatDate(preDate, "yyyyMMdd")
 
     });
 </script>

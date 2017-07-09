@@ -115,19 +115,5 @@ public class MenuController {
         return webResponse;
     }
 
-    /**
-     * @return List<Module> 返回类型
-     * @Description: 根据用户信息查询左边栏
-     * @author chenyanlong
-     * @date 2015年11月23日 下午2:26:35
-     */
-    @RequestMapping("/left")
-    @ResponseBody
-    public WebResponse getLeftModuleList() {
-        WebResponse webResponse = WebResponse.getSuccessWebResponse();
-        // 检查页面的cookie
-        List<Menu> menus = UserUtils.getMenus();
-        webResponse.setData(menus);
-        return webResponse;
-    }
+
 }

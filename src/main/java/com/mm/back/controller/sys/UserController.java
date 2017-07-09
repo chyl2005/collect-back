@@ -4,6 +4,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.mm.back.common.Menu;
 import com.mm.back.common.Role;
@@ -51,7 +52,7 @@ public class UserController {
 
     @RequestMapping("/getRoles")
     @ResponseBody
-    public WebResponse getRoles(Integer userId) {
+    public WebResponse getRoles(@RequestParam Integer userId) {
         WebResponse webResponse = WebResponse.getSuccessWebResponse();
         List<Role> list = this.userService.getRoles(userId);
         webResponse.setData(list);
@@ -104,17 +105,7 @@ public class UserController {
     @ResponseBody
     public WebResponse saveOrUpdate(UserEntity user) {
         WebResponse webResponse = WebResponse.getSuccessWebResponse();
-        if (null != user) {
-            String userName = user.getUserName();
-            String password = user.getPassword();
-            String pwd = MD5Utils.getMD5(userName + password);
-            user.setPassword(pwd);
-            if (user.getId() != null) {
-                this.userService.updateEntity(user);
-            } else {
-                this.userService.saveEntity(user);
-            }
-        }
+        this.userService.saveOrUpdate(user);
         return webResponse;
     }
 

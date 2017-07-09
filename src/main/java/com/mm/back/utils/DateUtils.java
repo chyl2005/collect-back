@@ -67,6 +67,18 @@ public class DateUtils {
         return cal.getTime();
     }
 
+
+    /**
+     * @param minutes
+     * @return
+     */
+    public static Date getDateAfterMinutes(Date date,int minutes) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.MINUTE, minutes);
+        return cal.getTime();
+    }
+
     /**
      * @param date
      * @param daysAfter

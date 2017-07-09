@@ -1,6 +1,4 @@
-/**
- * 收款日结算订单
- */
+
 var pageCur = 1;
 var pageSize = 10;
 // 列表数据请求url

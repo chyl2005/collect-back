@@ -41,6 +41,7 @@ public class DeviceSettingDaoImpl extends BaseDaoImpl<DeviceSettingEntity> imple
             device.setSurfaceHigh(deviceConfig.getSurfaceHigh());
             device.setWakeupTime1(deviceConfig.getWakeupTime1());
             device.setWakeupTime2(deviceConfig.getWakeupTime2());
+            device.setSerialNum(deviceConfig.getSerialNum());
             device.setGmtModified(new Date());
             device.setIsDel(DeleteStatusEnum.NOT_DEL.getCode());
             this.update(device);

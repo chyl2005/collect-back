@@ -2,6 +2,8 @@ package com.mm.back.entity;
 
 import java.util.Date;
 import javax.persistence.*;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 /**
  * @author chenyanlong
@@ -11,6 +13,8 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "tb_menu")
+@DynamicInsert
+@DynamicUpdate
 public class MenuEntity {
 
     @Id

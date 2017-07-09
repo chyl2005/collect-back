@@ -2,9 +2,13 @@ package com.mm.back.entity;
 
 import java.util.Date;
 import javax.persistence.*;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
 @Table(name="tb_role")
+@DynamicInsert
+@DynamicUpdate
 public class RoleEntity {
 
 	@Id

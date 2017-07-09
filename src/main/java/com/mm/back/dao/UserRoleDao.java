@@ -18,4 +18,6 @@ public interface UserRoleDao {
     List<UserRoleEntity> getUserRole(Integer userId);
 
     Boolean deleteByUserIdAndRoleId(Integer userId, Integer roleId);
+
+    UserRoleEntity saveEntity(UserRoleEntity entity);
 }

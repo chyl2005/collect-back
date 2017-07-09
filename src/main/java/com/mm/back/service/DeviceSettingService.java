@@ -1,7 +1,7 @@
 package com.mm.back.service;
 
-import com.mm.back.entity.DeviceSettingEntity;
 import com.mm.back.dto.DeviceSettingDto;
+import com.mm.back.entity.DeviceSettingEntity;
 import com.mm.back.vo.DeviceSettingVo;
 
 /**
@@ -14,9 +14,7 @@ public interface DeviceSettingService {
 
     void saveIfNotExist(DeviceSettingDto deviceSettingDto);
 
-
     void insertOrUpdate(DeviceSettingEntity deviceConfig);
-
     void insertOrUpdate(DeviceSettingDto deviceSettingDto);
 
     DeviceSettingVo getSetting(Integer deviceId);

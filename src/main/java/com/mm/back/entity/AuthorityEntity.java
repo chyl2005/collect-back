@@ -2,6 +2,8 @@ package com.mm.back.entity;
 
 import java.util.Date;
 import javax.persistence.*;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 /**
  * 权限（访问控制）  
@@ -10,6 +12,8 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="tb_auth")
+@DynamicInsert
+@DynamicUpdate
 public class AuthorityEntity {
 
 	@Id

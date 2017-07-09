@@ -12,8 +12,7 @@ import com.mm.back.entity.DeviceRecordEntity;
  */
 public interface DeviceRecordDao {
 
-
-
+    void insert(DeviceRecordEntity recordEntity);
     void insertOrUpdate(DeviceRecordEntity recordEntity);
 
 

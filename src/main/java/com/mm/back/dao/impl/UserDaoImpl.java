@@ -51,6 +51,8 @@ public class UserDaoImpl extends BaseDaoImpl<UserEntity> implements UserDao {
     @Override
     public UserEntity saveEntity(UserEntity entity) {
         this.save(entity);
+        entity.setGmtCreated(new Date());
+        entity.setGmtModified(new Date());
         return entity;
     }
 

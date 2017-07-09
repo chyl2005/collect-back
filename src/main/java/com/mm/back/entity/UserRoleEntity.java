@@ -2,6 +2,8 @@ package com.mm.back.entity;
 
 import java.util.Date;
 import javax.persistence.*;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 /**
  * 用户角色表
@@ -12,6 +14,8 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="tb_user_role")
+@DynamicInsert
+@DynamicUpdate
 public class UserRoleEntity {
 
 	@Id

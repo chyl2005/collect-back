@@ -3,6 +3,7 @@ package com.mm.back.service;
 import java.util.List;
 import com.mm.back.common.AoData;
 import com.mm.back.dto.DeviceRecordDto;
+import com.mm.back.entity.DeviceRecordEntity;
 import com.mm.back.vo.DeviceRecordVo;
 
 /**
@@ -13,7 +14,7 @@ import com.mm.back.vo.DeviceRecordVo;
  */
 public interface DeviceRecordService {
 
-
+    void insert(DeviceRecordDto deviceRecordDto);
 
     void insertOrUpdate(DeviceRecordDto deviceRecordDto);
 

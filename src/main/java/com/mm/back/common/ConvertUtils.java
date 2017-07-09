@@ -61,6 +61,7 @@ public class ConvertUtils {
         configResponse.setLinearCoefficient(configEntity.getLinearCoefficient());
         configResponse.setSoftwareVersion(configEntity.getSoftwareVersion());
         configResponse.setSerialNum(configEntity.getSerialNum());
+        configResponse.setDeviceNum(configEntity.getDeviceNum());
         return configResponse;
     }
 
@@ -81,6 +82,7 @@ public class ConvertUtils {
         configResponse.setLinearCoefficient(setting.getLinearCoefficient());
         configResponse.setSoftwareVersion(setting.getSoftwareVersion());
         configResponse.setSerialNum(setting.getSerialNum());
+        configResponse.setDeviceNum(setting.getDeviceNum());
         return configResponse;
     }
 

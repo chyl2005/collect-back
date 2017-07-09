@@ -11,9 +11,12 @@ import com.mm.back.common.AoData;
 import com.mm.back.common.WebResponse;
 import com.mm.back.constants.DeleteStatusEnum;
 import com.mm.back.entity.DeviceInfoEntity;
+import com.mm.back.entity.DeviceSettingEntity;
 import com.mm.back.service.DeviceSettingService;
 import com.mm.back.service.DeviceInfoService;
+import com.mm.back.service.DeviceUploadSettingService;
 import com.mm.back.vo.DeviceInfoVo;
+import com.mm.back.vo.DeviceSettingVo;
 
 /**
  * Author:chyl2005
@@ -29,6 +32,10 @@ public class DeviceInfoController {
     private DeviceInfoService deviceInfoService;
     @Autowired
     private DeviceSettingService deviceSettingService;
+
+
+    @Autowired
+    private DeviceUploadSettingService uploadSettingService;
 
     /**
      * 设备列表
@@ -78,13 +85,6 @@ public class DeviceInfoController {
         return webResponse;
     }
 
-    @RequestMapping("/configInfo")
-    @ResponseBody
-    public WebResponse configInfo(@RequestParam Integer deviceId) {
-        WebResponse webResponse = WebResponse.getSuccessWebResponse();
-        webResponse.setData(this.deviceSettingService.getSetting(deviceId));
-        return webResponse;
-    }
 
     @RequestMapping("/del")
     @ResponseBody
@@ -101,5 +101,53 @@ public class DeviceInfoController {
         this.deviceInfoService.updateDelStatus(deviceId, isDel);
         return webResponse;
     }
+
+
+
+
+
+    @RequestMapping("/setting/saveOrUpdate")
+    @ResponseBody
+    public WebResponse saveOrUpdate(DeviceSettingEntity deviceSetting) {
+        WebResponse webResponse = WebResponse.getSuccessWebResponse();
+        if (deviceSetting.getDeviceId() == null) {
+            throw new RuntimeException("设备ID不能为NULL");
+        }
+        deviceSettingService.insertOrUpdate(deviceSetting);
+        return webResponse;
+    }
+
+    /**
+     * 服务器机器配置
+     *
+     * @param deviceId
+     * @return
+     */
+    @RequestMapping("/setting/setting")
+    @ResponseBody
+    public WebResponse setting(@RequestParam Integer deviceId) {
+        WebResponse webResponse = WebResponse.getSuccessWebResponse();
+        DeviceSettingVo deviceSetting = deviceSettingService.getSetting(deviceId);
+        webResponse.setData(deviceSetting);
+        return webResponse;
+
+    }
+
+    /**
+     * 客户端上传参数配置
+     *
+     * @param deviceId
+     * @return
+     */
+    @RequestMapping("/setting/uploadSetting")
+    @ResponseBody
+    public WebResponse uploadSetting(@RequestParam Integer deviceId) {
+        WebResponse webResponse = WebResponse.getSuccessWebResponse();
+        DeviceSettingVo setting = uploadSettingService.getSetting(deviceId);
+        webResponse.setData(setting);
+        return webResponse;
+
+    }
+
 
 }

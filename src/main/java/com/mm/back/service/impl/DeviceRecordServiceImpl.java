@@ -34,6 +34,17 @@ public class DeviceRecordServiceImpl implements DeviceRecordService {
 
     @Transactional
     @Override
+    public void insert(DeviceRecordDto deviceRecordDto) {
+        String deviceNum = deviceRecordDto.getDeviceNum();
+        DeviceInfoEntity deviceInfo = deviceInfoDao.getDeviceByDeviceNum(deviceNum);
+        if (deviceInfo != null) {
+            deviceRecordDto.setDeviceId(deviceInfo.getId());
+        }
+        recordDao.insert(parseToDeviceRecordEntity(deviceRecordDto));
+    }
+
+    @Transactional
+    @Override
     public void insertOrUpdate(DeviceRecordDto deviceRecordDto) {
         String deviceNum = deviceRecordDto.getDeviceNum();
         DeviceInfoEntity deviceInfo = deviceInfoDao.getDeviceByDeviceNum(deviceNum);
