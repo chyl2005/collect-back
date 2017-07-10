@@ -30,8 +30,8 @@ public class DeviceUploadSettingDaoImpl extends BaseDaoImpl<DeviceUploadSettingE
             device.setServerIp(deviceConfig.getServerIp());
             device.setServerPort(deviceConfig.getServerPort());
             device.setSurfaceHigh(deviceConfig.getSurfaceHigh());
-            device.setWakeupTime1(deviceConfig.getWakeupTime1());
-            device.setWakeupTime2(deviceConfig.getWakeupTime2());
+            device.setUploadTime(deviceConfig.getUploadTime());
+            device.setWakeInterval(deviceConfig.getWakeInterval());
             device.setGmtModified(new Date());
             device.setIsDel(DeleteStatusEnum.NOT_DEL.getCode());
             this.update(device);
