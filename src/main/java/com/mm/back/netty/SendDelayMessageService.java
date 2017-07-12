@@ -30,12 +30,11 @@ public class SendDelayMessageService {
      */
     public void send(ChannelHandlerContext channelHandlerContext, String message) {
         String address = channelHandlerContext.channel().remoteAddress().toString();
-        LOGGER.info("SendDelayMessageService.send  address={} message={}", address, message);
         scheduledExecutorService.schedule(new Runnable() {
             @Override
             public void run() {
-                channelHandlerContext.writeAndFlush(message + "\n");
-                LOGGER.info(channelHandlerContext.channel().remoteAddress() + " 发送 : " + message);
+                channelHandlerContext.writeAndFlush(message);
+                LOGGER.info("SendDelayMessageService.send  address={} message={}", address, message);
             }
         }, DELAY, TimeUnit.MILLISECONDS);
     }

@@ -1,7 +1,9 @@
 package com.mm.back.dto;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Author:chyl2005
@@ -9,8 +11,8 @@ import java.util.Date;
  * Time:13:08
  * Desc:设备配置信息
  */
+@JsonAutoDetect
 public class DeviceSettingDto {
-
 
     private Integer deviceId;
     private Integer wellNum;
@@ -21,6 +23,7 @@ public class DeviceSettingDto {
 
     private String phonenumber1;
     private String phonenumber2;
+    @JsonProperty("IPAddress")
     private String IPAddress;
     private Integer portNumber;
 

@@ -77,7 +77,7 @@ public enum CommandEnum {
         sb.append("linearCoefficient:").append(setting.getLinearCoefficient().setScale(4)).append("##");
         sb.append("phonenumber1:").append(setting.getPhonenumber1()).append("##");
         sb.append("phonenumber2:").append(setting.getPhonenumber2()).append("##");
-        sb.append("IPAddress:103.044.145.247").append(StringUtils.isNotBlank(setting.getIPAddress())?setting.getIPAddress():"47.94.194.137").append("##");
+        sb.append("IPAddress:").append(StringUtils.isNotBlank(setting.getIPAddress())?setting.getIPAddress():"047.094.194.137").append("##");
         sb.append("portNumber:").append(10086).append("##");
         sb.append("WakeInterval:").append(setting.getWakeInterval()).append("##");
         sb.append("UploadTime:").append(setting.getUploadTime()).append("##");

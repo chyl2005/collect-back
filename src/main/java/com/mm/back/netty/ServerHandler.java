@@ -9,16 +9,13 @@ import io.netty.util.concurrent.GlobalEventExecutor;
 
 import java.net.InetAddress;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.mm.back.constants.CommandEnum;
 import com.mm.back.service.HandlerMessageService;
 
 /**
@@ -52,7 +49,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
         //            channel.writeAndFlush("[SERVER] - " + incoming.remoteAddress() + " 加入\n");
         //        }
         //设备连接时  查询设备参数
-        sendDelayMessageService.send(channelHandlerContext, CommandEnum.QUERY_PARAM.getCommond() + "\n");
+//        sendDelayMessageService.send(channelHandlerContext, CommandEnum.QUERY_PARAM.getCommond() );
         //地址到 设备号映射
         addressToDeviceNumMap.put(channelHandlerContext.channel().remoteAddress().toString(), "");
 
@@ -75,6 +72,9 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
 
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, String message) throws Exception {
+        if (message.contains("installation")) {
+            sendDelayMessageService.send(channelHandlerContext,"立即进入停止模式");
+        }
         //命令编号
         String address = channelHandlerContext.channel().remoteAddress().toString();
         String deviceNum = addressToDeviceNumMap.get(address);
@@ -84,14 +84,11 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
         if (message.contains("commandNum")) {
             messageService.handlerMessage(noWhitespaceMessage, address);
         }
-
         //发送设置信息
         if (message.contains("OK")) {
             messageService.sendMessage(channelHandlerContext);
         }
-        if (message.contains("installation")) {
-            sendDelayMessageService.send(channelHandlerContext,"立即进入停止模式");
-        }
+
     }
 
     /*
@@ -105,7 +102,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
 
         LOGGER.info("RamoteAddress : " + ctx.channel().remoteAddress() + " active !");
 
-        ctx.writeAndFlush("Welcome to " + InetAddress.getLocalHost().getHostAddress() + " service!\n");
+        ctx.writeAndFlush("Welcome to " + InetAddress.getLocalHost().getHostAddress() + " service!");
 
         super.channelActive(ctx);
     }

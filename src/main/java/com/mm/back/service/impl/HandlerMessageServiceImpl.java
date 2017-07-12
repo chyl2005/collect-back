@@ -106,16 +106,16 @@ public class HandlerMessageServiceImpl implements HandlerMessageService {
         String deviceNum = ServerHandler.addressToDeviceNumMap.get(address);
         DeviceInfoEntity deviceInfo = deviceInfoDao.getDeviceByDeviceNum(deviceNum);
         if (StringUtils.isBlank(deviceNum) || deviceInfo == null) {
-            sendDelayMessageService.send(channelHandlerContext, CommandEnum.QUERY_PARAM.getCommond() + "\n");
-            LOGGER.error(channelHandlerContext.channel().remoteAddress() + " 发送 : " + CommandEnum.QUERY_PARAM.getCommond());
+            sendDelayMessageService.send(channelHandlerContext, CommandEnum.QUERY_PARAM.getCommond());
+            LOGGER.warn(channelHandlerContext.channel().remoteAddress() + " 发送 : " + CommandEnum.QUERY_PARAM.getCommond());
             return;
         }
 
         //获取后台配置信息
         DeviceSettingDto settingDto = settingService.getSettingDto(deviceInfo.getId());
         if (settingDto == null) {
-            sendDelayMessageService.send(channelHandlerContext, CommandEnum.QUERY_PARAM.getCommond() + "\n");
-            LOGGER.error(channelHandlerContext.channel().remoteAddress() + "没有查询到配置信息 发送 : " + CommandEnum.QUERY_PARAM.getCommond());
+            sendDelayMessageService.send(channelHandlerContext, CommandEnum.QUERY_PARAM.getCommond());
+            LOGGER.warn(channelHandlerContext.channel().remoteAddress() + "没有查询到配置信息 发送 : " + CommandEnum.QUERY_PARAM.getCommond());
             return;
         }
         Integer oknum = ServerHandler.clientOKNum.get(channelHandlerContext.channel().remoteAddress().toString());
@@ -133,7 +133,7 @@ public class HandlerMessageServiceImpl implements HandlerMessageService {
                 String hhmm = DateUtils.getDateformat(afterMinutes, DateUtils.HHmm);
                 settingDto.setUploadTime(hhmm);
             }
-            sendDelayMessageService.send(channelHandlerContext, CommandEnum.getClientSettingParam(settingDto) + "\n");
+            sendDelayMessageService.send(channelHandlerContext, CommandEnum.getClientSettingParam(settingDto));
         }
 
         LOGGER.info("ServerHandler.channelRead0 address={}  oknum={}", address, oknum);
