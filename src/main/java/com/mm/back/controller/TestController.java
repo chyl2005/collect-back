@@ -15,8 +15,8 @@ import com.mm.back.dto.DeviceRecordDto;
 import com.mm.back.dto.DeviceSettingData;
 import com.mm.back.entity.DeviceInfoEntity;
 import com.mm.back.service.DeviceRecordService;
-import com.mm.back.utils.DateUtils;
-import com.mm.back.utils.JsonUtils;
+import com.mm.common.utils.DateUtils;
+import com.mm.common.utils.JsonUtils;
 
 /**
  * Author:chyl2005

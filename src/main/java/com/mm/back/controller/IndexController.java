@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.mm.back.common.Menu;
 import com.mm.back.common.User;
 import com.mm.back.common.WebResponse;
-import com.mm.back.utils.UserUtils;
+import com.mm.common.utils.UserUtils;
 
 /**
  * Author:chenyanlong@meituan.com

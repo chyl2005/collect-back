@@ -6,15 +6,14 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import javax.annotation.Resource;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.mm.back.common.Menu;
 import com.mm.back.common.User;
-import com.mm.back.controller.sys.LoginController;
 import com.mm.back.dao.AuthorityDao;
 import com.mm.back.dao.ModuleDao;
 import com.mm.back.dao.UserDao;
@@ -23,8 +22,8 @@ import com.mm.back.entity.AuthorityEntity;
 import com.mm.back.entity.MenuEntity;
 import com.mm.back.entity.UserEntity;
 import com.mm.back.entity.UserRoleEntity;
-import com.mm.back.utils.AuthorityUtils;
-import com.mm.back.utils.JsonUtils;
+import com.mm.common.utils.AuthorityUtils;
+import com.mm.common.utils.JsonUtils;
 import com.mm.back.vo.UserInfoCacheVo;
 
 /**
@@ -35,7 +34,7 @@ import com.mm.back.vo.UserInfoCacheVo;
  */
 @Service("authorityService")
 public class AuthorityService {
-    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(AuthorityService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuthorityService.class);
     @Resource(name = "authorityDao")
     private AuthorityDao authorityDao;
     @Resource(name = "userRoleDao")

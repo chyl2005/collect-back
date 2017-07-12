@@ -1,4 +1,4 @@
-package com.mm.back.utils;
+package com.mm.common.utils;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;

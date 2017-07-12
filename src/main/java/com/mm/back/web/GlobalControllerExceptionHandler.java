@@ -1,6 +1,5 @@
 package com.mm.back.web;
 
-import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +13,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import com.mm.back.common.ThreadLocalContext;
 import com.mm.back.common.ThreadLocalIndex;
 import com.mm.back.common.WebResponse;
-import com.mm.back.utils.JsonUtils;
+import com.mm.common.utils.JsonUtils;
 
 /**
  * Author:chyl2005

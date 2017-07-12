@@ -4,9 +4,6 @@ var dataUrl = rootPath + "deviceRecord/list";
 $(document).ready(function () {
 
 
-
-
-
     Highcharts.setOptions({global: {useUTC: false}});
     // 加载数据
     loadData(dataUrl);
@@ -25,6 +22,13 @@ function getServerParams() {
     postData.startTime = $("#startTime").val();
     postData.endTime = $("#endTime").val();
     return postData;
+}
+
+function download() {
+    var postData = getServerParams();
+    var url = rootPath + "deviceRecord/download?" + $.param(postData);
+    window.location.href = url;
+
 }
 
 // 数据加载

@@ -16,7 +16,7 @@ import com.mm.back.dao.UserRoleDao;
 import com.mm.back.entity.RoleEntity;
 import com.mm.back.entity.UserEntity;
 import com.mm.back.entity.UserRoleEntity;
-import com.mm.back.utils.MD5Utils;
+import com.mm.common.utils.MD5Utils;
 import com.mm.back.vo.UserVo;
 
 @Service("userService")

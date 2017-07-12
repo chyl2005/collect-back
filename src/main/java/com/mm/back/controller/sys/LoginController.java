@@ -17,8 +17,8 @@ import com.mm.back.common.WebResponse;
 import com.mm.back.entity.UserEntity;
 import com.mm.back.service.LoginInfoService;
 import com.mm.back.service.UserService;
-import com.mm.back.utils.MD5Utils;
-import com.mm.back.utils.ValidateCode;
+import com.mm.common.utils.MD5Utils;
+import com.mm.common.utils.ValidateCode;
 
 /**
  * @author chyl
@@ -129,6 +129,7 @@ public class LoginController {
         if (logincookie != null) {
             this.loginInfoService.del(logincookie);
         }
+        response.sendRedirect(config.getLoginUrl());
     }
 
     /**

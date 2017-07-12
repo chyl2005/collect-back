@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import com.mm.back.dto.DeviceSettingDto;
-import com.mm.back.utils.DateUtils;
+import com.mm.common.utils.DateUtils;
 
 /**
  * Author:chyl2005
@@ -15,8 +15,7 @@ import com.mm.back.utils.DateUtils;
  */
 public enum CommandEnum {
 
-    QUERY_NEW_DATA1(100, "JSON查询最新数据", ""),
-    QUERY_NEW_DATA2(101, "JSON查询最新数据", ""),
+    QUERY_NEW_DATA1(100, "查询数据：", ""),
     QUERY_DATA(102, "JSON查询数据：@num", ""),
     QUERY_PARAM(104, "JSON查询全部参数", ""),
     QUERY_STORE_INFO(103, "JSON查询储存信息", ""),

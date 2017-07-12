@@ -53,7 +53,6 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
         //        }
         //设备连接时  查询设备参数
         sendDelayMessageService.send(channelHandlerContext, CommandEnum.QUERY_PARAM.getCommond() + "\n");
-        LOGGER.info(channelHandlerContext.channel().remoteAddress() + " 发送 : " + CommandEnum.QUERY_PARAM.getCommond());
         //地址到 设备号映射
         addressToDeviceNumMap.put(channelHandlerContext.channel().remoteAddress().toString(), "");
 
@@ -79,7 +78,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
         //命令编号
         String address = channelHandlerContext.channel().remoteAddress().toString();
         String deviceNum = addressToDeviceNumMap.get(address);
-        LOGGER.info("ServerHandler.channelRead0 address={}  deviceNum={}", address, deviceNum);
+        LOGGER.info("ServerHandler.channelRead0 address={}  deviceNum={} message={}", address, deviceNum,message);
 
         String noWhitespaceMessage = StringUtils.deleteWhitespace(message);
         if (message.contains("commandNum")) {
@@ -88,12 +87,11 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
 
         //发送设置信息
         if (message.contains("OK")) {
-
+            messageService.sendMessage(channelHandlerContext);
         }
-
-        // 收到消息直接打印输出
-        LOGGER.info(channelHandlerContext.channel().remoteAddress() + " Say : " + message);
-
+        if (message.contains("installation")) {
+            sendDelayMessageService.send(channelHandlerContext,"立即进入停止模式");
+        }
     }
 
     /*

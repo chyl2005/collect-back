@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.mm.back.dto.DeviceRecordDto;
-import com.mm.back.utils.DateUtils;
+import com.mm.common.utils.DateUtils;
 
 /**
  * Author:chenyanlong@meituan.com

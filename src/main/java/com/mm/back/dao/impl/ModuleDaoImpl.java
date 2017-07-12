@@ -85,12 +85,14 @@ public class ModuleDaoImpl extends BaseDaoImpl<MenuEntity> implements ModuleDao 
     @Override
     public AoData getPageModules(Integer parentId) {
         StringBuilder hql = new StringBuilder();
-        hql.append("from MenuEntity ");
+        hql.append("from MenuEntity where 1=1 ");
         HashMap<String, Object> paras = new HashMap<String, Object>();
         if (parentId != null) {
-            hql.append(" where parentId=:parentId");
+            hql.append(" and parentId=:parentId");
             paras.put("parentId", parentId);
         }
+        hql.append(" and isDel=:isDel");
+        paras.put("isDel", DeleteStatusEnum.NOT_DEL.getCode());
         return this.findPage(null, hql.toString(), paras);
     }
 

@@ -13,9 +13,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.mm.back.common.Config;
 import com.mm.back.common.User;
 import com.mm.back.service.LoginInfoService;
-import com.mm.back.utils.CookieUtils;
-import com.mm.back.utils.PageUtil;
-import com.mm.back.utils.UserUtils;
+import com.mm.common.utils.CookieUtils;
+import com.mm.common.utils.PageUtil;
+import com.mm.common.utils.UserUtils;
 import com.mm.back.vo.UserInfoCacheVo;
 
 /**

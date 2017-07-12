@@ -24,6 +24,9 @@ public class Config implements InitializingBean {
     @Value("${projectName}")
     private String projectName;
 
+    @Value("${env}")
+    private String env;
+
     @Override
     public void afterPropertiesSet() throws Exception {
         LOGGER.info("Config   loginkey={} authcode={} host={}", loginkey, authcode, host);
@@ -55,5 +58,9 @@ public class Config implements InitializingBean {
 
     public String getBaseUrl() {
         return host + "/" + projectName;
+    }
+
+    public String getEnv() {
+        return env;
     }
 }

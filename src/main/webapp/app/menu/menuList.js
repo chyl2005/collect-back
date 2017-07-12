@@ -6,7 +6,7 @@ var pageSize = 10;
 // 列表数据请求url
 var dataUrl = rootPath + "menu/list";
 var moduleUrl = rootPath + "menu/getModules";
-var deleteUrl = rootPath + "menu/deleteEntity";
+var deleteUrl = rootPath + "menu/del";
 
 var saveOrUpdateUrl = rootPath + "menu/saveOrUpdate";
 $(document).ready(function () {

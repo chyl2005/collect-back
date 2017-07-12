@@ -3,7 +3,13 @@ package com.mm.back.service.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,8 +21,8 @@ import com.mm.back.dto.DeviceRecordDto;
 import com.mm.back.entity.DeviceInfoEntity;
 import com.mm.back.entity.DeviceRecordEntity;
 import com.mm.back.service.DeviceRecordService;
-import com.mm.back.utils.DateUtils;
 import com.mm.back.vo.DeviceRecordVo;
+import com.mm.common.utils.DateUtils;
 
 /**
  * Author:chyl2005
@@ -79,6 +85,50 @@ public class DeviceRecordServiceImpl implements DeviceRecordService {
         aoData.setDatas(responses);
         return aoData;
     }
+    @Override
+    public Workbook download(Integer deviceId, Integer startTime, Integer endTime) {
+        List<DeviceRecordVo> records = this.getRecords(deviceId, startTime, endTime);
+
+        Workbook workbook = new SXSSFWorkbook(100);//内存中保留 100 条数据，以免内存溢出，其余写入 硬盘
+        Sheet sheet = workbook.createSheet("上传记录");
+        if (CollectionUtils.isEmpty(records)) {
+            return workbook;
+        }
+        //设置title
+        Integer rowNum = 0;
+        Integer titleCellNum = 0;
+        Row titleRow = sheet.createRow(rowNum++);
+        titleRow.createCell(titleCellNum++).setCellValue("设备ID");
+        titleRow.createCell(titleCellNum++).setCellValue("设备硬件编号");
+        titleRow.createCell(titleCellNum++).setCellValue("日期");
+        titleRow.createCell(titleCellNum++).setCellValue("上传时间");
+        titleRow.createCell(titleCellNum++).setCellValue("地表高程(米)");
+        titleRow.createCell(titleCellNum++).setCellValue("传感器深度(米)");
+        titleRow.createCell(titleCellNum++).setCellValue("水面高程(米)");
+        titleRow.createCell(titleCellNum++).setCellValue("水面埋深(米)");
+        titleRow.createCell(titleCellNum++).setCellValue("气温(\u2103)");
+        titleRow.createCell(titleCellNum++).setCellValue("水温(\u2103)");
+        titleRow.createCell(titleCellNum++).setCellValue("电压(V)");
+        titleRow.createCell(titleCellNum++).setCellValue("信号");
+        for (DeviceRecordVo record : records) {
+            Row row = sheet.createRow(rowNum++);
+            Integer cellNum = 0;
+            row.createCell(cellNum++).setCellValue(record.getDeviceId());
+            row.createCell(cellNum++).setCellValue(record.getDeviceNum());
+            row.createCell(cellNum++).setCellValue(record.getDatekey());
+            row.createCell(cellNum++).setCellValue(DateUtils.getDateformat(record.getCollectTime(),DateUtils.YMD_HMS_FORMAT));
+            row.createCell(cellNum++).setCellValue(record.getSurfaceHigh().doubleValue());
+            row.createCell(cellNum++).setCellValue(record.getSensorDepth().doubleValue());
+            row.createCell(cellNum++).setCellValue(record.getWaterHigh().doubleValue());
+            row.createCell(cellNum++).setCellValue(record.getWaterDepth().doubleValue());
+            row.createCell(cellNum++).setCellValue(record.getAirTemperature().doubleValue());
+            row.createCell(cellNum++).setCellValue(record.getWaterTemperature().doubleValue());
+            row.createCell(cellNum++).setCellValue(record.getVoltage().doubleValue());
+            row.createCell(cellNum++).setCellValue(record.getSignal().doubleValue());
+        }
+
+        return workbook;
+    }
 
     private DeviceRecordEntity parseToDeviceRecordEntity(DeviceRecordDto deviceRecordDto) {
         DeviceRecordEntity record = new DeviceRecordEntity();
@@ -104,4 +154,5 @@ public class DeviceRecordServiceImpl implements DeviceRecordService {
         return record;
 
     }
+
 }

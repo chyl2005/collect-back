@@ -1,4 +1,4 @@
-package com.mm.back.utils;
+package com.mm.common.utils;
 
 /**
  * 帮助线程关联线程局部变量的工具类

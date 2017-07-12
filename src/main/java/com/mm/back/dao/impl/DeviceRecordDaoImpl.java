@@ -9,7 +9,6 @@ import com.mm.back.common.AoData;
 import com.mm.back.constants.DeleteStatusEnum;
 import com.mm.back.dao.DeviceRecordDao;
 import com.mm.back.entity.DeviceRecordEntity;
-import com.mm.back.utils.DateUtils;
 
 /**
  * Author:chyl2005
@@ -67,7 +66,7 @@ public class DeviceRecordDaoImpl extends BaseDaoImpl<DeviceRecordEntity> impleme
 
         paras.put("startTime", startTime);
         paras.put("endTime", endTime);
-        hql.append(" and  datekey between  :startTime and :endTime");
+        hql.append(" and  datekey between  :startTime and :endTime order by minutes");
 
         return this.findPage(null, hql.toString(), paras);
     }
@@ -83,7 +82,7 @@ public class DeviceRecordDaoImpl extends BaseDaoImpl<DeviceRecordEntity> impleme
 
         paras.put("startTime", startTime);
         paras.put("endTime", endTime);
-        hql.append(" and  datekey between  :startTime and :endTime");
+        hql.append(" and  datekey between  :startTime and :endTime order by minutes");
         return this.find( hql.toString(), paras);
     }
 }

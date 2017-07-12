@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import com.mm.back.common.AoData;
 import com.mm.back.dao.BaseDao;
-import com.mm.back.utils.PageUtil;
+import com.mm.common.utils.PageUtil;
 
 /**
  * 

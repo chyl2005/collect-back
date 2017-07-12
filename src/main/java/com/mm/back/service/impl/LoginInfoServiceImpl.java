@@ -9,7 +9,7 @@ import com.mm.back.dao.LoginInfoDao;
 import com.mm.back.entity.LoginInfoEntity;
 import com.mm.back.service.AuthorityService;
 import com.mm.back.service.LoginInfoService;
-import com.mm.back.utils.JsonUtils;
+import com.mm.common.utils.JsonUtils;
 import com.mm.back.vo.UserInfoCacheVo;
 
 /**

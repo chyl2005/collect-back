@@ -1,4 +1,4 @@
-package com.mm.back.utils;
+package com.mm.common.utils;
 
 import java.awt.*;
 import java.io.ByteArrayInputStream;

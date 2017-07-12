@@ -18,8 +18,8 @@ import com.mm.back.common.ThreadLocalContext;
 import com.mm.back.common.ThreadLocalIndex;
 import com.mm.back.entity.MenuEntity;
 import com.mm.back.service.ModuleService;
-import com.mm.back.utils.JsonUtils;
-import com.mm.back.utils.UserUtils;
+import com.mm.common.utils.JsonUtils;
+import com.mm.common.utils.UserUtils;
 
 /**
  * @author chenyanlong

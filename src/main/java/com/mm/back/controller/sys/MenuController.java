@@ -12,7 +12,6 @@ import com.mm.back.common.WebResponse;
 import com.mm.back.entity.MenuEntity;
 import com.mm.back.service.AuthorityService;
 import com.mm.back.service.ModuleService;
-import com.mm.back.utils.UserUtils;
 
 /**
  * @author chenyanlong

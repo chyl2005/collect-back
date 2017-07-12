@@ -1,4 +1,4 @@
-package com.mm.back.utils;
+package com.mm.common.utils;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -14,7 +14,9 @@ public class DateUtils {
     public static final String DATE_KEY_FORMAT = "yyyyMMdd";
     public static final String YY_MM = "yyyyMM";
     public static final String YMD_FORMAT = "yyyy-MM-dd";
+    public static final String YMD_FORMAT1 = "2017/07/12";
     public static final String yyyyMMddHHmmss = "yyyyMMddHHmmss";
+    public static final String HHmm = "HH/mm";
     public static final String yyyyMMddHHmm = "yyyyMMddHHmm";
     public static final String YMD_HMS_FORMAT_DIAS = "yyyy/MM/dd/HH/mm/ss";
     public static final String YMD_HMS_FORMAT = "yyyy-MM-dd HH:mm:ss";

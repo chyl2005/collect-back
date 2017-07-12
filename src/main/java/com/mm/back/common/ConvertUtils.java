@@ -113,6 +113,7 @@ public class ConvertUtils {
     public static DeviceRecordVo parseToDeviceRecordVo(DeviceRecordEntity recordEntity) {
         DeviceRecordVo recordVo = new DeviceRecordVo();
         recordVo.setDeviceId(recordEntity.getDeviceId());
+        recordVo.setDeviceNum(recordEntity.getDeviceNum());
         recordVo.setDatekey(recordEntity.getDatekey());
         recordVo.setSensorDepth(recordEntity.getSensorDepth());
         recordVo.setSurfaceHigh(recordEntity.getSurfaceHigh());

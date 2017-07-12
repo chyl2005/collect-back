@@ -5,7 +5,6 @@ package com.mm.back.service;
 import java.util.*;
 import java.util.stream.Collectors;
 import javax.annotation.Resource;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.mm.back.common.AoData;
@@ -17,7 +16,7 @@ import com.mm.back.dao.RoleDao;
 import com.mm.back.entity.AuthorityEntity;
 import com.mm.back.entity.MenuEntity;
 import com.mm.back.entity.RoleEntity;
-import com.mm.back.utils.AuthorityUtils;
+import com.mm.common.utils.AuthorityUtils;
 
 @Service("roleService")
 public class RoleService {

@@ -1,6 +1,7 @@
 package com.mm.back.service;
 
 import java.util.List;
+import org.apache.poi.ss.usermodel.Workbook;
 import com.mm.back.common.AoData;
 import com.mm.back.dto.DeviceRecordDto;
 import com.mm.back.entity.DeviceRecordEntity;
@@ -21,4 +22,6 @@ public interface DeviceRecordService {
     List<DeviceRecordVo> getRecords(Integer deviceId, Integer startTime, Integer endTime);
 
     AoData<List<DeviceRecordVo>> getPageRecords(Integer deviceId, Integer startTime, Integer endTime);
+
+    Workbook download(Integer deviceId, Integer startTime, Integer endTime);
 }

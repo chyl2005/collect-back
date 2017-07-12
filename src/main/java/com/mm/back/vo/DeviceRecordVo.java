@@ -15,6 +15,7 @@ public class DeviceRecordVo {
      * 设备ID
      */
     private Integer deviceId;
+    private String deviceNum;
     /**
      * 20170101
      */
@@ -180,5 +181,13 @@ public class DeviceRecordVo {
 
     public void setCollectTime(Date collectTime) {
         this.collectTime = collectTime;
+    }
+
+    public String getDeviceNum() {
+        return deviceNum;
+    }
+
+    public void setDeviceNum(String deviceNum) {
+        this.deviceNum = deviceNum;
     }
 }

@@ -6,13 +6,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import com.mm.back.common.Menu;
 import com.mm.back.common.Role;
 import com.mm.back.common.WebResponse;
 import com.mm.back.entity.UserEntity;
 import com.mm.back.service.UserService;
-import com.mm.back.utils.MD5Utils;
-import com.mm.back.utils.UserUtils;
+import com.mm.common.utils.MD5Utils;
 
 @Controller
 @RequestMapping("/user")
