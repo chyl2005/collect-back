@@ -77,9 +77,10 @@ function dataCallbackShow(data) {
         row.find("#deviceNum").text(item.deviceNum);
         row.find("#cityName").text(item.cityName);
         row.find("#provinceName").text(item.provinceName);
+        row.find("#ip").text(item.clientIP);
         row.find("#gmtCreated").text(getSmpFormatDateByLong(item.gmtCreated, true));
         row.find("#gmtModified").text(getSmpFormatDateByLong(item.gmtModified, true));
-        row.find("input[name='delStatus']").prop('checked', item.isDel == 1 ? true : false);
+        row.find("input[name='online']").prop('checked', item.online == 1 ? true : false);
         row.appendTo("#lists");
     });
 

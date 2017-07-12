@@ -31,8 +31,10 @@ public class DeviceInfoVo {
     private BigDecimal longitude;
     private Integer cityId;
     private String cityName;
+    private String clientIP;
     private Integer provinceId;
     private String provinceName;
+    private Integer online;
     /**
      * 创建时间
      */
@@ -150,5 +152,21 @@ public class DeviceInfoVo {
 
     public void setIsDel(Integer isDel) {
         this.isDel = isDel;
+    }
+
+    public Integer getOnline() {
+        return online;
+    }
+
+    public void setOnline(Integer online) {
+        this.online = online;
+    }
+
+    public String getClientIP() {
+        return clientIP;
+    }
+
+    public void setClientIP(String clientIP) {
+        this.clientIP = clientIP;
     }
 }

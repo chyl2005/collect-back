@@ -2,6 +2,7 @@ package com.mm.back.controller;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Map;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import com.mm.back.dao.DeviceInfoDao;
 import com.mm.back.dto.DeviceRecordDto;
 import com.mm.back.dto.DeviceSettingData;
 import com.mm.back.entity.DeviceInfoEntity;
+import com.mm.back.netty.ServerHandler;
 import com.mm.back.service.DeviceRecordService;
 import com.mm.common.utils.DateUtils;
 import com.mm.common.utils.JsonUtils;
@@ -52,6 +54,12 @@ public class TestController {
     public boolean data(@RequestBody DeviceSettingData data) {
         String s = JsonUtils.object2Json(data);
         return true;
+    }
+
+    @RequestMapping("/online")
+    @ResponseBody
+    public Map online() {
+        return ServerHandler.addressToDeviceNumMap;
     }
 
     @RequestMapping("/getDeviceByDeviceNum")
