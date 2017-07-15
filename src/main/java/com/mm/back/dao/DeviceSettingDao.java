@@ -20,4 +20,6 @@ public interface DeviceSettingDao {
 
     DeviceSettingEntity getSetting(Integer deviceId);
 
+    DeviceSettingEntity getSetting(String deviceNum);
+
 }

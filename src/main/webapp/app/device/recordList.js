@@ -137,9 +137,9 @@ function dataCallbackShow(data) {
 
     //数值后缀
     var valueSuffixMap = new HashMap();
-    valueSuffixMap.put("地表高程", "米");
-    valueSuffixMap.put("水面高程", "米");
-    valueSuffixMap.put("水深", "米");
+    valueSuffixMap.put("地面高程", "米");
+    valueSuffixMap.put("水位标高", "米");
+    valueSuffixMap.put("水位埋深", "米");
     valueSuffixMap.put("传感器埋深", "米");
     valueSuffixMap.put("气温", '\xB0C');
     valueSuffixMap.put("水温", '\xB0C');

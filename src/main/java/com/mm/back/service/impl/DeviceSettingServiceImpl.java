@@ -5,11 +5,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.mm.back.common.ConvertUtils;
 import com.mm.back.dao.DeviceSettingDao;
-import com.mm.back.entity.DeviceSettingEntity;
 import com.mm.back.dto.DeviceSettingDto;
-import com.mm.back.entity.DeviceUploadSettingEntity;
-import com.mm.back.vo.DeviceSettingVo;
+import com.mm.back.entity.DeviceSettingEntity;
 import com.mm.back.service.DeviceSettingService;
+import com.mm.back.vo.DeviceSettingVo;
 
 /**
  * Author:chyl2005
@@ -37,7 +36,6 @@ public class DeviceSettingServiceImpl implements DeviceSettingService {
         deviceSettingDao.insertOrUpdate(deviceConfig);
     }
 
-
     @Transactional
     @Override
     public void insertOrUpdate(DeviceSettingDto deviceSettingDto) {
@@ -55,11 +53,24 @@ public class DeviceSettingServiceImpl implements DeviceSettingService {
     @Override
     public DeviceSettingDto getSettingDto(Integer deviceId) {
         DeviceSettingEntity deviceConfig = deviceSettingDao.getSetting(deviceId);
+        if (deviceConfig == null) {
+            return null;
+        }
         DeviceSettingDto settingDto = ConvertUtils.parseToDeviceSettingDto(deviceConfig);
         return settingDto;
     }
 
-    private DeviceSettingEntity parseToDeviceConfigEntity(DeviceSettingDto deviceSettingDto){
+    @Override
+    public DeviceSettingDto getSettingDto(String deviceNum) {
+        DeviceSettingEntity deviceConfig = deviceSettingDao.getSetting(deviceNum);
+        if (deviceConfig == null) {
+            return null;
+        }
+        DeviceSettingDto settingDto = ConvertUtils.parseToDeviceSettingDto(deviceConfig);
+        return settingDto;
+    }
+
+    private DeviceSettingEntity parseToDeviceConfigEntity(DeviceSettingDto deviceSettingDto) {
         DeviceSettingEntity entity = new DeviceSettingEntity();
         entity.setDeviceId(deviceSettingDto.getDeviceId());
         entity.setDeviceNum(deviceSettingDto.getDeviceNum());

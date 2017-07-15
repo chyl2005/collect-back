@@ -8,7 +8,7 @@ var dataUrl = rootPath + "deviceInfo/list";
 var deleteUrl = rootPath + "deviceInfo/del";
 
 var updateStatusUrl = rootPath + "deviceInfo/updateStatus";
-var editUrl = rootPath + "deviceInfo/edit";
+var editUrl = rootPath + "deviceSetting/edit";
 
 var recordUrl = rootPath + "deviceRecord/index";
 

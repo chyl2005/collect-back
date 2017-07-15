@@ -21,7 +21,8 @@ public enum CommandEnum {
     QUERY_PARAM(104, "JSON查询全部参数", ""),
     QUERY_STORE_INFO(103, "JSON查询储存信息", ""),
     HISTORY(5, "导出历史数据", ""),
-    STOP(6, "立即进入停止模式", "");
+    STOP(6, "立即进入停止模式", ""),
+    SETPARAM(7, "设置参数", "");
 
     public static final List<String> commonds = new ArrayList<>();
 
@@ -55,6 +56,16 @@ public enum CommandEnum {
         return success;
     }
 
+
+
+    public static String getCommond(int code) {
+        for (CommandEnum statusEnum : values()) {
+            if (code == statusEnum.code) {
+                return statusEnum.commond;
+            }
+        }
+        return null;
+    }
     /**
      * 获取客户端配置参数
      *
@@ -83,5 +94,12 @@ public enum CommandEnum {
         sb.append("WakeInterval:").append(WakeInterval).append("##");
         sb.append("UploadTime:").append(UploadTime).append("##");
         return sb.toString();
+    }
+
+
+    private static String formatIP(String ip) {
+        String format = ip.replaceAll("(\\d{1,3})", "00$1");
+        format = format.replaceAll("0*(\\d{3})", "$1");
+        return format;
     }
 }

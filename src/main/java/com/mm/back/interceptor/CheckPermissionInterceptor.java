@@ -70,7 +70,7 @@ public class CheckPermissionInterceptor extends HandlerInterceptorAdapter {
                     , request.getMethod()
                     , ThreadLocalContext.get(ThreadLocalIndex.PARAMS)
                     , JsonUtils.object2Json(ThreadLocalContext.get(ThreadLocalIndex.EXTRA_PARAMS)));
-            request.getRequestDispatcher("/noPermissionPage").forward(request, response);
+            request.getRequestDispatcher("/noPermission.html").forward(request, response);
             return false;
         }
 

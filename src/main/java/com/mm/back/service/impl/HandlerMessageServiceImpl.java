@@ -1,9 +1,12 @@
 package com.mm.back.service.impl;
 
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.group.ChannelGroup;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -105,7 +108,6 @@ public class HandlerMessageServiceImpl implements HandlerMessageService {
     @Override
     public void sendMessage(ChannelHandlerContext channelHandlerContext) {
         String address = channelHandlerContext.channel().remoteAddress().toString();
-        String deviceNum = ServerHandler.addressToDeviceNumMap.get(address);
         DeviceSettingDto settingDto = getSetting(channelHandlerContext);
         if (settingDto == null) {
             return;
@@ -117,7 +119,7 @@ public class HandlerMessageServiceImpl implements HandlerMessageService {
             Date dayDate = DateUtils.getYesterDayDate(new Date());
             String dateformat = DateUtils.getDateformat(dayDate, DateUtils.YMD_FORMAT1);
             sendDelayMessageService.send(channelHandlerContext, CommandEnum.QUERY_NEW_DATA1.getCommond() + dateformat);
-            LOGGER.info(channelHandlerContext.channel().remoteAddress() + "第0次OK -----查询数据  day={}",dateformat);
+            LOGGER.info(channelHandlerContext.channel().remoteAddress() + "第0次OK -----查询数据  day={}", dateformat);
         }
         if (oknum == 1) {
             //测试30分钟启动一次客户端
@@ -136,7 +138,7 @@ public class HandlerMessageServiceImpl implements HandlerMessageService {
 
         if (oknum == 2) {
 
-            LOGGER.info(channelHandlerContext.channel().remoteAddress() + "第3次OK 暂不处理" );
+            LOGGER.info(channelHandlerContext.channel().remoteAddress() + "第3次OK 暂不处理");
         }
         if (oknum == 4) {
             sendDelayMessageService.send(channelHandlerContext, CommandEnum.STOP.getCommond(), 1000);
@@ -154,6 +156,7 @@ public class HandlerMessageServiceImpl implements HandlerMessageService {
      *
      * @param channelHandlerContext
      */
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
     @Override
     public void clientError(ChannelHandlerContext channelHandlerContext) {
 
@@ -190,6 +193,7 @@ public class HandlerMessageServiceImpl implements HandlerMessageService {
      *
      * @param channelHandlerContext
      */
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
     @Override
     public void clientInstall(ChannelHandlerContext channelHandlerContext) {
 
@@ -218,6 +222,39 @@ public class HandlerMessageServiceImpl implements HandlerMessageService {
         }
 
         ServerHandler.clientInstallNum.put(channelHandlerContext.channel().remoteAddress().toString(), ++num);
+    }
+
+    @Override
+    public void sendCommond(String address, Integer command, String message) {
+        Map<String, String> addressToDeviceNumMap = ServerHandler.addressToDeviceNumMap;
+
+        String msg = "";
+        if (command != null) {
+            if (CommandEnum.SETPARAM.getCode().equals(command)) {
+                String deviceNum = addressToDeviceNumMap.get(address);
+                DeviceSettingDto settingDto = settingService.getSettingDto(deviceNum);
+                settingDto.setUploadTime(ClientConst.DEFAULT_UPLOAD_TIME);
+                settingDto.setWakeInterval(ClientConst.DEFAULT_WAKE_INTERVEL);
+                msg = CommandEnum.getClientSettingParam(settingDto);
+
+            } else {
+                msg = CommandEnum.getCommond(command);
+            }
+
+        } else {
+            msg = message;
+        }
+        if (StringUtils.isNotBlank(address)) {
+
+            ChannelGroup channelGroup = ServerHandler.channels;
+            for (Channel channel : channelGroup) {
+                if (channel.remoteAddress().toString().equals(address)) {
+                    channel.writeAndFlush(msg);
+                    LOGGER.info("ServerHandler.sendCommond address={}  deviceNum={} message={}", channel.remoteAddress().toString(), addressToDeviceNumMap.get(address), msg);
+                }
+            }
+        }
+
     }
 
     /**

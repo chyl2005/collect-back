@@ -58,4 +58,9 @@ public class DeviceSettingDaoImpl extends BaseDaoImpl<DeviceSettingEntity> imple
     public DeviceSettingEntity getSetting(Integer deviceId) {
         return this.findFirst("from DeviceSettingEntity where deviceId=?", deviceId);
     }
+
+    @Override
+    public DeviceSettingEntity getSetting(String deviceNum) {
+        return this.findFirst("from DeviceSettingEntity where deviceNum=?", deviceNum);
+    }
 }

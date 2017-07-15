@@ -1,19 +1,30 @@
-var settingUrl = rootPath + "deviceInfo/setting/setting";
+var settingUrl = rootPath + "deviceSetting/setting";
 
-var uploadSettingUrl = rootPath + "deviceInfo/setting/uploadSetting";
+var uploadSettingUrl = rootPath + "deviceSetting/uploadSetting";
 
-var saveOrUpdateUrl = rootPath + "deviceInfo/setting/saveOrUpdate";
+var saveOrUpdateUrl = rootPath + "deviceSetting/saveOrUpdate";
 $(document).ready(function () {
 
+    var deviceId = $("#deviceId").val();
+    if (!isBlank(deviceId)) {
+        getSetting(deviceId);
+        getUploadSetting(deviceId);
+    }
 
-    getSetting();
-    getUploadSetting();
+    $(".searchData").on('click', function () {
+        var did = $("#deviceId").val();
+        if (!isInteger(did)) {
+            alert("请输入正确设备ID");
+        }
+        getSetting(did);
+        getUploadSetting(did);
+    });
 
 });
 
 
-function getSetting() {
-    var deviceId = $(".setting").find("input[name='deviceId']").val();
+function getSetting(deviceId) {
+
     $.ajax({
         type: "get",
         url: settingUrl,
@@ -32,8 +43,8 @@ function getSetting() {
                 $(".setting").find("input[name='phoneNum2']").val(item.phoneNum2);
                 $(".setting").find("input[name='sensorDepth']").val(item.sensorDepth);
                 $(".setting").find("input[name='surfaceHigh']").val(item.surfaceHigh);
-                $(".setting").find("input[name='wakeupTime1']").val(item.wakeupTime1);
-                $(".setting").find("input[name='wakeupTime2']").val(item.wakeupTime2);
+                $(".setting").find("input[name='uploadTime']").val(item.uploadTime);
+                $(".setting").find("input[name='wakeInterval']").val(item.wakeInterval);
                 $(".setting").find("input[name='gmtModified']").val(getSmpFormatDateByLong(item.gmtModified, true));
             } else {
                 alert(data.message);
@@ -43,8 +54,7 @@ function getSetting() {
 }
 
 
-function getUploadSetting() {
-    var deviceId = $(".setting").find("input[name='deviceId']").val();
+function getUploadSetting(deviceId) {
     $.ajax({
         type: "get",
         url: uploadSettingUrl,
@@ -63,8 +73,8 @@ function getUploadSetting() {
                 $(".uploadSetting").find("input[name='phoneNum2']").val(item.phoneNum2);
                 $(".uploadSetting").find("input[name='sensorDepth']").val(item.sensorDepth);
                 $(".uploadSetting").find("input[name='surfaceHigh']").val(item.surfaceHigh);
-                $(".uploadSetting").find("input[name='wakeupTime1']").val(item.wakeupTime1);
-                $(".uploadSetting").find("input[name='wakeupTime2']").val(item.wakeupTime2);
+                $(".uploadSetting").find("input[name='uploadTime']").val(item.uploadTime);
+                $(".uploadSetting").find("input[name='wakeInterval']").val(item.wakeInterval);
                 $(".uploadSetting").find("input[name='gmtModified']").val(getSmpFormatDateByLong(item.gmtModified, true));
 
             } else {
@@ -77,7 +87,6 @@ function getUploadSetting() {
 
 
 function saveOrUpdate() {
-    var dialog = $("#saveOrUpdateDialog");
     // 弹窗数据清空
     var postData = {};
     postData.deviceId = $(".setting").find("input[name='deviceId']").val();
@@ -88,8 +97,8 @@ function saveOrUpdate() {
     postData.phoneNum2 = $(".setting").find("input[name='phoneNum2']").val();
     postData.sensorDepth = $(".setting").find("input[name='sensorDepth']").val();
     postData.surfaceHigh = $(".setting").find("input[name='surfaceHigh']").val();
-    postData.wakeupTime1 = $(".setting").find("input[name='wakeupTime1']").val();
-    postData.wakeupTime2 = $(".setting").find("input[name='wakeupTime2']").val();
+    postData.uploadTime = $(".setting").find("input[name='uploadTime']").val();
+    postData.wakeInterval = $(".setting").find("input[name='wakeInterval']").val();
 
     $.ajax({
         type: "post",

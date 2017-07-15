@@ -102,10 +102,10 @@ public class DeviceRecordServiceImpl implements DeviceRecordService {
         titleRow.createCell(titleCellNum++).setCellValue("设备硬件编号");
         titleRow.createCell(titleCellNum++).setCellValue("日期");
         titleRow.createCell(titleCellNum++).setCellValue("上传时间");
-        titleRow.createCell(titleCellNum++).setCellValue("地表高程(米)");
+        titleRow.createCell(titleCellNum++).setCellValue("地面高程(米)");
         titleRow.createCell(titleCellNum++).setCellValue("传感器深度(米)");
-        titleRow.createCell(titleCellNum++).setCellValue("水面高程(米)");
-        titleRow.createCell(titleCellNum++).setCellValue("水面埋深(米)");
+        titleRow.createCell(titleCellNum++).setCellValue("水位标高(米)");
+        titleRow.createCell(titleCellNum++).setCellValue("水位埋深(米)");
         titleRow.createCell(titleCellNum++).setCellValue("气温(\u2103)");
         titleRow.createCell(titleCellNum++).setCellValue("水温(\u2103)");
         titleRow.createCell(titleCellNum++).setCellValue("电压(V)");

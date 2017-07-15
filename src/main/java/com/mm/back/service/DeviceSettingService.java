@@ -21,4 +21,7 @@ public interface DeviceSettingService {
 
 
     DeviceSettingDto getSettingDto(Integer deviceId);
+
+
+    DeviceSettingDto getSettingDto(String deviceNum);
 }

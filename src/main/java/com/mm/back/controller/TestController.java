@@ -17,6 +17,7 @@ import com.mm.back.dto.DeviceSettingData;
 import com.mm.back.entity.DeviceInfoEntity;
 import com.mm.back.netty.ServerHandler;
 import com.mm.back.service.DeviceRecordService;
+import com.mm.back.service.HandlerMessageService;
 import com.mm.common.utils.DateUtils;
 import com.mm.common.utils.JsonUtils;
 
@@ -37,6 +38,9 @@ public class TestController {
     @Autowired
     private DeviceRecordService deviceRecordService;
 
+    @Autowired
+    private HandlerMessageService messageService;
+
     @RequestMapping("/charSet")
     @ResponseBody
     public boolean charSet(String decode, String encode) {
@@ -54,6 +58,15 @@ public class TestController {
     public boolean data(@RequestBody DeviceSettingData data) {
         String s = JsonUtils.object2Json(data);
         return true;
+    }
+
+
+    @RequestMapping("/sendCommond")
+    @ResponseBody
+    public WebResponse sendCommond(String address,Integer command,String message) {
+        WebResponse webResponse = WebResponse.getSuccessWebResponse();
+        messageService.sendCommond(address,command,message);
+        return webResponse;
     }
 
     @RequestMapping("/online")

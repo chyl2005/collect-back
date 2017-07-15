@@ -284,7 +284,6 @@ public class DateUtils {
 
     public static void main(String[] args) {
         System.out.println(getDateformat(new Date(), YMD_HMS_FORMAT_DIAS));
-
         System.out.println(getDate("2017/3/1/10/0/31", YMD_HMS_FORMAT_DIAS));
     }
 

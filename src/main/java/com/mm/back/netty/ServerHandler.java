@@ -8,7 +8,6 @@ import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.util.concurrent.GlobalEventExecutor;
 
 import java.net.InetAddress;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import org.apache.commons.lang3.StringUtils;
@@ -28,19 +27,17 @@ import com.mm.back.service.HandlerMessageService;
 @ChannelHandler.Sharable
 public class ServerHandler extends SimpleChannelInboundHandler<String> {
     private static final Logger LOGGER = LoggerFactory.getLogger(ServerHandler.class);
-
     public static ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
-    public static Map<String, Integer> clientOKNum = new HashMap<>();
 
-    public static Map<String, Integer> clientErrorNum = new HashMap<>();
+    public static Map<String, Integer> clientOKNum = new ConcurrentHashMap<>();
 
-    public static Map<String, Integer> clientInstallNum = new HashMap<>();
+    public static Map<String, Integer> clientErrorNum = new ConcurrentHashMap<>();
+
+    public static Map<String, Integer> clientInstallNum = new ConcurrentHashMap<>();
     /**
      * ip地址-设备硬件编号映射
      */
     public static Map<String, String> addressToDeviceNumMap = new ConcurrentHashMap<>();
-
-
     @Autowired
     private HandlerMessageService messageService;
 
@@ -54,6 +51,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
         //        sendDelayMessageService.send(channelHandlerContext, CommandEnum.QUERY_PARAM.getCommond() );
         //清空客户端连接数据
         clearConnetionInfo(channelHandlerContext.channel().remoteAddress().toString());
+        addressToDeviceNumMap.put(channelHandlerContext.channel().remoteAddress().toString(), "");
         LOGGER.info("客户端ip={} 新增", channelHandlerContext.channel().remoteAddress().toString());
         channels.add(channelHandlerContext.channel());
     }
@@ -76,7 +74,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
         //命令编号
         String address = channelHandlerContext.channel().remoteAddress().toString();
         String deviceNum = addressToDeviceNumMap.get(address);
-        LOGGER.info("ServerHandler.channelRead0 address={}  deviceNum={} message={}", address, deviceNum, message);
+        LOGGER.info("ServerHandler.channelRead0 address={}  消息开始处理 deviceNum={} message={} ", address, deviceNum, message);
 
         String noWhitespaceMessage = StringUtils.deleteWhitespace(message);
         if (message.contains("commandNum")) {
@@ -91,9 +89,10 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
             messageService.clientError(channelHandlerContext);
         }
         //安装模式
-        if (message.contains("installation")) {
-            messageService.clientInstall(channelHandlerContext);
-        }
+        //        if (message.contains("installation")) {
+        //            messageService.clientInstall(channelHandlerContext);
+        //        }
+        LOGGER.info("ServerHandler.channelRead0 address={} 消息处理完成 ", address);
 
     }
 
@@ -117,6 +116,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         //移除 地址到 设备号映射
         clearConnetionInfo(ctx.channel().remoteAddress().toString());
+        channels.remove(ctx.channel());
         //super.exceptionCaught(ctx, cause);
         ctx.writeAndFlush("server error");
         LOGGER.error("ServerHandler.exceptionCaught  ip={}", ctx.channel().remoteAddress().toString(), cause);

@@ -47,6 +47,16 @@
                         <!-- PAGE CONTENT BEGINS -->
                         <#include "/common/_tips.html"/>
 
+                        <div class="col-sm-2">
+                            <input type="text" class="form-control" id="deviceId" placeholder="请输入设备ID" value="${deviceId}">
+                        </div>
+                        <div class="col-sm-2">
+                            <button type="button" class="btn btn-primary searchData">查询</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
                         <div class="col-sm-6">
                             <div class="widget-box transparent">
                                 <div class="widget-header widget-header-flat">
@@ -64,7 +74,6 @@
 
                                 <div class="widget-body setting">
                                     <div class="widget-main no-padding">
-                                        <input type="hidden" name="deviceId" value="${deviceId}">
                                         <div class="space-4"></div>
 
                                         <form class="form-horizontal" role="form">
@@ -135,18 +144,18 @@
                                             </div>
 
                                             <div class="form-group">
-                                                <label class="col-sm-3 control-label no-padding-right"> 唤醒时间1: </label>
+                                                <label class="col-sm-3 control-label no-padding-right"> 上传时间: </label>
 
                                                 <div class="col-sm-9">
-                                                    <input type="text" placeholder="唤醒时间1 格式 12/1" name="wakeupTime1" class="col-xs-10 col-sm-5">
+                                                    <input type="text" placeholder="上传时间 格式 12/01" name="uploadTime" class="col-xs-10 col-sm-5">
                                                 </div>
                                             </div>
 
                                             <div class="form-group">
-                                                <label class="col-sm-3 control-label no-padding-right"> 唤醒时间2: </label>
+                                                <label class="col-sm-3 control-label no-padding-right"> 唤醒时间间隔(分钟): </label>
 
                                                 <div class="col-sm-9">
-                                                    <input type="text" placeholder="唤醒时间2 格式 12/1" name="wakeupTime2" class="col-xs-10 col-sm-5">
+                                                    <input type="text" placeholder="唤醒时间间隔(分钟) 格式 0030保证四位数" name="wakeInterval" class="col-xs-10 col-sm-5">
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -190,7 +199,6 @@
 
                                 <div class="widget-body uploadSetting">
                                     <div class="widget-main no-padding">
-                                        <input type="hidden" name="deviceId" value="${deviceId}">
                                         <div class="space-4"></div>
 
                                         <form class="form-horizontal" role="form">
@@ -261,20 +269,21 @@
                                             </div>
 
                                             <div class="form-group">
-                                                <label class="col-sm-3 control-label no-padding-right"> 唤醒时间1: </label>
+                                                <label class="col-sm-3 control-label no-padding-right"> 上传时间: </label>
 
                                                 <div class="col-sm-9">
-                                                    <input type="text" placeholder="唤醒时间1" name="wakeupTime1" class="col-xs-10 col-sm-5" readonly>
+                                                    <input type="text" placeholder="上传时间 格式 12/01" name="uploadTime" class="col-xs-10 col-sm-5">
                                                 </div>
                                             </div>
 
                                             <div class="form-group">
-                                                <label class="col-sm-3 control-label no-padding-right"> 唤醒时间2: </label>
+                                                <label class="col-sm-3 control-label no-padding-right"> 唤醒时间间隔(分钟): </label>
 
                                                 <div class="col-sm-9">
-                                                    <input type="text" placeholder="唤醒时间2" name="wakeupTime2" class="col-xs-10 col-sm-5" readonly>
+                                                    <input type="text" placeholder="唤醒时间间隔(分钟) 格式 0030保证四位数" name="wakeInterval" class="col-xs-10 col-sm-5">
                                                 </div>
                                             </div>
+
                                             <div class="form-group">
                                                 <label class="col-sm-3 control-label no-padding-right"> 最近上传时间: </label>
 
@@ -303,7 +312,7 @@
 
 
 <script src="${base}/app/device/edit.js"></script>
-
+<script src="${base}/app/check.js"></script>
 
 
 <script type="text/javascript">

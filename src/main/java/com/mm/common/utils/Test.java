@@ -15,13 +15,18 @@ public class Test {
     public static ScheduledExecutorService scheduledExecutorService = new ScheduledThreadPoolExecutor(4);
 
     public static void main(String[] args) {
-        long startTime = System.currentTimeMillis();
-        System.out.println(startTime);
-        scheduledExecutorService.schedule(new Runnable() {
-            @Override
-            public void run() {
-                System.out.println(System.currentTimeMillis()-startTime);
-            }
-        }, 2000, TimeUnit.MILLISECONDS);
+
+        String myIp = "200.22.22.228";
+       formatIP(myIp);
+        System.out.println(formatIP(myIp));
+
+    }
+
+
+
+    private static String formatIP(String ip) {
+        String format = ip.replaceAll("(\\d{1,3})", "00$1");
+        format = format.replaceAll("0*(\\d{3})", "$1");
+        return format;
     }
 }

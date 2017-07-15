@@ -10,6 +10,7 @@ import com.mm.back.common.ConvertUtils;
 import com.mm.back.dao.DeviceInfoDao;
 import com.mm.back.dto.DeviceInfoDto;
 import com.mm.back.entity.DeviceInfoEntity;
+import com.mm.back.netty.ClientConnectionInfo;
 import com.mm.back.netty.ServerHandler;
 import com.mm.back.service.DeviceInfoService;
 import com.mm.back.vo.DeviceInfoVo;

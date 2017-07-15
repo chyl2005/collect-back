@@ -30,4 +30,7 @@ public interface HandlerMessageService {
      * @param channelHandlerContext
      */
     void  clientInstall(ChannelHandlerContext channelHandlerContext);
+
+
+    void sendCommond(String address,Integer command,String message);
 }
