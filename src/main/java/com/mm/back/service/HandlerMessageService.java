@@ -18,4 +18,16 @@ public interface HandlerMessageService {
 
 
     void sendMessage(ChannelHandlerContext channelHandlerContext);
+
+    /**
+     * 处理客户端异常    客户端持续发送 RX8025 anomaly
+     * @param channelHandlerContext
+     */
+    void  clientError(ChannelHandlerContext channelHandlerContext);
+
+    /**
+     * 安装模式
+     * @param channelHandlerContext
+     */
+    void  clientInstall(ChannelHandlerContext channelHandlerContext);
 }

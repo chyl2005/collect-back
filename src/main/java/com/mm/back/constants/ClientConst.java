@@ -6,19 +6,15 @@ package com.mm.back.constants;
  * Time:12:21
  * Desc:描述该类的作用
  */
-public enum ClientConst {
+public class ClientConst {
 
-    DEVICE_NUM("硬件序列号")
 
-    ;
+    public static final String IP = "047.094.194.137";
+    public static final String PORT = "10086";
+    public static  final String DEFAULT_UPLOAD_TIME="01/10";
 
-    private String name;
+    public static  final String DEFAULT_WAKE_INTERVEL="0030";
+    public static  final String DEFAULT_PHONE_NUM="00000000000";
 
-    ClientConst(String name) {
-        this.name = name;
-    }
 
-    public String getName() {
-        return name;
-    }
 }

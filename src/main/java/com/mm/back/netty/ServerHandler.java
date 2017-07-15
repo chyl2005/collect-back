@@ -9,9 +9,7 @@ import io.netty.util.concurrent.GlobalEventExecutor;
 
 import java.net.InetAddress;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -32,18 +30,19 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
     private static final Logger LOGGER = LoggerFactory.getLogger(ServerHandler.class);
 
     public static ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
-
     public static Map<String, Integer> clientOKNum = new HashMap<>();
 
-    @Autowired
-    private SendDelayMessageService sendDelayMessageService;
-    @Autowired
-    private HandlerMessageService messageService;
+    public static Map<String, Integer> clientErrorNum = new HashMap<>();
+
+    public static Map<String, Integer> clientInstallNum = new HashMap<>();
     /**
      * ip地址-设备硬件编号映射
      */
     public static Map<String, String> addressToDeviceNumMap = new ConcurrentHashMap<>();
 
+
+    @Autowired
+    private HandlerMessageService messageService;
 
     @Override
     public void handlerAdded(ChannelHandlerContext channelHandlerContext) throws Exception {
@@ -53,8 +52,8 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
         //        }
         //设备连接时  查询设备参数
         //        sendDelayMessageService.send(channelHandlerContext, CommandEnum.QUERY_PARAM.getCommond() );
-        //地址到 设备号映射
-        addressToDeviceNumMap.put(channelHandlerContext.channel().remoteAddress().toString(), "");
+        //清空客户端连接数据
+        clearConnetionInfo(channelHandlerContext.channel().remoteAddress().toString());
         LOGGER.info("客户端ip={} 新增", channelHandlerContext.channel().remoteAddress().toString());
         channels.add(channelHandlerContext.channel());
     }
@@ -68,15 +67,12 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
         LOGGER.info("客户端ip={} 断开", ctx.channel().remoteAddress().toString());
         channels.remove(ctx.channel());
         //移除 地址到 设备号映射
-        addressToDeviceNumMap.remove(ctx.channel().remoteAddress().toString());
+        clearConnetionInfo(ctx.channel().remoteAddress().toString());
         ctx.close();
     }
 
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, String message) throws Exception {
-        if (message.contains("installation")) {
-            sendDelayMessageService.send(channelHandlerContext, "立即进入停止模式");
-        }
         //命令编号
         String address = channelHandlerContext.channel().remoteAddress().toString();
         String deviceNum = addressToDeviceNumMap.get(address);
@@ -86,9 +82,17 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
         if (message.contains("commandNum")) {
             messageService.handlerMessage(noWhitespaceMessage, address);
         }
-        //发送设置信息
+        //正常连接
         if (message.contains("OK")) {
             messageService.sendMessage(channelHandlerContext);
+        }
+        //客户端异常
+        if (message.contains("RX8025")) {
+            messageService.clientError(channelHandlerContext);
+        }
+        //安装模式
+        if (message.contains("installation")) {
+            messageService.clientInstall(channelHandlerContext);
         }
 
     }
@@ -111,11 +115,24 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        addressToDeviceNumMap.remove(ctx.channel().remoteAddress().toString());
+        //移除 地址到 设备号映射
+        clearConnetionInfo(ctx.channel().remoteAddress().toString());
         //super.exceptionCaught(ctx, cause);
         ctx.writeAndFlush("server error");
         LOGGER.error("ServerHandler.exceptionCaught  ip={}", ctx.channel().remoteAddress().toString(), cause);
 
+    }
+
+    /**
+     * 清空客户端连接数据
+     *
+     * @param address
+     */
+    private void clearConnetionInfo(String address) {
+        addressToDeviceNumMap.remove(address);
+        clientOKNum.remove(address);
+        clientErrorNum.remove(address);
+        clientInstallNum.remove(address);
     }
 
 }

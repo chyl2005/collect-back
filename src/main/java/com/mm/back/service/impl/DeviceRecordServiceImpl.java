@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -85,6 +84,7 @@ public class DeviceRecordServiceImpl implements DeviceRecordService {
         aoData.setDatas(responses);
         return aoData;
     }
+
     @Override
     public Workbook download(Integer deviceId, Integer startTime, Integer endTime) {
         List<DeviceRecordVo> records = this.getRecords(deviceId, startTime, endTime);
@@ -116,15 +116,15 @@ public class DeviceRecordServiceImpl implements DeviceRecordService {
             row.createCell(cellNum++).setCellValue(record.getDeviceId());
             row.createCell(cellNum++).setCellValue(record.getDeviceNum());
             row.createCell(cellNum++).setCellValue(record.getDatekey());
-            row.createCell(cellNum++).setCellValue(DateUtils.getDateformat(record.getCollectTime(),DateUtils.YMD_HMS_FORMAT));
-            row.createCell(cellNum++).setCellValue(record.getSurfaceHigh().doubleValue());
-            row.createCell(cellNum++).setCellValue(record.getSensorDepth().doubleValue());
-            row.createCell(cellNum++).setCellValue(record.getWaterHigh().doubleValue());
-            row.createCell(cellNum++).setCellValue(record.getWaterDepth().doubleValue());
-            row.createCell(cellNum++).setCellValue(record.getAirTemperature().doubleValue());
-            row.createCell(cellNum++).setCellValue(record.getWaterTemperature().doubleValue());
-            row.createCell(cellNum++).setCellValue(record.getVoltage().doubleValue());
-            row.createCell(cellNum++).setCellValue(record.getSignal().doubleValue());
+            row.createCell(cellNum++).setCellValue(DateUtils.getDateformat(record.getCollectTime(), DateUtils.YMD_HMS_FORMAT));
+            row.createCell(cellNum++).setCellValue(record.getSurfaceHigh() != null ? record.getSurfaceHigh().doubleValue() : 0.00);
+            row.createCell(cellNum++).setCellValue(record.getSensorDepth() != null ? record.getSensorDepth().doubleValue() : 0.00);
+            row.createCell(cellNum++).setCellValue(record.getWaterHigh() != null ? record.getWaterHigh().doubleValue() : 0.00);
+            row.createCell(cellNum++).setCellValue(record.getWaterDepth() != null ? record.getWaterDepth().doubleValue() : 0.00);
+            row.createCell(cellNum++).setCellValue(record.getAirTemperature() != null ? record.getAirTemperature().doubleValue() : 0.00);
+            row.createCell(cellNum++).setCellValue(record.getWaterTemperature() != null ? record.getWaterTemperature().doubleValue() : 0.00);
+            row.createCell(cellNum++).setCellValue(record.getVoltage() != null ? record.getVoltage().doubleValue() : 0.00);
+            row.createCell(cellNum++).setCellValue(record.getSignal() != null ? record.getSignal().doubleValue() : 0.00);
         }
 
         return workbook;
@@ -140,7 +140,7 @@ public class DeviceRecordServiceImpl implements DeviceRecordService {
         record.setDeviceNum(deviceRecordDto.getDeviceNum());
         record.setDeviceId(deviceRecordDto.getDeviceId());
         record.setDatekey(DateUtils.getDatekey(collectDate));
-        String yyyyMMddHHmm = DateUtils.getDateformat(collectDate, DateUtils.yyyyMMddHHmm);
+        String yyyyMMddHHmm = DateUtils.getDateformat(collectDate, DateUtils.yyyyMMddHHmmss);
         record.setMinutes(Long.valueOf(yyyyMMddHHmm));
         record.setCollectTime(collectDate);
         record.setSensorDepth(deviceRecordDto.getSensorDepth());

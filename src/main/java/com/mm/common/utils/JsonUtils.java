@@ -19,7 +19,6 @@ public class JsonUtils {
         objectMapper = new ObjectMapper();
         objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-        objectMapper.configure(MapperFeature.USE_ANNOTATIONS, false);
         objectMapper.setSerializationInclusion(JsonInclude.Include.ALWAYS);
     }
 

@@ -29,6 +29,16 @@ public class SendDelayMessageService {
      * @param message
      */
     public void send(ChannelHandlerContext channelHandlerContext, String message) {
+        send(channelHandlerContext, message, DELAY);
+    }
+
+    /**
+     * 延迟发送消息 考虑客户端性能
+     *
+     * @param channelHandlerContext
+     * @param message
+     */
+    public void send(ChannelHandlerContext channelHandlerContext, String message, Integer delayMilliSeconds) {
         String address = channelHandlerContext.channel().remoteAddress().toString();
         scheduledExecutorService.schedule(new Runnable() {
             @Override
@@ -36,7 +46,7 @@ public class SendDelayMessageService {
                 channelHandlerContext.writeAndFlush(message);
                 LOGGER.info("SendDelayMessageService.send  address={} message={}", address, message);
             }
-        }, DELAY, TimeUnit.MILLISECONDS);
+        }, delayMilliSeconds, TimeUnit.MILLISECONDS);
     }
 
 }

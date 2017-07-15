@@ -40,6 +40,7 @@ public class DeviceUploadSettingDaoImpl extends BaseDaoImpl<DeviceUploadSettingE
             deviceConfig.setGmtCreated(new Date());
             deviceConfig.setGmtModified(new Date());
             this.save(deviceConfig);
+            deviceConfig.setSerialNum(1000 + deviceConfig.getDeviceId());
         }
 
     }

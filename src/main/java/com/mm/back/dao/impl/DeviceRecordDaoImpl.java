@@ -19,8 +19,6 @@ import com.mm.back.entity.DeviceRecordEntity;
 @Repository
 public class DeviceRecordDaoImpl extends BaseDaoImpl<DeviceRecordEntity> implements DeviceRecordDao {
 
-
-
     @Override
     public void insert(DeviceRecordEntity recordEntity) {
         recordEntity.setGmtModified(new Date());
@@ -32,17 +30,34 @@ public class DeviceRecordDaoImpl extends BaseDaoImpl<DeviceRecordEntity> impleme
     @Override
     public void insertOrUpdate(DeviceRecordEntity recordEntity) {
         DeviceRecordEntity oldEntity = this.findFirst("from DeviceRecordEntity where deviceNum=? and minutes=?"
-                ,recordEntity.getDeviceNum(),recordEntity.getMinutes());
+                , recordEntity.getDeviceNum(), recordEntity.getMinutes());
         if (oldEntity != null) {
             oldEntity.setDeviceId(recordEntity.getDeviceId());
-            oldEntity.setSensorDepth(recordEntity.getSensorDepth());
-            oldEntity.setSurfaceHigh(recordEntity.getSurfaceHigh());
-            oldEntity.setWaterDepth(recordEntity.getWaterDepth());
-            oldEntity.setWaterHigh(recordEntity.getWaterHigh());
-            oldEntity.setAirTemperature(recordEntity.getAirTemperature());
-            oldEntity.setWaterTemperature(recordEntity.getWaterTemperature());
-            oldEntity.setVoltage(recordEntity.getVoltage());
-            oldEntity.setSignal(recordEntity.getSignal());
+
+            if (recordEntity.getSensorDepth() != null) {
+                oldEntity.setSensorDepth(recordEntity.getSensorDepth());
+            }
+            if (recordEntity.getSurfaceHigh() != null) {
+                oldEntity.setSurfaceHigh(recordEntity.getSurfaceHigh());
+            }
+            if (recordEntity.getWaterDepth() != null) {
+                oldEntity.setWaterDepth(recordEntity.getWaterDepth());
+            }
+            if (recordEntity.getWaterHigh() != null) {
+                oldEntity.setWaterHigh(recordEntity.getWaterHigh());
+            }
+            if (recordEntity.getAirTemperature() != null) {
+                oldEntity.setAirTemperature(recordEntity.getAirTemperature());
+            }
+            if (recordEntity.getWaterTemperature() != null) {
+                oldEntity.setWaterTemperature(recordEntity.getWaterTemperature());
+            }
+            if (recordEntity.getVoltage() != null) {
+                oldEntity.setVoltage(recordEntity.getVoltage());
+            }
+            if (recordEntity.getSignal() != null) {
+                oldEntity.setSignal(recordEntity.getSignal());
+            }
             oldEntity.setGmtModified(new Date());
             oldEntity.setIsDel(DeleteStatusEnum.NOT_DEL.getCode());
             this.update(oldEntity);
@@ -83,6 +98,6 @@ public class DeviceRecordDaoImpl extends BaseDaoImpl<DeviceRecordEntity> impleme
         paras.put("startTime", startTime);
         paras.put("endTime", endTime);
         hql.append(" and  datekey between  :startTime and :endTime order by minutes");
-        return this.find( hql.toString(), paras);
+        return this.find(hql.toString(), paras);
     }
 }

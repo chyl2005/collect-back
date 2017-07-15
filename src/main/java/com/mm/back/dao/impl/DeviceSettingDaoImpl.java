@@ -6,7 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.mm.back.constants.DeleteStatusEnum;
 import com.mm.back.dao.DeviceSettingDao;
 import com.mm.back.entity.DeviceSettingEntity;
-import com.mm.back.entity.DeviceUploadSettingEntity;
 
 /**
  * Author:chyl2005
@@ -23,6 +22,7 @@ public class DeviceSettingDaoImpl extends BaseDaoImpl<DeviceSettingEntity> imple
         setting.setGmtCreated(new Date());
         setting.setGmtModified(new Date());
         this.save(setting);
+        setting.setSerialNum(1000 + setting.getDeviceId());
     }
 
     /**

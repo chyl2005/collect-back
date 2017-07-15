@@ -211,6 +211,19 @@ public class DateUtils {
 
     }
 
+
+
+    /**
+     */
+    public static Date getYesterDayDate(Date date) {
+        //获取前月的第一天
+        Calendar calendar = Calendar.getInstance();//获取当前日期
+        calendar.setTime(date);
+        calendar.add(Calendar.DATE, -1);
+        return calendar.getTime();
+
+    }
+
     /**
      * @return 20160101
      */

@@ -1,5 +1,6 @@
 package com.mm.back.constants;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,21 +21,14 @@ public enum CommandEnum {
     QUERY_PARAM(104, "JSON查询全部参数", ""),
     QUERY_STORE_INFO(103, "JSON查询储存信息", ""),
     HISTORY(5, "导出历史数据", ""),
-    SET_PARAM(6, "SetUp:@##wellNum:@wellNum##currentTime:2017/07/09/20/37/00##surfaceHigh:5778.55##sensorDepth:030.00##linearCoefficient:1.0000##phonenumber1:15324260695##phonenumber2:00010000000##IPAddress:103.044.145.247##portNumber:55511##WakeInterval:0001##UploadTime:21/10##", "");
+    STOP(6, "立即进入停止模式", "");
 
     public static final List<String> commonds = new ArrayList<>();
 
     static {
-
         commonds.add(QUERY_NEW_DATA1.commond);
-        commonds.add(SET_PARAM.commond);
-
     }
 
-    /**
-     * 命令分隔符
-     */
-    public static final String SPILT = "：";
     /**
      * 指令编号
      */
@@ -69,18 +63,25 @@ public enum CommandEnum {
     public static String getClientSettingParam(DeviceSettingDto setting) {
         StringBuilder sb = new StringBuilder();
         sb.append("SetUp:").append(setting.getDeviceNum()).append("##");
-        sb.append("wellNum:").append(setting.getWellNum()).append("##");
+        sb.append("wellNum:").append(setting.getWellNum() != null ? setting.getWellNum() : 0000).append("##");
         String currentTime = DateUtils.getDateformat(new Date(), DateUtils.YMD_HMS_FORMAT_DIAS);
         sb.append("currentTime:").append(currentTime).append("##");
-        sb.append("surfaceHigh:").append(setting.getSurfaceHigh().setScale(2)).append("##");
-        sb.append("sensorDepth:").append(setting.getSensorDepth().setScale(2)).append("##");
-        sb.append("linearCoefficient:").append(setting.getLinearCoefficient().setScale(4)).append("##");
-        sb.append("phonenumber1:").append(setting.getPhonenumber1()).append("##");
-        sb.append("phonenumber2:").append(setting.getPhonenumber2()).append("##");
-        sb.append("IPAddress:").append(StringUtils.isNotBlank(setting.getIPAddress())?setting.getIPAddress():"047.094.194.137").append("##");
-        sb.append("portNumber:").append(10086).append("##");
-        sb.append("WakeInterval:").append(setting.getWakeInterval()).append("##");
-        sb.append("UploadTime:").append(setting.getUploadTime()).append("##");
+        BigDecimal surfaceHigh = setting.getSurfaceHigh() != null ? setting.getSurfaceHigh() : BigDecimal.ZERO;
+        sb.append("surfaceHigh:").append(surfaceHigh.setScale(2)).append("##");
+        BigDecimal sensorDepth = setting.getSensorDepth() != null ? setting.getSensorDepth() : BigDecimal.ZERO;
+        sb.append("sensorDepth:").append(sensorDepth.setScale(2)).append("##");
+        BigDecimal linearCoefficient = setting.getLinearCoefficient() != null ? setting.getLinearCoefficient() : BigDecimal.ZERO;
+        sb.append("linearCoefficient:").append(linearCoefficient.setScale(4)).append("##");
+        String phonenumber1 = StringUtils.isNotBlank(setting.getPhonenumber1()) ? setting.getPhonenumber1() : ClientConst.DEFAULT_PHONE_NUM;
+        String phonenumber2 = StringUtils.isNotBlank(setting.getPhonenumber2()) ? setting.getPhonenumber2() : ClientConst.DEFAULT_PHONE_NUM;
+        sb.append("phonenumber1:").append(phonenumber1).append("##");
+        sb.append("phonenumber2:").append(phonenumber2).append("##");
+        sb.append("IPAddress:").append(ClientConst.IP).append("##");
+        sb.append("portNumber:").append(ClientConst.PORT).append("##");
+        String WakeInterval = StringUtils.isNotBlank(setting.getWakeInterval()) ? setting.getWakeInterval() : ClientConst.DEFAULT_WAKE_INTERVEL;
+        String UploadTime = StringUtils.isNotBlank(setting.getUploadTime()) ? setting.getUploadTime() : ClientConst.DEFAULT_UPLOAD_TIME;
+        sb.append("WakeInterval:").append(WakeInterval).append("##");
+        sb.append("UploadTime:").append(UploadTime).append("##");
         return sb.toString();
     }
 }
