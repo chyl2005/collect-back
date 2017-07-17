@@ -14,7 +14,7 @@ public class DateUtils {
     public static final String DATE_KEY_FORMAT = "yyyyMMdd";
     public static final String YY_MM = "yyyyMM";
     public static final String YMD_FORMAT = "yyyy-MM-dd";
-    public static final String YMD_FORMAT1 = "2017/07/12";
+    public static final String YMD_FORMAT_EN = "yyyy/MM/dd";
     public static final String yyyyMMddHHmmss = "yyyyMMddHHmmss";
     public static final String HHmm = "HH/mm";
     public static final String yyyyMMddHHmm = "yyyyMMddHHmm";
@@ -283,8 +283,11 @@ public class DateUtils {
     }
 
     public static void main(String[] args) {
-        System.out.println(getDateformat(new Date(), YMD_HMS_FORMAT_DIAS));
-        System.out.println(getDate("2017/3/1/10/0/31", YMD_HMS_FORMAT_DIAS));
+
+
+        Date dayDate = DateUtils.getYesterDayDate(new Date());
+        String dateformat = DateUtils.getDateformat(dayDate, DateUtils.YMD_FORMAT_EN);
+        System.out.println(dateformat);
     }
 
 }

@@ -39,7 +39,7 @@ public class InsertDataTest {
         record.setWaterHigh(BigDecimal.valueOf(RandomUtils.nextInt(200, 200)));
 
         record.setAirTemperature(BigDecimal.valueOf(RandomUtils.nextInt(20, 30)));
-        record.setWaterTemperature(BigDecimal.valueOf(RandomUtils.nextInt(1, 30)));
+        record.setWatertemperature(BigDecimal.valueOf(RandomUtils.nextInt(1, 30)));
 
         record.setVoltage(BigDecimal.valueOf(RandomUtils.nextInt(1, 10)));
         record.setSignal(BigDecimal.valueOf(RandomUtils.nextInt(20, 100)));

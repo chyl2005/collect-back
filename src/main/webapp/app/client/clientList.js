@@ -11,18 +11,17 @@ $(document).ready(function () {
 });
 
 
-
-function loadClients(){
+function loadClients() {
     $.ajax({
-        url :getClientsUrl,
-        data : {},
-        type : 'get',
-        dataType : 'json',
-        async : false,
-        success : function(data) {
-            if (data.status===0){
+        url: getClientsUrl,
+        data: {},
+        type: 'get',
+        dataType: 'json',
+        async: false,
+        success: function (data) {
+            if (data.status === 0) {
                 $('#clientlist').html("");
-                var html="";
+                var html = "";
                 var items = data.data;
                 items.forEach((item) => {
                     var address = item.address;
@@ -31,7 +30,7 @@ function loadClients(){
                 });
 
                 $('#clientlist').html(html);
-            }else {
+            } else {
                 alert(data.message);
             }
 
@@ -40,17 +39,17 @@ function loadClients(){
 }
 
 
-function loadCommonds(){
+function loadCommonds() {
     $.ajax({
-        url :getCommondsUrl,
-        data : {},
-        type : 'get',
-        dataType : 'json',
-        async : false,
-        success : function(data) {
-            if (data.status===0){
+        url: getCommondsUrl,
+        data: {},
+        type: 'get',
+        dataType: 'json',
+        async: false,
+        success: function (data) {
+            if (data.status === 0) {
                 $('#command').html("");
-                var html="";
+                var html = '  <option value="">无</option>';
                 var items = data.data;
                 items.forEach((item) => {
                     var code = item.code;
@@ -59,7 +58,7 @@ function loadCommonds(){
                 });
 
                 $('#command').html(html);
-            }else {
+            } else {
                 alert(data.message);
             }
 
@@ -68,12 +67,11 @@ function loadCommonds(){
 }
 
 
-
 function sendMsg() {
-    var postData={};
-    postData.address=$('#clientlist').val();
-    postData.command=$('#command').val();
-    postData.message=$('#message').val();
+    var postData = {};
+    postData.address = $('#clientlist').val();
+    postData.command = $('#command').val();
+    postData.message = $('#message').val();
 
     $.ajax({
         type: "post",
@@ -83,7 +81,7 @@ function sendMsg() {
         async: false,
         success: function (data) {
             if (data.status === 0) {
-              console.log("成功")
+                console.log("成功")
             } else {
                 console.log(data.message);
                 alert(data.message);

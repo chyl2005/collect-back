@@ -52,7 +52,7 @@ function dataCallbackShow(data) {
 
 
     var title = {
-        text: '水位埋深/水温动态曲线'
+        text: '设备指标'
     };
     var subtitle = {
         text: ''
@@ -61,7 +61,7 @@ function dataCallbackShow(data) {
         type: 'datetime',
         tickPixelInterval: 120,
         title: {
-            text: '时间/月日时'
+            text: '时间'
         },
         dateTimeLabelFormats: {
             millisecond: '%m-%d %H:%M',
@@ -158,30 +158,24 @@ function dataCallbackShow(data) {
 
     //图表1
     var series1 = [];
-    // series1.push({
-    //     name: '水位标高',
-    //     data: waterHigh
-    // });
     series1.push({
-        name: '水位埋深',
-        data: waterDepth,
-        yAxis: 0
+        name: '水面高程',
+        data: waterHigh
     });
     series1.push({
-        name: '水温',
-        data: waterTemperature,
-        yAxis: 1
+        name: '水深',
+        data: waterDepth
     });
-    // series1.push({
-    //     name: '传感器埋深',
-    //     data: sensorDepth
-    // });
-    // series1.push({
-    //     name: '地面高程',
-    //     data: surfaceHigh
-    // });
+    series1.push({
+        name: '传感器埋深',
+        data: sensorDepth
+    });
+    series1.push({
+        name: '地表高程',
+        data: surfaceHigh
+    });
 
-    var yAxis1 = [{
+    var yAxis1 = {
         title: {
             text: '(米)'
         },
@@ -190,15 +184,7 @@ function dataCallbackShow(data) {
             width: 1,
             color: '#808080'
         }]
-    }, {
-        title: {
-            text: 'Temperature (\xB0C)',
-            style: {
-                color: '#00AA00'
-            }
-        },
-        opposite: true
-    }];
+    };
 
     var charts1 = {};
     charts1.type = 'spline';
@@ -275,7 +261,7 @@ function dataCallbackShow(data) {
 
     $('#charts1').highcharts(charts1);
 
-    //$('#charts2').highcharts(charts2);
+    $('#charts2').highcharts(charts2);
 
 
 }

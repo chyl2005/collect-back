@@ -117,7 +117,7 @@ public class HandlerMessageServiceImpl implements HandlerMessageService {
         //第一个ok 查询采集信息
         if (oknum == 0) {
             Date dayDate = DateUtils.getYesterDayDate(new Date());
-            String dateformat = DateUtils.getDateformat(dayDate, DateUtils.YMD_FORMAT1);
+            String dateformat = DateUtils.getDateformat(dayDate, DateUtils.YMD_FORMAT_EN);
             sendDelayMessageService.send(channelHandlerContext, CommandEnum.QUERY_NEW_DATA1.getCommond() + dateformat);
             LOGGER.info(channelHandlerContext.channel().remoteAddress() + "第0次OK -----查询数据  day={}", dateformat);
         }
@@ -128,8 +128,9 @@ public class HandlerMessageServiceImpl implements HandlerMessageService {
                 String hhmm = DateUtils.getDateformat(afterMinutes, DateUtils.HHmm);
                 settingDto.setUploadTime(hhmm);
             }
-            sendDelayMessageService.send(channelHandlerContext, CommandEnum.getClientSettingParam(settingDto));
-            LOGGER.info(channelHandlerContext.channel().remoteAddress() + "第1次OK -----配置客户端参数 ");
+            String settingParam = CommandEnum.getClientSettingParam(settingDto);
+            sendDelayMessageService.send(channelHandlerContext,settingParam );
+            LOGGER.info(channelHandlerContext.channel().remoteAddress() + "第1次OK -----配置客户端参数 settingParam={}",settingParam);
         }
         if (oknum == 2) {
             sendDelayMessageService.send(channelHandlerContext, CommandEnum.QUERY_PARAM.getCommond());
@@ -142,7 +143,7 @@ public class HandlerMessageServiceImpl implements HandlerMessageService {
         }
         if (oknum == 4) {
             sendDelayMessageService.send(channelHandlerContext, CommandEnum.STOP.getCommond(), 1000);
-            LOGGER.info(channelHandlerContext.channel().remoteAddress() + "第4次OK  停止客户端" + CommandEnum.QUERY_PARAM.getCommond());
+            LOGGER.info(channelHandlerContext.channel().remoteAddress() + "第4次OK  立即进入停止模式" + CommandEnum.STOP.getCommond());
         }
 
         LOGGER.info("ServerHandler.channelRead0 address={}  oknum={}", address, oknum);

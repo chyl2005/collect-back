@@ -53,7 +53,7 @@ public class DeviceRecordDto {
     /**
      * 水温
      */
-    private BigDecimal waterTemperature;
+    private BigDecimal watertemperature;
 
     /**
      * 电压
@@ -129,12 +129,12 @@ public class DeviceRecordDto {
         this.airTemperature = airTemperature;
     }
 
-    public BigDecimal getWaterTemperature() {
-        return waterTemperature;
+    public BigDecimal getWatertemperature() {
+        return watertemperature;
     }
 
-    public void setWaterTemperature(BigDecimal waterTemperature) {
-        this.waterTemperature = waterTemperature;
+    public void setWatertemperature(BigDecimal watertemperature) {
+        this.watertemperature = watertemperature;
     }
 
     public BigDecimal getVoltage() {

@@ -113,7 +113,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
     }
 
     @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)  {
         //移除 地址到 设备号映射
         clearConnetionInfo(ctx.channel().remoteAddress().toString());
         channels.remove(ctx.channel());

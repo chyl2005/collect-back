@@ -1,6 +1,7 @@
 package com.mm.back.constants;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -56,8 +57,6 @@ public enum CommandEnum {
         return success;
     }
 
-
-
     public static String getCommond(int code) {
         for (CommandEnum statusEnum : values()) {
             if (code == statusEnum.code) {
@@ -66,6 +65,7 @@ public enum CommandEnum {
         }
         return null;
     }
+
     /**
      * 获取客户端配置参数
      *
@@ -78,9 +78,11 @@ public enum CommandEnum {
         String currentTime = DateUtils.getDateformat(new Date(), DateUtils.YMD_HMS_FORMAT_DIAS);
         sb.append("currentTime:").append(currentTime).append("##");
         BigDecimal surfaceHigh = setting.getSurfaceHigh() != null ? setting.getSurfaceHigh() : BigDecimal.ZERO;
-        sb.append("surfaceHigh:").append(surfaceHigh.setScale(2)).append("##");
-        BigDecimal sensorDepth = setting.getSensorDepth() != null ? setting.getSensorDepth() : BigDecimal.ZERO;
-        sb.append("sensorDepth:").append(sensorDepth.setScale(2)).append("##");
+        String surface = new DecimalFormat("0000.00").format(surfaceHigh.doubleValue());
+        sb.append("surfaceHigh:").append(surface).append("##");
+        BigDecimal depth = setting.getSensorDepth() != null ? setting.getSensorDepth() : BigDecimal.ZERO;
+        String sensorDepth = new DecimalFormat("000.00").format(depth.doubleValue());
+        sb.append("sensorDepth:").append(sensorDepth).append("##");
         BigDecimal linearCoefficient = setting.getLinearCoefficient() != null ? setting.getLinearCoefficient() : BigDecimal.ZERO;
         sb.append("linearCoefficient:").append(linearCoefficient.setScale(4)).append("##");
         String phonenumber1 = StringUtils.isNotBlank(setting.getPhonenumber1()) ? setting.getPhonenumber1() : ClientConst.DEFAULT_PHONE_NUM;
@@ -96,10 +98,10 @@ public enum CommandEnum {
         return sb.toString();
     }
 
-
     private static String formatIP(String ip) {
         String format = ip.replaceAll("(\\d{1,3})", "00$1");
         format = format.replaceAll("0*(\\d{3})", "$1");
+
         return format;
     }
 }

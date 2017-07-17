@@ -148,7 +148,7 @@ public class DeviceRecordServiceImpl implements DeviceRecordService {
         record.setWaterDepth(deviceRecordDto.getWaterDepth());
         record.setWaterHigh(deviceRecordDto.getWaterHigh());
         record.setAirTemperature(deviceRecordDto.getAirTemperature());
-        record.setWaterTemperature(deviceRecordDto.getWaterTemperature());
+        record.setWaterTemperature(deviceRecordDto.getWatertemperature());
         record.setVoltage(deviceRecordDto.getVoltage());
         record.setSignal(deviceRecordDto.getSignal());
         return record;
