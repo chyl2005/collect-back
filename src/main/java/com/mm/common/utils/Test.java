@@ -22,7 +22,10 @@ public class Test {
 
         Double depth = 23.43432;
         String sensorDepth = new DecimalFormat("000.00").format(depth.doubleValue());
-        System.out.println(sensorDepth);
+
+
+        String inter = new DecimalFormat("0000").format(Integer.valueOf(30));
+        System.out.println(inter);
 
     }
 

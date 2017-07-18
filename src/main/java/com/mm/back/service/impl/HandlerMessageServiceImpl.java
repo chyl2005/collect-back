@@ -4,6 +4,7 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.group.ChannelGroup;
 
+import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -76,10 +77,13 @@ public class HandlerMessageServiceImpl implements HandlerMessageService {
             DeviceSettingData data = JsonUtils.json2Object(message, DeviceSettingData.class);
             DeviceSettingDto deviceSettingDto = data.getData();
             if (StringUtils.isBlank(deviceSettingDto.getUploadTime())) {
-                deviceSettingDto.setUploadTime("21/10");
+                deviceSettingDto.setUploadTime(ClientConst.DEFAULT_UPLOAD_TIME);
             }
             if (StringUtils.isBlank(deviceSettingDto.getWakeInterval())) {
-                deviceSettingDto.setWakeInterval("0030");
+                deviceSettingDto.setWakeInterval(ClientConst.DEFAULT_WAKE_INTERVEL);
+            } else {
+                String inter = new DecimalFormat("0000").format(Integer.valueOf(deviceSettingDto.getWakeInterval()));
+                deviceSettingDto.setWakeInterval(inter);
             }
             LOGGER.info("HandlerMessageService.handlerMessage deviceConfigDto={} ", JsonUtils.object2Json(deviceSettingDto));
             //保存设备基础信息
@@ -129,8 +133,8 @@ public class HandlerMessageServiceImpl implements HandlerMessageService {
                 settingDto.setUploadTime(hhmm);
             }
             String settingParam = CommandEnum.getClientSettingParam(settingDto);
-            sendDelayMessageService.send(channelHandlerContext,settingParam );
-            LOGGER.info(channelHandlerContext.channel().remoteAddress() + "第1次OK -----配置客户端参数 settingParam={}",settingParam);
+            sendDelayMessageService.send(channelHandlerContext, settingParam);
+            LOGGER.info(channelHandlerContext.channel().remoteAddress() + "第1次OK -----配置客户端参数 settingParam={}", settingParam);
         }
         if (oknum == 2) {
             sendDelayMessageService.send(channelHandlerContext, CommandEnum.QUERY_PARAM.getCommond());

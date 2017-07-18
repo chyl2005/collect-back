@@ -284,10 +284,11 @@ public class DateUtils {
 
     public static void main(String[] args) {
 
+        Date date = DateUtils.getDate("1/1", DateUtils.HHmm);
+        String dateformat = DateUtils.getDateformat(date, DateUtils.HHmm);
 
-        Date dayDate = DateUtils.getYesterDayDate(new Date());
-        String dateformat = DateUtils.getDateformat(dayDate, DateUtils.YMD_FORMAT_EN);
         System.out.println(dateformat);
+        System.out.println(date);
     }
 
 }

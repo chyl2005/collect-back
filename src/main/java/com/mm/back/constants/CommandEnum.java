@@ -91,10 +91,13 @@ public enum CommandEnum {
         sb.append("phonenumber2:").append(phonenumber2).append("##");
         sb.append("IPAddress:").append(ClientConst.IP).append("##");
         sb.append("portNumber:").append(ClientConst.PORT).append("##");
-        String WakeInterval = StringUtils.isNotBlank(setting.getWakeInterval()) ? setting.getWakeInterval() : ClientConst.DEFAULT_WAKE_INTERVEL;
-        String UploadTime = StringUtils.isNotBlank(setting.getUploadTime()) ? setting.getUploadTime() : ClientConst.DEFAULT_UPLOAD_TIME;
-        sb.append("WakeInterval:").append(WakeInterval).append("##");
-        sb.append("UploadTime:").append(UploadTime).append("##");
+        String wakeInterval = StringUtils.isNotBlank(setting.getWakeInterval()) ? setting.getWakeInterval() : ClientConst.DEFAULT_WAKE_INTERVEL;
+        String inter = new DecimalFormat("0000").format(Integer.valueOf(wakeInterval));
+        sb.append("WakeInterval:").append(inter).append("##");
+        String uploadTime = StringUtils.isNotBlank(setting.getUploadTime()) ? setting.getUploadTime() : ClientConst.DEFAULT_UPLOAD_TIME;
+        Date uploadDate = DateUtils.getDate(uploadTime, DateUtils.HHmm);
+        String uploadFormat = DateUtils.getDateformat(uploadDate, DateUtils.HHmm);
+        sb.append("UploadTime:").append(uploadFormat).append("##");
         return sb.toString();
     }
 

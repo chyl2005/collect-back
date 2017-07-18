@@ -2,7 +2,6 @@ package com.mm.back.dto;
 
 import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -33,10 +32,12 @@ public class DeviceSettingDto {
     /**
      * 12/11  mm:ss
      */
+    @JsonProperty("UploadTime")
     private String uploadTime;
     /**
      * 四位   不足补零  时间间隔，每天测量多次，每次的时间间隔，单位是分钟，最大1440
      */
+    @JsonProperty("WakeInterval")
     private String wakeInterval;
 
     public Integer getWellNum() {
@@ -111,10 +112,12 @@ public class DeviceSettingDto {
         this.deviceId = deviceId;
     }
 
+    @JsonProperty("IPAddress")
     public String getIPAddress() {
         return IPAddress;
     }
 
+    @JsonProperty("IPAddress")
     public void setIPAddress(String IPAddress) {
         this.IPAddress = IPAddress;
     }
@@ -127,10 +130,12 @@ public class DeviceSettingDto {
         this.portNumber = portNumber;
     }
 
+    @JsonProperty("UploadTime")
     public String getUploadTime() {
         return uploadTime;
     }
 
+    @JsonProperty("UploadTime")
     public void setUploadTime(String uploadTime) {
         this.uploadTime = uploadTime;
     }
