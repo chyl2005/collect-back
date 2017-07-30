@@ -1,5 +1,6 @@
 package com.mm.back.dao;
 
+import java.util.Date;
 import java.util.List;
 import com.mm.back.common.AoData;
 import com.mm.back.entity.DeviceRecordEntity;
@@ -14,6 +15,8 @@ public interface DeviceRecordDao {
 
     void insert(DeviceRecordEntity recordEntity);
     void insertOrUpdate(DeviceRecordEntity recordEntity);
+
+    void del(Date startTime ,Date endTime);
 
 
     AoData<List<DeviceRecordEntity>> getPageRecords(Integer deviceId, Integer startTime, Integer endTime);

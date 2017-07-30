@@ -27,6 +27,8 @@ public class Test {
         String inter = new DecimalFormat("0000").format(Integer.valueOf(30));
         System.out.println(inter);
 
+        System.out.println(0&6);
+
     }
 
     private static String formatIP(String ip) {

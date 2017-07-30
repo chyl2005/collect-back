@@ -18,6 +18,9 @@ import com.mm.common.utils.JsonUtils;
 @Service
 public class DingtalkChatbotClient {
 
+
+
+
     HttpClient httpclient = HttpClients.createDefault();
 
     public SendResult send(String webhook, Message message) throws IOException {

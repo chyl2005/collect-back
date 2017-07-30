@@ -17,6 +17,7 @@ import com.mm.back.service.DeviceInfoService;
 import com.mm.back.service.DeviceUploadSettingService;
 import com.mm.back.vo.DeviceInfoVo;
 import com.mm.back.vo.DeviceSettingVo;
+import com.mm.common.utils.UserUtils;
 
 /**
  * Author:chyl2005
@@ -57,7 +58,7 @@ public class DeviceInfoController {
     @ResponseBody
     public WebResponse list() {
         WebResponse webResponse = WebResponse.getSuccessWebResponse();
-        AoData<List<DeviceInfoVo>> deviceInfos = deviceInfoService.getDeviceInfos();
+        AoData<List<DeviceInfoVo>> deviceInfos = deviceInfoService.getDeviceInfos(UserUtils.getUser().getId());
         webResponse.setData(deviceInfos);
         return webResponse;
     }

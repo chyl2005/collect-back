@@ -5,6 +5,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.group.ChannelGroup;
 
 import java.text.DecimalFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -78,14 +79,20 @@ public class HandlerMessageServiceImpl implements HandlerMessageService {
             DeviceSettingDto deviceSettingDto = data.getData();
             if (StringUtils.isBlank(deviceSettingDto.getUploadTime())) {
                 deviceSettingDto.setUploadTime(ClientConst.DEFAULT_UPLOAD_TIME);
+            } else {
+                Date uploadDate = DateUtils.getDate(deviceSettingDto.getUploadTime(), DateUtils.HHmm);
+                String uploadFormat = DateUtils.getDateformat(uploadDate, DateUtils.HHmm);
+                deviceSettingDto.setUploadTime(uploadFormat);
             }
+
             if (StringUtils.isBlank(deviceSettingDto.getWakeInterval())) {
                 deviceSettingDto.setWakeInterval(ClientConst.DEFAULT_WAKE_INTERVEL);
             } else {
                 String inter = new DecimalFormat("0000").format(Integer.valueOf(deviceSettingDto.getWakeInterval()));
                 deviceSettingDto.setWakeInterval(inter);
             }
-            LOGGER.info("HandlerMessageService.handlerMessage deviceConfigDto={} ", JsonUtils.object2Json(deviceSettingDto));
+
+            LOGGER.info("HandlerMessageService.handlerMessage 设备参数 deviceNum={} deviceConfigDto={} ", deviceSettingDto.getDeviceNum(), JsonUtils.object2Json(deviceSettingDto));
             //保存设备基础信息
             Integer deviceId = deviceInfoService.insertOrUpdate(parseToDeviceInfoDto(deviceSettingDto));
             LOGGER.info("HandlerMessageService.handlerMessage deviceId={} ", deviceId);
@@ -101,7 +108,7 @@ public class HandlerMessageServiceImpl implements HandlerMessageService {
                 || CommandEnum.QUERY_DATA.getCode().equals(commandNum)) {
             DeviceRecordData data = JsonUtils.json2Object(message, DeviceRecordData.class);
             DeviceRecordDto deviceRecordDto = data.getData();
-            LOGGER.info("HandlerMessageService.handlerMessage deviceRecordDto={} ", JsonUtils.object2Json(deviceRecordDto));
+            LOGGER.info("HandlerMessageService.handlerMessage 数据上传 deviceNum={} deviceRecordDto={} ", deviceRecordDto.getDeviceNum(), JsonUtils.object2Json(deviceRecordDto));
             deviceRecordService.insertOrUpdate(deviceRecordDto);
         }
         return null;
@@ -112,6 +119,7 @@ public class HandlerMessageServiceImpl implements HandlerMessageService {
     @Override
     public void sendMessage(ChannelHandlerContext channelHandlerContext) {
         String address = channelHandlerContext.channel().remoteAddress().toString();
+        String deviceNum = ServerHandler.addressToDeviceNumMap.get(address);
         DeviceSettingDto settingDto = getSetting(channelHandlerContext);
         if (settingDto == null) {
             return;
@@ -121,10 +129,13 @@ public class HandlerMessageServiceImpl implements HandlerMessageService {
         //第一个ok 查询采集信息
         if (oknum == 0) {
             Date dayDate = DateUtils.getYesterDayDate(new Date());
-            String dateformat = DateUtils.getDateformat(dayDate, DateUtils.YMD_FORMAT_EN);
-            sendDelayMessageService.send(channelHandlerContext, CommandEnum.QUERY_NEW_DATA1.getCommond() + dateformat);
-            LOGGER.info(channelHandlerContext.channel().remoteAddress() + "第0次OK -----查询数据  day={}", dateformat);
+            String commond = CommandEnum.QUERY_NEW_DATA1.getCommond() + DateUtils.getDateformat(dayDate, DateUtils.YMD_FORMAT_EN);
+            sendDelayMessageService.send(channelHandlerContext, commond);
+            LOGGER.info("第0次OK 查询昨日数据  address={} deviceNum={} commond={}", address, deviceNum, commond);
         }
+
+
+
         if (oknum == 1) {
             //测试30分钟启动一次客户端
             if (config.getEnv().equals("test")) {
@@ -134,23 +145,48 @@ public class HandlerMessageServiceImpl implements HandlerMessageService {
             }
             String settingParam = CommandEnum.getClientSettingParam(settingDto);
             sendDelayMessageService.send(channelHandlerContext, settingParam);
-            LOGGER.info(channelHandlerContext.channel().remoteAddress() + "第1次OK -----配置客户端参数 settingParam={}", settingParam);
+            LOGGER.info("第1次OK 配置客户端参数  address={} deviceNum={}  settingParam={}", address, deviceNum, settingParam);
         }
         if (oknum == 2) {
             sendDelayMessageService.send(channelHandlerContext, CommandEnum.QUERY_PARAM.getCommond());
-            LOGGER.info(channelHandlerContext.channel().remoteAddress() + "第2次OK -----更新上传参数 : " + CommandEnum.QUERY_PARAM.getCommond());
+            LOGGER.info("第2次OK 查询参数参数  address={} deviceNum={}  commond={}", address, deviceNum, CommandEnum.QUERY_PARAM.getCommond());
         }
 
-        if (oknum == 2) {
 
-            LOGGER.info(channelHandlerContext.channel().remoteAddress() + "第3次OK 暂不处理");
+        if (oknum == 3) {
+            Date dayDate = DateUtils.getYesterDayDate(new Date());
+            String commond = CommandEnum.QUERY_NEW_DATA1.getCommond() + DateUtils.getDateformat(dayDate, DateUtils.YMD_FORMAT_EN);
+            sendDelayMessageService.send(channelHandlerContext, commond);
+            LOGGER.info("第3次OK 查询昨日数据  address={} deviceNum={} commond={}", address, deviceNum, commond);
+
         }
+
         if (oknum == 4) {
+            Date dayDate = DateUtils.getDateBefore(2);
+            String commond = CommandEnum.QUERY_NEW_DATA1.getCommond() + DateUtils.getDateformat(dayDate, DateUtils.YMD_FORMAT_EN);
+            sendDelayMessageService.send(channelHandlerContext, commond);
+            LOGGER.info("第4次OK 查询前日数据  address={} deviceNum={} commond={}", address, deviceNum, commond);
+
+        }
+        if (oknum == 5) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.HOUR_OF_DAY, 8);
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.SECOND, 30);
+            Date startTime = calendar.getTime();
+
+            Calendar calendar1 = Calendar.getInstance();
+            calendar1.set(Calendar.HOUR_OF_DAY, 8);
+            calendar1.set(Calendar.MINUTE, 29);
+            calendar1.set(Calendar.SECOND, 30);
+            Date endTime = calendar1.getTime();
+
+            deviceRecordService.del(startTime,endTime);
             sendDelayMessageService.send(channelHandlerContext, CommandEnum.STOP.getCommond(), 1000);
-            LOGGER.info(channelHandlerContext.channel().remoteAddress() + "第4次OK  立即进入停止模式" + CommandEnum.STOP.getCommond());
+            LOGGER.info("第5次OK 立即进入停止模式  address={} deviceNum={}  commond={}", address, deviceNum, CommandEnum.STOP.getCommond());
         }
 
-        LOGGER.info("ServerHandler.channelRead0 address={}  oknum={}", address, oknum);
+        LOGGER.info("ServerHandler.channelRead0 address={} deviceNum={} oknum={}", address,deviceNum, oknum);
         //请求ok次数
         ServerHandler.clientOKNum.put(channelHandlerContext.channel().remoteAddress().toString(), ++oknum);
 
@@ -164,12 +200,15 @@ public class HandlerMessageServiceImpl implements HandlerMessageService {
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
     @Override
     public void clientError(ChannelHandlerContext channelHandlerContext) {
+        String address = channelHandlerContext.channel().remoteAddress().toString();
+        String deviceNum = ServerHandler.addressToDeviceNumMap.get(address);
 
         Integer errorNum = ServerHandler.clientErrorNum.get(channelHandlerContext.channel().remoteAddress().toString());
         errorNum = errorNum != null ? errorNum % 9 : 0;
         //客户端异常   需要获取参数 重新设置 时间，唤醒间隔，和上传时间
         if (errorNum == 0) {
             sendDelayMessageService.send(channelHandlerContext, CommandEnum.QUERY_PARAM.getCommond(), 1000);
+            LOGGER.info("第0次 clientError 查询参数  address={} deviceNum={}  commond={}", address, deviceNum, CommandEnum.QUERY_PARAM.getCommond());
         }
         //配置客户端参数
         if (errorNum == 1) {
@@ -179,14 +218,18 @@ public class HandlerMessageServiceImpl implements HandlerMessageService {
             }
             settingDto.setUploadTime(ClientConst.DEFAULT_UPLOAD_TIME);
             settingDto.setWakeInterval(ClientConst.DEFAULT_WAKE_INTERVEL);
-            sendDelayMessageService.send(channelHandlerContext, CommandEnum.getClientSettingParam(settingDto));
+            String clientSettingParam = CommandEnum.getClientSettingParam(settingDto);
+            sendDelayMessageService.send(channelHandlerContext, clientSettingParam);
+            LOGGER.info("第1次 clientError 设置设备参数  address={} deviceNum={}  commond={}", address, deviceNum, clientSettingParam);
 
         }
         if (errorNum == 2) {
             sendDelayMessageService.send(channelHandlerContext, CommandEnum.QUERY_PARAM.getCommond(), 1000);
+            LOGGER.info("第2次 clientError 查询参数    address={} deviceNum={}  commond={}", address, deviceNum, CommandEnum.QUERY_PARAM.getCommond());
         }
-        if (errorNum == 3) {
+        if (errorNum == 4) {
             sendDelayMessageService.send(channelHandlerContext, CommandEnum.STOP.getCommond(), 1000);
+            LOGGER.info("第3次 clientError 立即进入停止模式  address={} deviceNum={}  commond={}", address, deviceNum, CommandEnum.STOP.getCommond());
         }
 
         ServerHandler.clientErrorNum.put(channelHandlerContext.channel().remoteAddress().toString(), ++errorNum);
@@ -294,4 +337,12 @@ public class HandlerMessageServiceImpl implements HandlerMessageService {
 
     }
 
+    public static void main(String[] args) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 8);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 30);
+        Date startTime = calendar.getTime();
+        System.out.println(startTime);
+    }
 }

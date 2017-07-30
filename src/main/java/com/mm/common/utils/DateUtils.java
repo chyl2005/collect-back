@@ -60,6 +60,16 @@ public class DateUtils {
         return null;
     }
 
+
+    /**
+     * @param daysBefore
+     * @return
+     */
+    public static Date getDateBefore(int daysBefore) {
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DAY_OF_MONTH, -daysBefore);
+        return cal.getTime();
+    }
     /**
      * @param daysAfter
      * @return
@@ -82,15 +92,7 @@ public class DateUtils {
         return cal.getTime();
     }
 
-    /**
-     * @param date
-     * @param daysAfter
-     * @return
-     */
-    public static Date getDateAfter(Date date, int daysAfter) {
-        long dateMillSeconds = date.getTime() + 3600L * 1000 * 24 * daysAfter;
-        return new Date(dateMillSeconds);
-    }
+
 
     public static Date today() {
         return toDay(new Date());

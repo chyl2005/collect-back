@@ -34,7 +34,6 @@ function getSetting(deviceId) {
         success: function (data) {
             if (data.status === 0) {
                 var item = data.data;
-                $(".setting").find("input[name='deviceId']").val(item.deviceId);
                 $(".setting").find("input[name='serverIp']").val(item.serverIp);
                 $(".setting").find("input[name='serverPort']").val(item.serverPort);
                 $(".setting").find("input[name='serialNum']").val(item.serialNum);
@@ -64,7 +63,6 @@ function getUploadSetting(deviceId) {
         success: function (data) {
             if (data.status === 0) {
                 var item = data.data;
-                $(".uploadSetting").find("input[name='deviceId']").val(item.deviceId);
                 $(".uploadSetting").find("input[name='serverIp']").val(item.serverIp);
                 $(".uploadSetting").find("input[name='serverPort']").val(item.serverPort);
                 $(".uploadSetting").find("input[name='serialNum']").val(item.serialNum);
@@ -89,7 +87,7 @@ function getUploadSetting(deviceId) {
 function saveOrUpdate() {
     // 弹窗数据清空
     var postData = {};
-    postData.deviceId = $(".setting").find("input[name='deviceId']").val();
+    postData.deviceId =  $("#deviceId").val();
     postData.serverIp = $(".setting").find("input[name='serverIp']").val();
     postData.serverPort = $(".setting").find("input[name='serverPort']").val();
     postData.serialNum = $(".setting").find("input[name='serialNum']").val();
@@ -108,7 +106,7 @@ function saveOrUpdate() {
         async: false,
         success: function (data) {
             if (data.status === 0) {
-                getSetting();
+                getSetting($("#deviceId").val());
             } else {
                 alert(data.message);
             }

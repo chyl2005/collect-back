@@ -1,5 +1,6 @@
 package com.mm.back.service;
 
+import java.util.Date;
 import java.util.List;
 import org.apache.poi.ss.usermodel.Workbook;
 import com.mm.back.common.AoData;
@@ -18,6 +19,8 @@ public interface DeviceRecordService {
     void insert(DeviceRecordDto deviceRecordDto);
 
     void insertOrUpdate(DeviceRecordDto deviceRecordDto);
+
+    void del(Date startTime , Date endTime);
 
     List<DeviceRecordVo> getRecords(Integer deviceId, Integer startTime, Integer endTime);
 

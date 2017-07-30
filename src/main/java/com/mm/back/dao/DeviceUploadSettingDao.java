@@ -1,5 +1,6 @@
 package com.mm.back.dao;
 
+import java.util.List;
 import com.mm.back.entity.DeviceUploadSettingEntity;
 
 /**
@@ -21,5 +22,8 @@ public interface DeviceUploadSettingDao {
 
 
     DeviceUploadSettingEntity getSetting(Integer deviceId);
+
+
+    List<DeviceUploadSettingEntity> getAllSetting();
 
 }

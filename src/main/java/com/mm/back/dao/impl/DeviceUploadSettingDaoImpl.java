@@ -1,6 +1,7 @@
 package com.mm.back.dao.impl;
 
 import java.util.Date;
+import java.util.List;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import com.mm.back.constants.DeleteStatusEnum;
@@ -48,5 +49,12 @@ public class DeviceUploadSettingDaoImpl extends BaseDaoImpl<DeviceUploadSettingE
     @Override
     public DeviceUploadSettingEntity getSetting(Integer deviceId) {
         return this.findFirst("from DeviceUploadSettingEntity where deviceId=?", deviceId);
+    }
+
+    @Override
+    public List<DeviceUploadSettingEntity> getAllSetting() {
+        StringBuilder hql = new StringBuilder();
+        hql.append("from ").append(DeviceUploadSettingEntity.class.getSimpleName());
+        return this.find(hql.toString());
     }
 }

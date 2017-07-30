@@ -1,6 +1,7 @@
 package com.mm.back.controller;
 
 import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 import org.apache.commons.lang3.RandomUtils;
@@ -60,12 +61,11 @@ public class TestController {
         return true;
     }
 
-
     @RequestMapping("/sendCommond")
     @ResponseBody
-    public WebResponse sendCommond(String address,Integer command,String message) {
+    public WebResponse sendCommond(String address, Integer command, String message) {
         WebResponse webResponse = WebResponse.getSuccessWebResponse();
-        messageService.sendCommond(address,command,message);
+        messageService.sendCommond(address, command, message);
         return webResponse;
     }
 
@@ -90,6 +90,28 @@ public class TestController {
             Date dateAfterMinutes = DateUtils.getDateAfterMinutes(date, 30 * i);
             insertTestReocrd(dateAfterMinutes);
         }
+        return webResponse;
+    }
+
+    @RequestMapping("/del")
+    @ResponseBody
+    public WebResponse del(Integer datekey) {
+        WebResponse webResponse = WebResponse.getSuccessWebResponse();
+        Date date = DateUtils.getDateByDatekey(datekey);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY, 8);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 30);
+        Date startTime = calendar.getTime();
+
+        Calendar calendar1 = Calendar.getInstance();
+        calendar1.setTime(date);
+        calendar1.set(Calendar.HOUR_OF_DAY, 8);
+        calendar1.set(Calendar.MINUTE, 29);
+        calendar1.set(Calendar.SECOND, 30);
+        Date endTime = calendar1.getTime();
+        deviceRecordService.del(startTime, endTime);
         return webResponse;
     }
 

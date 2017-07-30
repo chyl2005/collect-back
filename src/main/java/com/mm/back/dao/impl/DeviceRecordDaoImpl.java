@@ -71,6 +71,21 @@ public class DeviceRecordDaoImpl extends BaseDaoImpl<DeviceRecordEntity> impleme
     }
 
     @Override
+    public void del(Date startTime, Date endTime) {
+        Map<String, Object> paras = new HashMap<>();
+        StringBuilder hql = new StringBuilder();
+        hql.append("update  DeviceRecordEntity set  isDel=:isDel,gmtModified=now() where ");
+        hql.append("   collectTime between  :startTime and :endTime ");
+
+
+        paras.put("isDel", DeleteStatusEnum.DEL.getCode());
+        paras.put("startTime", startTime);
+        paras.put("endTime", endTime);
+
+        this.executeHql(hql.toString(), paras);
+    }
+
+    @Override
     public AoData<List<DeviceRecordEntity>> getPageRecords(Integer deviceId, Integer startTime, Integer endTime) {
         Map<String, Object> paras = new HashMap<>();
         StringBuilder hql = new StringBuilder();
@@ -90,14 +105,13 @@ public class DeviceRecordDaoImpl extends BaseDaoImpl<DeviceRecordEntity> impleme
     public List<DeviceRecordEntity> getRecords(Integer deviceId, Integer startTime, Integer endTime) {
         Map<String, Object> paras = new HashMap<>();
         StringBuilder hql = new StringBuilder();
-        hql.append("from DeviceRecordEntity where ");
+        hql.append("from DeviceRecordEntity where isDel=0 ");
+        hql.append("and deviceId=:deviceId");
+        hql.append(" and  datekey between  :startTime and :endTime order by minutes");
 
         paras.put("deviceId", deviceId);
-        hql.append(" deviceId=:deviceId");
-
         paras.put("startTime", startTime);
         paras.put("endTime", endTime);
-        hql.append(" and  datekey between  :startTime and :endTime order by minutes");
         return this.find(hql.toString(), paras);
     }
 }

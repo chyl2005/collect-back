@@ -289,7 +289,7 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
 	}
 
 	@Override
-	public Integer executeHql(String hql, Map<String, Object> params) throws Exception {
+	public Integer executeHql(String hql, Map<String, Object> params) {
 		// 创建Query
 		Query query = this.getCurrentSession().createQuery(hql);
 		// 如果参数不为null

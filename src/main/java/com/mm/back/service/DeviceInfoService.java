@@ -29,7 +29,7 @@ public interface DeviceInfoService {
     void insertOrUpdate(DeviceInfoEntity deviceInfo);
 
 
-    AoData<List<DeviceInfoVo>> getDeviceInfos();
+    AoData<List<DeviceInfoVo>> getDeviceInfos(Integer userId);
 
 
     void updateDelStatus(Integer deviceId,Integer isDel);

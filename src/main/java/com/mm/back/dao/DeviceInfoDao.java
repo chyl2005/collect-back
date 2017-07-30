@@ -21,7 +21,7 @@ public interface DeviceInfoDao {
 
 
 
-    AoData<List<DeviceInfoEntity>> getDeviceInfos();
+    AoData<List<DeviceInfoEntity>> getDeviceInfos(List<Integer> deviceIds);
 
 
     void updateDelStatus(Integer deviceId,Integer isDel);

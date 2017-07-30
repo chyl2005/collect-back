@@ -1,6 +1,10 @@
 package com.mm.back.service.impl;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,9 +12,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.mm.back.common.AoData;
 import com.mm.back.common.ConvertUtils;
 import com.mm.back.dao.DeviceInfoDao;
+import com.mm.back.dao.DeviceUploadSettingDao;
+import com.mm.back.dao.RelUserDeviceDao;
 import com.mm.back.dto.DeviceInfoDto;
 import com.mm.back.entity.DeviceInfoEntity;
-import com.mm.back.netty.ClientConnectionInfo;
+import com.mm.back.entity.DeviceUploadSettingEntity;
+import com.mm.back.entity.RelUserDeviceEntity;
 import com.mm.back.netty.ServerHandler;
 import com.mm.back.service.DeviceInfoService;
 import com.mm.back.vo.DeviceInfoVo;
@@ -26,6 +33,11 @@ public class DeviceInfoServiceImpl implements DeviceInfoService {
 
     @Autowired
     private DeviceInfoDao deviceInfoDao;
+
+    @Autowired
+    private RelUserDeviceDao relUserDeviceDao;
+    @Autowired
+    private DeviceUploadSettingDao deviceUploadSettingDao;
 
     /**
      * 获取设备信息
@@ -63,8 +75,11 @@ public class DeviceInfoServiceImpl implements DeviceInfoService {
     }
 
     @Override
-    public AoData<List<DeviceInfoVo>> getDeviceInfos() {
-        AoData<List<DeviceInfoEntity>> aoData = this.deviceInfoDao.getDeviceInfos();
+    public AoData<List<DeviceInfoVo>> getDeviceInfos(Integer userId) {
+
+        List<RelUserDeviceEntity> userDevices = relUserDeviceDao.getUserDevices(userId);
+        List<Integer> deviceIds = userDevices.stream().map(userDevice -> userDevice.getDeviceId()).collect(Collectors.toList());
+        AoData<List<DeviceInfoEntity>> aoData = this.deviceInfoDao.getDeviceInfos(deviceIds);
         List<DeviceInfoEntity> deviceInfos = aoData.getDatas();
         ArrayList<DeviceInfoVo> responses = new ArrayList<>();
         Map<String, String> addressToDeviceNumMap = ServerHandler.addressToDeviceNumMap;
@@ -75,8 +90,12 @@ public class DeviceInfoServiceImpl implements DeviceInfoService {
             }
         }
 
+        List<DeviceUploadSettingEntity> settingEntities = deviceUploadSettingDao.getAllSetting();
+        Map<Integer, Integer> settingMap = settingEntities.stream().collect(Collectors.toMap(set -> set.getDeviceId(), set -> set.getSerialNum()));
+
         for (DeviceInfoEntity deviceInfo : deviceInfos) {
             DeviceInfoVo deviceInfoVo = ConvertUtils.parseToDeviceInfoVo(deviceInfo);
+            deviceInfoVo.setSerialNum(settingMap.get(deviceInfoVo.getDeviceId()));
             if (addressToDeviceNumMap.containsValue(deviceInfo.getDeviceNum())) {
                 deviceInfoVo.setOnline(1);
             } else {

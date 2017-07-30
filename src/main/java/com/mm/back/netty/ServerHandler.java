@@ -62,7 +62,10 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
         //                for (Channel channel : channels) {
         //                    channel.writeAndFlush("[SERVER] - " + incoming.remoteAddress() + " 离开\n");
         //                }
-        LOGGER.info("客户端ip={} 断开", ctx.channel().remoteAddress().toString());
+
+        String address = ctx.channel().remoteAddress().toString();
+        String deviceNum = addressToDeviceNumMap.get(address);
+        LOGGER.info("客户端ip={} deviceNum={} 断开", address, deviceNum);
         channels.remove(ctx.channel());
         //移除 地址到 设备号映射
         clearConnetionInfo(ctx.channel().remoteAddress().toString());
@@ -92,7 +95,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
         //        if (message.contains("installation")) {
         //            messageService.clientInstall(channelHandlerContext);
         //        }
-        LOGGER.info("ServerHandler.channelRead0 address={} 消息处理完成 ", address);
+        LOGGER.info("ServerHandler.channelRead0 address={} 消息处理完成  deviceNum={}", address, deviceNum);
 
     }
 
@@ -113,13 +116,15 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
     }
 
     @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)  {
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         //移除 地址到 设备号映射
-        clearConnetionInfo(ctx.channel().remoteAddress().toString());
+        String address = ctx.channel().remoteAddress().toString();
+        String deviceNum = addressToDeviceNumMap.get(address);
+        clearConnetionInfo(address);
         channels.remove(ctx.channel());
         //super.exceptionCaught(ctx, cause);
         ctx.writeAndFlush("server error");
-        LOGGER.error("ServerHandler.exceptionCaught  ip={}", ctx.channel().remoteAddress().toString(), cause);
+        LOGGER.error("ServerHandler.exceptionCaught  ip={} deviceNum={}", ctx.channel().remoteAddress().toString(), deviceNum, cause);
 
     }
 

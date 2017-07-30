@@ -59,6 +59,13 @@ public class DeviceRecordServiceImpl implements DeviceRecordService {
         recordDao.insertOrUpdate(parseToDeviceRecordEntity(deviceRecordDto));
     }
 
+    @Transactional
+    @Override
+    public void del(Date startTime, Date endTime) {
+        recordDao.del(startTime, endTime);
+
+    }
+
     @Override
     public List<DeviceRecordVo> getRecords(Integer deviceId, Integer startTime, Integer endTime) {
         List<DeviceRecordEntity> records = recordDao.getRecords(deviceId, startTime, endTime);

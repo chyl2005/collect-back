@@ -1,7 +1,10 @@
 package com.mm.back.dao.impl;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Repository;
 import com.mm.back.common.AoData;
@@ -46,8 +49,20 @@ public class DeviceInfoDaoImpl extends BaseDaoImpl<DeviceInfoEntity> implements 
     }
 
     @Override
-    public AoData<List<DeviceInfoEntity>> getDeviceInfos() {
-        AoData aoData = this.findPage(null, "from DeviceInfoEntity ");
+    public AoData<List<DeviceInfoEntity>> getDeviceInfos(List<Integer> deviceIds) {
+        if (CollectionUtils.isEmpty(deviceIds)) {
+            return new AoData<>();
+        }
+        StringBuilder hql = new StringBuilder();
+        hql.append(" from ").append(DeviceInfoEntity.class.getSimpleName()).append(" where 1=1 ");
+        hql.append(" and  id in(:deviceId)");
+        hql.append(" and  isDel=:isDel");
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("deviceId", deviceIds);
+        params.put("isDel", DeleteStatusEnum.NOT_DEL.getCode());
+
+        AoData aoData = this.findPage(null, hql.toString(), params);
         return aoData;
     }
 
